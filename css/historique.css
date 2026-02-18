@@ -9,7 +9,7 @@ body {
   background: #0a0a0a;
   color: white;
   min-height: 100vh;
-  background-image: 
+  background-image:
     radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%);
 }
@@ -22,7 +22,9 @@ body {
   padding: 20px 40px;
   background: #111;
   border-bottom: 1px solid #222;
-  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo {
@@ -74,7 +76,7 @@ body {
 }
 
 .title-section h1 {
-  font-size: 52px;
+  font-size: clamp(30px, 6vw, 52px);
   font-weight: 800;
   margin-bottom: 12px;
   background: linear-gradient(135deg, #fff 0%, #00ff88 100%);
@@ -86,14 +88,14 @@ body {
 
 .title-section p {
   color: #999;
-  font-size: 18px;
+  font-size: clamp(15px, 2.5vw, 18px);
   font-weight: 400;
 }
 
 /* STATS RAPIDES */
 .quick-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   max-width: 1400px;
   margin: 0 auto 50px;
@@ -103,7 +105,7 @@ body {
 .stat-card {
   background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
   border-radius: 16px;
-  padding: 30px;
+  padding: 28px;
   border: 1px solid #222;
   text-align: center;
   transition: all 0.3s ease;
@@ -123,24 +125,25 @@ body {
   transition: transform 0.3s ease;
 }
 
-.stat-card:hover::before {
-  transform: scaleX(1);
-}
+@media (hover: hover) {
+  .stat-card:hover::before {
+    transform: scaleX(1);
+  }
 
-.stat-card:hover {
-  transform: translateY(-5px);
-  border-color: #00ff88;
-  box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+  .stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #00ff88;
+    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+  }
 }
 
 .stat-icon {
-  font-size: 42px;
-  margin-bottom: 15px;
-  filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.3));
+  font-size: 38px;
+  margin-bottom: 12px;
 }
 
 .stat-value {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 800;
   color: #00ff88;
   margin-bottom: 8px;
@@ -149,7 +152,7 @@ body {
 
 .stat-label {
   color: #999;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -161,16 +164,17 @@ body {
   margin: 0 auto 50px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
 }
 
 .chart-card {
   background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
   border-radius: 16px;
-  padding: 35px;
+  padding: 30px;
   border: 1px solid #222;
   transition: all 0.3s ease;
+  min-width: 0;
 }
 
 .chart-card:hover {
@@ -179,39 +183,35 @@ body {
 }
 
 .chart-card h2 {
-  font-size: 24px;
+  font-size: clamp(18px, 3vw, 24px);
   margin-bottom: 8px;
   font-weight: 700;
-  letter-spacing: -0.5px;
 }
 
 .chart-subtitle {
   color: #999;
   font-size: 14px;
-  margin-bottom: 25px;
-  font-weight: 400;
+  margin-bottom: 20px;
 }
 
 .chart-select-wrapper {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .chart-select-wrapper select {
   width: 100%;
-  padding: 14px 18px;
+  padding: 12px 16px;
   background: #0f0f0f;
   border: 2px solid #333;
   border-radius: 10px;
   color: white;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s;
   outline: none;
-}
-
-.chart-select-wrapper select:hover {
-  border-color: #00ff88;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .chart-select-wrapper select:focus {
@@ -220,7 +220,8 @@ body {
 }
 
 canvas {
-  height: 300px !important;
+  max-height: 280px !important;
+  width: 100% !important;
 }
 
 /* HISTORIQUE */
@@ -240,9 +241,8 @@ canvas {
 }
 
 .section-header h2 {
-  font-size: 28px;
+  font-size: clamp(20px, 4vw, 28px);
   font-weight: 700;
-  letter-spacing: -0.5px;
 }
 
 .btn-clear {
@@ -255,53 +255,56 @@ canvas {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s;
+  min-height: 48px;
 }
 
-.btn-clear:hover {
+.btn-clear:active {
   background: #ff4444;
   color: white;
-  transform: translateY(-2px);
 }
 
 /* CARTES SÉANCES */
 .seance-card {
   background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
   border-radius: 16px;
-  padding: 30px;
+  padding: 25px;
   margin-bottom: 20px;
   border: 1px solid #222;
   transition: all 0.3s ease;
 }
 
-.seance-card:hover {
-  border-color: #333;
-  transform: translateX(5px);
+@media (hover: hover) {
+  .seance-card:hover {
+    border-color: #333;
+    transform: translateX(5px);
+  }
 }
 
 .seance-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
   border-bottom: 1px solid #222;
+  gap: 15px;
 }
 
 .seance-date {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 16px;
+  gap: 10px;
+  font-size: 15px;
   font-weight: 500;
   color: #ccc;
 }
 
 .seance-date .date-icon {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .btn-delete {
-  padding: 10px 20px;
+  padding: 10px 18px;
   background: transparent;
   border: 2px solid #ff4444;
   border-radius: 8px;
@@ -310,72 +313,77 @@ canvas {
   font-size: 13px;
   cursor: pointer;
   transition: all 0.3s;
+  min-height: 44px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.btn-delete:hover {
+.btn-delete:active {
   background: #ff4444;
   color: white;
 }
 
 .exercices-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
 }
 
 .exercice-item {
   background: #0f0f0f;
-  padding: 18px;
+  padding: 16px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1px solid #222;
-  transition: all 0.3s;
+  transition: border-color 0.3s;
+  gap: 10px;
 }
 
 .exercice-item:hover {
   border-color: #00ff88;
-  background: #111;
 }
 
 .exercice-nom {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   color: white;
 }
 
 .exercice-poids {
   color: #00ff88;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* EMPTY STATE */
 .empty-state {
   text-align: center;
-  padding: 80px 20px;
+  padding: 60px 20px;
   background: linear-gradient(135deg, #1a1a1a 0%, #141414 100%);
   border-radius: 16px;
   border: 1px solid #222;
 }
 
 .empty-icon {
-  font-size: 80px;
-  margin-bottom: 20px;
+  font-size: 64px;
+  margin-bottom: 16px;
   opacity: 0.5;
 }
 
 .empty-state h3 {
-  font-size: 24px;
-  margin-bottom: 12px;
+  font-size: 22px;
+  margin-bottom: 10px;
   font-weight: 700;
 }
 
 .empty-state p {
   color: #999;
-  margin-bottom: 30px;
-  font-size: 16px;
+  margin-bottom: 28px;
+  font-size: 15px;
 }
 
 .btn-primary {
@@ -388,53 +396,56 @@ canvas {
   font-weight: 700;
   font-size: 15px;
   transition: all 0.3s;
+  min-height: 50px;
 }
 
-.btn-primary:hover {
+.btn-primary:active {
   background: #00dd77;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+  transform: translateY(1px);
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .nav a {
-    margin-left: 0;
-  }
-
-  .title-section h1 {
-    font-size: 36px;
+  .title-section {
+    padding: 40px 20px 30px;
   }
 
   .quick-stats {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 20px 16px;
+  }
+
+  .stat-icon {
+    font-size: 30px;
+  }
+
+  .stat-value {
+    font-size: 26px;
   }
 
   .charts-container {
     grid-template-columns: 1fr;
+    padding: 0 16px;
   }
 
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .chart-card {
+    padding: 20px 16px;
+  }
+
+  .historique-seances {
+    padding: 0 16px 60px;
+  }
+
+  .seance-card {
+    padding: 18px 16px;
   }
 
   .seance-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    flex-wrap: wrap;
   }
 
   .exercices-list {

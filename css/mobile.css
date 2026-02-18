@@ -1,0 +1,134 @@
+/* ============================================
+   MOBILE.CSS — Corrections globales iPhone/iOS
+   ============================================ */
+
+/* Empêche le zoom automatique sur les inputs iOS (font-size min 16px) */
+input,
+select,
+textarea,
+button {
+  font-size: 16px;
+}
+
+/* Safe area pour l'encoche et la barre d'accueil iPhone */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Supprime le délai de tap sur iOS */
+a, button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   HAMBURGER MENU — Navigation mobile
+   ============================================ */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hamburger:active {
+  background: #1a1a1a;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #ccc;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+  background: #00ff88;
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+  background: #00ff88;
+}
+
+@media (max-width: 768px) {
+  /* ---- HEADER ---- */
+  .header {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 16px 20px !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-top: calc(16px + env(safe-area-inset-top)) !important;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* ---- NAV ---- */
+  .nav {
+    display: none !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    z-index: 99;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0;
+  }
+
+  .nav.open {
+    display: flex !important;
+  }
+
+  .nav a {
+    margin-left: 0 !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    padding: 18px 40px !important;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #1a1a1a;
+    color: #ccc !important;
+    transition: all 0.2s !important;
+  }
+
+  .nav a:active,
+  .nav a.active {
+    color: #00ff88 !important;
+    background: rgba(0, 255, 136, 0.05);
+  }
+
+  /* Supprimer les underlines animées en mobile */
+  .nav a::after {
+    display: none !important;
+  }
+}

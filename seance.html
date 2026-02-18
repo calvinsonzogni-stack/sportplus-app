@@ -2,15 +2,25 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Sport+ | Créer ma séance</title>
   <link rel="stylesheet" href="css/seance.css">
+  <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
 
   <header class="header">
     <div class="logo">Sport<span>+</span></div>
-    <nav class="nav">
+
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav" id="nav">
       <a href="index.html">Accueil</a>
       <a href="exercices.html">Exercices</a>
       <a href="seance.html" class="active">Créer ma séance</a>
@@ -19,7 +29,7 @@
     </nav>
   </header>
 
-  <h1 style="text-align:center; margin:30px 0;">Ma Séance</h1>
+  <h1 class="page-title">Ma Séance</h1>
 
   <div class="seance-container">
     <ul id="liste-seance"></ul>
@@ -27,6 +37,26 @@
   </div>
 
   <script src="js/seance.js"></script>
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
 
 </body>
 </html>

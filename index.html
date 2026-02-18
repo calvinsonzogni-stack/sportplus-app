@@ -2,19 +2,31 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Sport+ | Accueil</title>
   <link rel="stylesheet" href="css/acceuille.css">
+  <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
 
   <!-- Header -->
   <header class="header">
     <div class="logo">Sport<span>+</span></div>
-    <nav class="nav">
+
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav" id="nav">
       <a href="index.html" class="active">Accueil</a>
       <a href="exercices.html">Exercices</a>
       <a href="seance.html">Créer ma séance</a>
+      <a href="perfs.html">Mes Perfs</a>
+      <a href="historique.html">Historique</a>
     </nav>
   </header>
 
@@ -36,12 +48,10 @@
       <h3>🏋️ Tous les exercices</h3>
       <p>Découvre une bibliothèque d'exercices classés par muscles.</p>
     </div>
-
     <div class="feature">
       <h3>🗓️ Séance personnalisée</h3>
       <p>Crée ta séance selon tes objectifs et ton niveau.</p>
     </div>
-
     <div class="feature">
       <h3>📈 Progresse</h3>
       <p>Suis ton évolution et reste motivé.</p>
@@ -53,6 +63,28 @@
     <h2>Prêt à t'entraîner ?</h2>
     <a href="exercices.html" class="btn primary">Commencer maintenant</a>
   </section>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Fermer le menu au clic sur un lien
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
 
 </body>
 </html>
