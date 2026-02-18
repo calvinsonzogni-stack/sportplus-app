@@ -1,0 +1,111 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0f0f0f;
+  color: white;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #111;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #00ff88;
+}
+
+.nav a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: #ccc;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #00ff88;
+}
+
+/* HERO */
+.hero {
+  height: 80vh;
+  background: linear-gradient(
+      rgba(0,0,0,0.7),
+      rgba(0,0,0,0.7)
+    ),
+    url("img/dev couché haltéres.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.hero-buttons .btn {
+  padding: 12px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn.primary {
+  background: #00ff88;
+  color: #000;
+}
+
+.btn.secondary {
+  border: 2px solid #00ff88;
+  color: #00ff88;
+}
+
+/* FEATURES */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.feature {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+/* CTA */
+.cta {
+  text-align: center;
+  padding: 60px 20px;
+  background: #111;
+}
+
+.cta h2 {
+  margin-bottom: 20px;
+}
