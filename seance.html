@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sport+ | Créer ma séance</title>
+  <link rel="stylesheet" href="css/seance.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">Sport<span>+</span></div>
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="exercices.html">Exercices</a>
+      <a href="seance.html" class="active">Créer ma séance</a>
+      <a href="perfs.html">Mes Perfs</a>
+      <a href="historique.html">Historique</a>
+    </nav>
+  </header>
+
+  <h1 style="text-align:center; margin:30px 0;">Ma Séance</h1>
+
+  <div class="seance-container">
+    <ul id="liste-seance"></ul>
+    <button class="save-btn" onclick="sauvegarderSeance(event)">💾 Sauvegarder ma séance</button>
+  </div>
+
+  <script src="js/seance.js"></script>
+
+</body>
+</html>

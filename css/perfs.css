@@ -1,0 +1,187 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0f0f0f;
+  color: white;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #111;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #00ff88;
+}
+
+.nav a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #00ff88;
+}
+
+/* TITRE */
+.title-section {
+  text-align: center;
+  padding: 50px 20px 30px;
+}
+
+.title-section h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+  color: #00ff88;
+}
+
+.title-section p {
+  color: #ccc;
+  font-size: 18px;
+}
+
+/* CONTAINER DES PERFS */
+.perfs-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.perfs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+/* CARTE D'EXERCICE */
+.perf-card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 25px;
+  border: 2px solid #222;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.perf-card:hover {
+  transform: translateY(-5px);
+  border-color: #00ff88;
+}
+
+.perf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.perf-header h3 {
+  font-size: 22px;
+  color: white;
+}
+
+.muscle-tag {
+  background: #00ff88;
+  color: #000;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* INPUT GROUP */
+.perf-input-group {
+  margin-bottom: 20px;
+}
+
+.perf-input-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.perf-input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  background: #0f0f0f;
+  border: 2px solid #333;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.perf-input-group input:focus {
+  outline: none;
+  border-color: #00ff88;
+}
+
+.perf-input-group input::placeholder {
+  color: #666;
+}
+
+/* BOUTON SAUVEGARDER */
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  background: #00ff88;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.save-btn:hover {
+  background: #00dd77;
+  transform: scale(1.02);
+}
+
+.save-btn:active {
+  transform: scale(0.98);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 15px;
+  }
+
+  .nav a {
+    margin-left: 0;
+  }
+
+  .title-section h1 {
+    font-size: 32px;
+  }
+
+  .perfs-grid {
+    grid-template-columns: 1fr;
+  }
+}

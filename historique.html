@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sport+ | Historique</title>
+  <link rel="stylesheet" href="css/historique.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">Sport<span>+</span></div>
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="exercices.html">Exercices</a>
+      <a href="seance.html">Créer ma séance</a>
+      <a href="perfs.html">Mes Perfs</a>
+      <a href="historique.html" class="active">Historique</a>
+    </nav>
+  </header>
+
+  <!-- Titre -->
+  <section class="title-section">
+    <h1>Mon Historique</h1>
+    <p>Suis ta progression et reste motivé 💪</p>
+  </section>
+
+  <!-- Stats rapides -->
+  <section class="quick-stats">
+    <div class="stat-card">
+      <div class="stat-icon">🏋️</div>
+      <div class="stat-value" id="total-seances">0</div>
+      <div class="stat-label">Séances totales</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-value" id="streak">0</div>
+      <div class="stat-label">Jours consécutifs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-value" id="exercice-favori">-</div>
+      <div class="stat-label">Exercice favori</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-value" id="progression-mois">0%</div>
+      <div class="stat-label">Progression ce mois</div>
+    </div>
+  </section>
+
+  <!-- Graphiques -->
+  <section class="charts-container">
+    <div class="chart-card">
+      <h2>📊 Évolution des poids</h2>
+      <p class="chart-subtitle">Progression de tes charges par exercice</p>
+      <div class="chart-select-wrapper">
+        <select id="exercice-select">
+          <option value="">Sélectionne un exercice</option>
+        </select>
+      </div>
+      <canvas id="evolution-chart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h2>📅 Fréquence d'entraînement</h2>
+      <p class="chart-subtitle">Nombre de séances par semaine</p>
+      <canvas id="frequence-chart"></canvas>
+    </div>
+  </section>
+
+  <!-- Historique des séances -->
+  <section class="historique-seances">
+    <div class="section-header">
+      <h2>📋 Historique des séances</h2>
+      <button class="btn-clear" onclick="clearHistory()">🗑️ Effacer l'historique</button>
+    </div>
+    <div id="liste-historique">
+      <!-- Généré dynamiquement -->
+    </div>
+  </section>
+
+  <script src="js/historique.js"></script>
+
+</body>
+</html>

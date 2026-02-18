@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sport+ | Exercices</title>
+  <link rel="stylesheet" href="css/exercices.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      Sport<span>+</span>
+    </div>
+
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="exercices.html" class="active">Exercices</a>
+      <a href="seance.html">Créer ma séance</a>
+      <a href="perfs.html">Mes Perfs</a>
+      <a href="historique.html">Historique</a>
+    </nav>
+  </header>
+
+  <!-- Titre -->
+  <section class="title-section">
+    <h1>Tous les Exercices</h1>
+    <p class="subtitle">Sélectionne tes exercices et ajoute-les à ta séance</p>
+  </section>
+
+  <!-- Filtres -->
+  <section class="filters">
+    <select id="filter-muscle">
+      <option value="all">Tous les muscles</option>
+      <option value="pectoraux">Pectoraux</option>
+      <option value="dos">Dos</option>
+      <option value="epaules">Épaules</option>
+      <option value="bras">Bras</option>
+      <option value="jambes">Jambes</option>
+      <option value="abdos">Abdominaux</option>
+    </select>
+  </section>
+
+  <!-- Cartes d'exercices -->
+  <section class="exercices-grid" id="exercices-grid">
+    <!-- Les exercices seront générés par JavaScript -->
+  </section>
+
+<script src="js/exercices.js"></script>
+
+</body>
+</html>

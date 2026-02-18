@@ -1,0 +1,283 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0f0f0f;
+  color: white;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #111;
+  border-bottom: 1px solid #222;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #00ff88;
+}
+
+.nav a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #00ff88;
+}
+
+/* TITRE */
+.title-section {
+  text-align: center;
+  padding: 50px 20px 30px;
+}
+
+.title-section h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.subtitle {
+  color: #999;
+  font-size: 16px;
+}
+
+/* FILTRES */
+.filters {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+}
+
+.filters select {
+  width: 100%;
+  max-width: 350px;
+  padding: 14px 18px;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filters select:hover,
+.filters select:focus {
+  border-color: #00ff88;
+  outline: none;
+}
+
+/* GRILLE D'EXERCICES */
+.exercices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+/* CARTE EXERCICE */
+.card {
+  background: #1a1a1a;
+  border-radius: 16px;
+  border: 2px solid #222;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00ff88, #00cc6e);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: #00ff88;
+  box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+}
+
+/* IMAGE CONTAINER */
+.card-image-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #0f0f0f;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-image {
+  transform: scale(1.1);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+}
+
+/* CARD CONTENT */
+.card-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: 600;
+}
+
+.muscle-tag {
+  display: inline-block;
+  background: #00ff88;
+  color: #000;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* BOUTON AJOUTER */
+.add-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: 2px solid #00ff88;
+  border-radius: 10px;
+  color: #00ff88;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-btn:hover {
+  background: #00ff88;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.btn-icon {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* NOTIFICATION */
+.notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: #1a1a1a;
+  border: 2px solid #00ff88;
+  border-radius: 12px;
+  padding: 18px 24px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(400px);
+  transition: all 0.3s ease;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.notification.warning {
+  border-color: #ffaa00;
+  box-shadow: 0 10px 40px rgba(255, 170, 0, 0.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .nav a {
+    margin-left: 0;
+  }
+
+  .title-section h1 {
+    font-size: 32px;
+  }
+
+  .exercices-grid {
+    grid-template-columns: 1fr;
+    padding: 0 15px 60px;
+  }
+
+  .notification {
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+}

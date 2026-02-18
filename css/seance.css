@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0f0f0f;
+  color: white;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #111;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #00ff88;
+}
+
+.nav a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: #ccc;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: #00ff88;
+}
+
+/* CONTAINER SÉANCE */
+.seance-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #1a1a1a;
+  border-radius: 12px;
+  border: 2px solid #222;
+}
+
+#liste-seance {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+#liste-seance li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 15px;
+  background: #0f0f0f;
+  border-radius: 8px;
+  border: 2px solid #333;
+  transition: border-color 0.3s;
+}
+
+#liste-seance li:hover {
+  border-color: #00ff88;
+}
+
+.exercice-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.exercice-nom {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.poids-info {
+  color: #00ff88;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.poids-info-vide {
+  color: #999;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: transform 0.2s;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+}
+
+.save-btn {
+  width: 100%;
+  padding: 15px;
+  background: #00ff88;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.save-btn:hover {
+  background: #00dd77;
+  transform: scale(1.02);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav a {
+    margin-left: 0;
+  }
+
+  .seance-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  #liste-seance li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .delete-btn {
+    align-self: flex-end;
+  }
+}
