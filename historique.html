@@ -12,21 +12,14 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header class="header">
     <div class="logo">Sport<span>+</span></div>
-
     <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
     <nav class="nav" id="nav">
       <a href="index.html">Accueil</a>
-      <a href="exercices.html">Exercices</a>
       <a href="seance.html">Créer ma séance</a>
-      <a href="perfs.html">Mes Perfs</a>
       <a href="historique.html" class="active">Historique</a>
     </nav>
   </header>
@@ -61,11 +54,33 @@
     </div>
   </section>
 
+  <!-- Records personnels -->
+  <section class="records-section">
+    <div class="section-header">
+      <h2>🏆 Records personnels</h2>
+      <p class="section-subtitle">Ta charge max atteinte par exercice</p>
+    </div>
+    <div class="records-filters">
+      <div class="filter-scroll">
+        <button class="record-filter-btn active" data-muscle="all">Tous</button>
+        <button class="record-filter-btn" data-muscle="pectoraux">Pectoraux</button>
+        <button class="record-filter-btn" data-muscle="dos">Dos</button>
+        <button class="record-filter-btn" data-muscle="epaules">Épaules</button>
+        <button class="record-filter-btn" data-muscle="bras">Bras</button>
+        <button class="record-filter-btn" data-muscle="jambes">Jambes</button>
+        <button class="record-filter-btn" data-muscle="abdos">Abdos</button>
+      </div>
+    </div>
+    <div class="records-grid" id="records-grid">
+      <!-- Généré dynamiquement -->
+    </div>
+  </section>
+
   <!-- Graphiques -->
   <section class="charts-container">
     <div class="chart-card">
-      <h2>📊 Évolution des poids</h2>
-      <p class="chart-subtitle">Progression de tes charges par exercice</p>
+      <h2>📊 Évolution des charges</h2>
+      <p class="chart-subtitle">Progression de ta charge max par exercice</p>
       <div class="chart-select-wrapper">
         <select id="exercice-select">
           <option value="">Sélectionne un exercice</option>
@@ -73,7 +88,6 @@
       </div>
       <canvas id="evolution-chart"></canvas>
     </div>
-
     <div class="chart-card">
       <h2>📅 Fréquence d'entraînement</h2>
       <p class="chart-subtitle">Nombre de séances par semaine</p>
@@ -84,26 +98,22 @@
   <!-- Historique des séances -->
   <section class="historique-seances">
     <div class="section-header">
-      <h2>📋 Historique des séances</h2>
-      <button class="btn-clear" onclick="clearHistory()">🗑️ Effacer l'historique</button>
+      <h2>📋 Séances passées</h2>
+      <button class="btn-clear" onclick="clearHistory()">🗑️ Tout effacer</button>
     </div>
-    <div id="liste-historique">
-      <!-- Généré dynamiquement -->
-    </div>
+    <div id="liste-historique"></div>
   </section>
 
   <script src="js/historique.js"></script>
   <script>
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
-
     hamburger.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       hamburger.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');

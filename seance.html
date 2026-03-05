@@ -13,41 +13,101 @@
 
   <header class="header">
     <div class="logo">Sport<span>+</span></div>
-
     <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
     <nav class="nav" id="nav">
       <a href="index.html">Accueil</a>
-      <a href="exercices.html">Exercices</a>
       <a href="seance.html" class="active">Créer ma séance</a>
-      <a href="perfs.html">Mes Perfs</a>
       <a href="historique.html">Historique</a>
     </nav>
   </header>
 
-  <h1 class="page-title">Ma Séance</h1>
+  <!-- ÉTAPE 1 — SÉLECTION DES EXERCICES -->
+  <div id="step-selection">
+    <section class="title-section">
+      <h1>Crée ta séance</h1>
+      <p class="subtitle">Sélectionne tes exercices, puis lance ta séance</p>
+    </section>
 
-  <div class="seance-container">
-    <ul id="liste-seance"></ul>
-    <button class="save-btn" onclick="sauvegarderSeance(event)">💾 Sauvegarder ma séance</button>
+    <section class="filters">
+      <div class="filter-scroll">
+        <button class="filter-btn active" data-muscle="all">Tous</button>
+        <button class="filter-btn" data-muscle="pectoraux">Pectoraux</button>
+        <button class="filter-btn" data-muscle="dos">Dos</button>
+        <button class="filter-btn" data-muscle="epaules">Épaules</button>
+        <button class="filter-btn" data-muscle="bras">Bras</button>
+        <button class="filter-btn" data-muscle="jambes">Jambes</button>
+        <button class="filter-btn" data-muscle="abdos">Abdos</button>
+      </div>
+    </section>
+
+    <section class="exercices-grid" id="exercices-grid"></section>
+
+    <div class="selection-bar" id="selection-bar">
+      <div class="selection-info">
+        <span class="selection-count" id="selection-count">0</span>
+        <span class="selection-label"> exercice(s) sélectionné(s)</span>
+      </div>
+      <button class="btn-letsgo" id="btn-letsgo" onclick="lancerSeance()" disabled>
+        Let's go 💪
+      </button>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 — SÉANCE ACTIVE -->
+  <div id="step-seance" class="hidden">
+    <section class="seance-header-section">
+      <div class="seance-title-block">
+        <h1>Ma Séance</h1>
+        <div class="seance-meta">
+          <span class="timer-badge" id="seance-timer">⏱ 00:00</span>
+          <span class="progress-badge" id="seance-progress-label">
+            Exercice <span id="current-exo-index">1</span> / <span id="total-exo-count">0</span>
+          </span>
+        </div>
+      </div>
+      <div class="global-progress-bar">
+        <div class="global-progress-fill" id="global-progress-fill"></div>
+      </div>
+    </section>
+
+    <div class="seance-body" id="seance-body"></div>
+
+    <div class="finish-zone hidden" id="finish-zone">
+      <div class="finish-message">
+        <span class="finish-icon">🔥</span>
+        <p>Tous les exercices sont terminés !</p>
+      </div>
+      <button class="btn-douche" onclick="terminerSeance()">
+        🚿 Go à la douche !
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL FIN DE SÉANCE -->
+  <div class="modal-overlay hidden" id="modal-fin">
+    <div class="modal-card">
+      <div class="modal-icon">🎉</div>
+      <h2>Séance terminée !</h2>
+      <p id="modal-summary"></p>
+      <div class="modal-actions">
+        <a href="historique.html" class="modal-btn primary">Voir l'historique</a>
+        <button class="modal-btn secondary" onclick="resetApp()">Nouvelle séance</button>
+      </div>
+    </div>
   </div>
 
   <script src="js/seance.js"></script>
   <script>
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
-
     hamburger.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       hamburger.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');
@@ -57,6 +117,5 @@
       });
     });
   </script>
-
 </body>
 </html>
