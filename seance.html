@@ -8,6 +8,7 @@
   <title>Sport+ | Créer ma séance</title>
   <link rel="stylesheet" href="css/seance.css">
   <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/planning.css">
 </head>
 <body>
 
@@ -19,6 +20,7 @@
     <nav class="nav" id="nav">
       <a href="index.html">Accueil</a>
       <a href="seance.html" class="active">Créer ma séance</a>
+      <a href="planning.html">Planning</a>
       <a href="historique.html">Historique</a>
     </nav>
   </header>
@@ -29,7 +31,6 @@
       <h1>Crée ta séance</h1>
       <p class="subtitle">Sélectionne tes exercices, puis lance ta séance</p>
     </section>
-
     <section class="filters">
       <div class="filter-scroll">
         <button class="filter-btn active" data-muscle="all">Tous</button>
@@ -41,9 +42,7 @@
         <button class="filter-btn" data-muscle="abdos">Abdos</button>
       </div>
     </section>
-
     <section class="exercices-grid" id="exercices-grid"></section>
-
     <div class="selection-bar" id="selection-bar">
       <div class="selection-info">
         <span class="selection-count" id="selection-count">0</span>
@@ -65,6 +64,10 @@
           <span class="progress-badge" id="seance-progress-label">
             Exercice <span id="current-exo-index">1</span> / <span id="total-exo-count">0</span>
           </span>
+          <!-- Bouton modifier la séance en cours -->
+          <button class="btn-modifier-seance" onclick="ouvrirModalModif()" title="Ajouter / retirer des exercices">
+            ✏️ Modifier
+          </button>
         </div>
       </div>
       <div class="global-progress-bar">
@@ -98,6 +101,38 @@
     </div>
   </div>
 
+  <!-- MODAL MODIFIER SÉANCE EN COURS -->
+  <div class="modal-overlay hidden" id="modal-modif">
+    <div class="modal-card modal-card-modif">
+      <div class="modal-header-modif">
+        <h2>✏️ Modifier la séance</h2>
+        <button class="modal-close-btn" onclick="fermerModalModif()">✕</button>
+      </div>
+      <p class="modal-modif-hint">Les exercices déjà terminés ne peuvent pas être retirés.</p>
+
+      <!-- Filtres -->
+      <div class="modif-filters">
+        <div class="filter-scroll">
+          <button class="modif-filter-btn active" data-muscle="all">Tous</button>
+          <button class="modif-filter-btn" data-muscle="pectoraux">Pectoraux</button>
+          <button class="modif-filter-btn" data-muscle="dos">Dos</button>
+          <button class="modif-filter-btn" data-muscle="epaules">Épaules</button>
+          <button class="modif-filter-btn" data-muscle="bras">Bras</button>
+          <button class="modif-filter-btn" data-muscle="jambes">Jambes</button>
+          <button class="modif-filter-btn" data-muscle="abdos">Abdos</button>
+        </div>
+      </div>
+
+      <!-- Grille exos -->
+      <div class="modif-exo-grid" id="modif-exo-grid"></div>
+
+      <div class="modal-footer-modif">
+        <button class="modal-btn secondary" onclick="fermerModalModif()">Annuler</button>
+        <button class="modal-btn primary" onclick="appliquerModif()">Appliquer ✓</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/seance.js"></script>
   <script>
     const hamburger = document.getElementById('hamburger');
@@ -117,5 +152,6 @@
       });
     });
   </script>
+  <script src="js/notif-planning.js"></script>
 </body>
 </html>

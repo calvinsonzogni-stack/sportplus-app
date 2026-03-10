@@ -34,29 +34,29 @@ const EXERCICES_DB = [
   { nom: "Shrugs",               muscle: "dos", image: "shrugs.jpg" },
   { nom: "Face Pull",            muscle: "dos", image: "face-pull.jpg" },
   // ÉPAULES
-  { nom: "Développé Militaire",          muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Développé Haltères Assis",     muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Élévations Latérales",         muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Élévations Frontales",         muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Oiseau Haltères",              muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Oiseau Poulie",                muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Rowing Menton",                muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Arnold Press",                 muscle: "epaules", image: "placeholder.svg" },
-  { nom: "Élévations Latérales Câble",   muscle: "epaules", image: "placeholder.svg" },
+  { nom: "Développé Militaire",          muscle: "epaules", image: "Développé Militaire.jpeg" },
+  { nom: "Développé Haltères Assis",     muscle: "epaules", image: "Développé Haltères Assis.jpg" },
+  { nom: "Élévations Latérales",         muscle: "epaules", image: "Élévations Latérales.jpg" },
+  { nom: "Élévations Frontales",         muscle: "epaules", image: "Élévations Frontales.jpg" },
+  { nom: "Oiseau Haltères",              muscle: "epaules", image: "Oiseau Haltères.webp" },
+  { nom: "Oiseau Poulie",                muscle: "epaules", image: "Oiseau Poulie.jpg" },
+  { nom: "Rowing Menton",                muscle: "epaules", image: "Rowing Menton.avif" },
+  { nom: "Arnold Press",                 muscle: "epaules", image: "Arnold Press.webp" },
+  { nom: "Élévations Latérales Câble",   muscle: "epaules", image: "Élévations Latérales Câble.webp" },
   // BRAS
-  { nom: "Curl Barre",           muscle: "bras", image: "placeholder.svg" },
-  { nom: "Curl Haltères",        muscle: "bras", image: "placeholder.svg" },
-  { nom: "Curl Marteau",         muscle: "bras", image: "placeholder.svg" },
-  { nom: "Curl Pupitre",         muscle: "bras", image: "placeholder.svg" },
-  { nom: "Curl Incliné",         muscle: "bras", image: "placeholder.svg" },
-  { nom: "Curl Concentration",   muscle: "bras", image: "placeholder.svg" },
-  { nom: "Curl Cable",           muscle: "bras", image: "placeholder.svg" },
-  { nom: "Dips Triceps",         muscle: "bras", image: "placeholder.svg" },
-  { nom: "Extension Nuque",      muscle: "bras", image: "placeholder.svg" },
-  { nom: "Barre au Front",       muscle: "bras", image: "placeholder.svg" },
-  { nom: "Extension Poulie Haute", muscle: "bras", image: "placeholder.svg" },
-  { nom: "Kickback Haltères",    muscle: "bras", image: "placeholder.svg" },
-  { nom: "Diamond Push-ups",     muscle: "bras", image: "placeholder.svg" },
+  { nom: "Curl Barre",           muscle: "bras", image: "Curl Barre.webp" },
+  { nom: "Curl Haltères",        muscle: "bras", image: "Curl Haltères.webp" },
+  { nom: "Curl Marteau",         muscle: "bras", image: "Curl Marteau.webp" },
+  { nom: "Curl Pupitre",         muscle: "bras", image: "Curl Pupitre.jpeg" },
+  { nom: "Curl Incliné",         muscle: "bras", image: "Curl Incliné.webp" },
+  { nom: "Curl Concentration",   muscle: "bras", image: "Curl Concentration.webp" },
+  { nom: "Curl Cable",           muscle: "bras", image: "Curl Cable.jpg" },
+  { nom: "Dips triceps",         muscle: "bras", image: "Dips triceps.jpeg" },
+  { nom: "Extension Nuque",      muscle: "bras", image: "Extension Nuque.webp" },
+  { nom: "Barre au Front",       muscle: "bras", image: "Barre au Front.jpg" },
+  { nom: "Extension Poulie Haute", muscle: "bras", image: "Extension Poulie Haute.jpeg" },
+  { nom: "Kickback Haltères",    muscle: "bras", image: "Kickback Haltères.jpg" },
+  { nom: "Diamond Push-ups",     muscle: "bras", image: "Diamond Push-ups.jpg" },
   // JAMBES
   { nom: "Squat",                muscle: "jambes", image: "Squats.jpeg" },
   { nom: "Squat Avant",          muscle: "jambes", image: "placeholder.svg" },
@@ -106,8 +106,36 @@ let exosTermines = 0;
 
 // ── Initialisation ──────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+  // Précharger les exercices depuis le planning si disponibles
+  const preloaded = localStorage.getItem("seance_preloaded");
+  if (preloaded) {
+    try {
+      const exos = JSON.parse(preloaded);
+      if (Array.isArray(exos) && exos.length > 0) {
+        exercicesSelectionnes = exos.filter(nom => EXERCICES_DB.some(e => e.nom === nom));
+      }
+    } catch(e) {}
+    localStorage.removeItem("seance_preloaded");
+  }
+
   genererGrille("all");
   initFiltres();
+  mettreAJourBarre();
+
+  // Overlay + filtres du modal modifier séance
+  const overlayModif = document.getElementById("modal-modif");
+  if (overlayModif) {
+    overlayModif.addEventListener("click", e => {
+      if (e.target === overlayModif) fermerModalModif();
+    });
+  }
+  document.querySelectorAll(".modif-filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".modif-filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderModifGrille(btn.dataset.muscle);
+    });
+  });
 });
 
 // ────────────────────────────────────────────────
@@ -527,4 +555,134 @@ function showToast(message, type = "success") {
   toastTimeout = setTimeout(() => {
     toast.classList.remove("toast-show");
   }, 2800);
+}
+
+// ────────────────────────────────────────────────
+//  MODIFIER LA SÉANCE EN COURS
+// ────────────────────────────────────────────────
+
+let modifSelectionTemp = []; // état temporaire pendant la modif
+
+function ouvrirModalModif() {
+  // Initialiser la sélection temp depuis seanceData actuelle
+  modifSelectionTemp = seanceData.map(e => e.nom);
+
+  // Réinitialiser les filtres
+  document.querySelectorAll(".modif-filter-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.muscle === "all"));
+
+  renderModifGrille("all");
+  document.getElementById("modal-modif").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+function fermerModalModif() {
+  document.getElementById("modal-modif").classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+function renderModifGrille(muscle) {
+  const grid = document.getElementById("modif-exo-grid");
+  if (!grid) return;
+
+  const liste = muscle === "all"
+    ? EXERCICES_DB
+    : EXERCICES_DB.filter(e => e.muscle === muscle);
+
+  // Exercices déjà terminés — intouchables
+  const exosTerminesList = seanceData
+    .filter(e => e.termine)
+    .map(e => e.nom);
+
+  grid.innerHTML = liste.map(exo => {
+    const estSelectionne = modifSelectionTemp.includes(exo.nom);
+    const estTermine     = exosTerminesList.includes(exo.nom);
+
+    return `
+      <div class="modif-exo-card ${estSelectionne ? "selected" : ""} ${estTermine ? "locked" : ""}"
+           onclick="${estTermine ? "" : `toggleModifExo('${exo.nom.replace(/'/g, "\\'")}')`}">
+        <div class="modif-exo-img">
+          <img src="assets/images/${exo.image}" alt="${exo.nom}" loading="lazy"
+               onerror="this.src='assets/images/placeholder.svg'">
+          <div class="modif-check-badge">${estTermine ? "🔒" : "✓"}</div>
+        </div>
+        <div class="modif-exo-info">
+          <span class="modif-exo-nom">${exo.nom}</span>
+          <span class="modif-exo-muscle">${MUSCLE_LABELS[exo.muscle]}</span>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function toggleModifExo(nom) {
+  const idx = modifSelectionTemp.indexOf(nom);
+  if (idx === -1) {
+    modifSelectionTemp.push(nom);
+  } else {
+    modifSelectionTemp.splice(idx, 1);
+  }
+
+  // Mettre à jour visuellement la carte sans re-render complet
+  const activeFilter = document.querySelector(".modif-filter-btn.active");
+  renderModifGrille(activeFilter ? activeFilter.dataset.muscle : "all");
+}
+
+function appliquerModif() {
+  if (modifSelectionTemp.length === 0) {
+    showToast("Sélectionne au moins un exercice !", "warning");
+    return;
+  }
+
+  const perfs = JSON.parse(localStorage.getItem("perfs")) || {};
+
+  // Exercices terminés — on les garde tels quels
+  const exosTerminesData = seanceData.filter(e => e.termine);
+  const nomsTermines     = exosTerminesData.map(e => e.nom);
+
+  // Nouveaux exercices à ajouter (pas encore dans seanceData)
+  const nomsActuels = seanceData.map(e => e.nom);
+  const aAjouter    = modifSelectionTemp.filter(nom => !nomsActuels.includes(nom));
+
+  // Exercices à retirer (dans seanceData mais plus dans la sélection, et non terminés)
+  const aRetirer    = seanceData.filter(e => !modifSelectionTemp.includes(e.nom) && !e.termine);
+
+  // Construire le nouveau seanceData
+  // 1. Garder les exos terminés en premier (ordre préservé)
+  // 2. Garder les exos en cours sélectionnés (ordre préservé)
+  // 3. Ajouter les nouveaux à la fin
+  const enCoursGardes = seanceData.filter(e =>
+    !e.termine && modifSelectionTemp.includes(e.nom)
+  );
+
+  const nouveaux = aAjouter.map(nom => {
+    const exo = EXERCICES_DB.find(e => e.nom === nom);
+    const dernierPoids = perfs[nom] ? parseFloat(perfs[nom]) : "";
+    return {
+      nom,
+      muscle: exo ? exo.muscle : "",
+      series: [{ reps: "", charge: dernierPoids, validee: false }],
+      termine: false,
+    };
+  });
+
+  seanceData = [...exosTerminesData, ...enCoursGardes, ...nouveaux];
+
+  // Recalculer exosTermines
+  exosTermines = seanceData.filter(e => e.termine).length;
+
+  // Mettre à jour les compteurs
+  document.getElementById("total-exo-count").textContent = seanceData.length;
+  document.getElementById("current-exo-index").textContent = Math.min(exosTermines + 1, seanceData.length);
+  updateProgressBar();
+
+  // Re-render la séance
+  renderSeance();
+
+  fermerModalModif();
+
+  const msg = [];
+  if (aAjouter.length > 0)  msg.push(`+${aAjouter.length} ajouté(s)`);
+  if (aRetirer.length > 0)  msg.push(`-${aRetirer.length} retiré(s)`);
+  if (msg.length > 0) showToast(msg.join(" · ") + " ✓", "success");
+  else showToast("Séance inchangée", "success");
 }

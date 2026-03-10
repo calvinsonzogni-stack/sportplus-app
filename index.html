@@ -8,26 +8,29 @@
   <title>Sport+ | Accueil</title>
   <link rel="stylesheet" href="css/acceuille.css">
   <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/planning.css">
 </head>
 <body>
 
   <!-- Header -->
   <header class="header">
     <div class="logo">Sport<span>+</span></div>
-
     <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
-
     <nav class="nav" id="nav">
       <a href="index.html" class="active">Accueil</a>
-      
       <a href="seance.html">Créer ma séance</a>
+      <a href="planning.html">Planning</a>
       <a href="historique.html">Historique</a>
     </nav>
   </header>
+
+  <!-- BANDEAU PSEUDO -->
+  <div class="pseudo-banner" id="pseudo-banner">
+    <span class="pseudo-greeting" id="pseudo-greeting"></span>
+    <button class="pseudo-edit-btn" id="pseudo-edit-btn" onclick="ouvrirModalPseudo()">✏️</button>
+  </div>
 
   <!-- HERO -->
   <section class="hero">
@@ -36,6 +39,7 @@
       <p>Choisis tes exercices, organise ta séance et progresse à ton rythme.</p>
       <div class="hero-buttons">
         <a href="seance.html" class="btn primary">Créer ma séance</a>
+        <a href="planning.html" class="btn secondary">Planning</a>
         <a href="historique.html" class="btn secondary">Mon historique</a>
       </div>
     </div>
@@ -63,18 +67,34 @@
     <a href="seance.html" class="btn primary">Commencer maintenant</a>
   </section>
 
+  <!-- MODAL PSEUDO -->
+  <div class="pseudo-modal-overlay hidden" id="pseudo-modal">
+    <div class="pseudo-modal-card">
+      <div class="pseudo-modal-header">
+        <h2>Mon pseudo</h2>
+        <button class="pseudo-modal-close" onclick="fermerModalPseudo()">✕</button>
+      </div>
+      <div class="pseudo-modal-body">
+        <label for="pseudo-input">Comment tu t'appelles ?</label>
+        <input type="text" id="pseudo-input" placeholder="Ex: Alex, Jordan, Le Boss…" maxlength="24" autocomplete="off">
+      </div>
+      <div class="pseudo-modal-footer">
+        <button class="pseudo-btn secondary" onclick="fermerModalPseudo()">Annuler</button>
+        <button class="pseudo-btn primary" onclick="sauvegarderPseudo()">Sauvegarder ✓</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ── Hamburger ──
     const hamburger = document.getElementById('hamburger');
     const nav = document.getElementById('nav');
-
     hamburger.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       hamburger.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-
-    // Fermer le menu au clic sur un lien
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');
@@ -83,7 +103,64 @@
         document.body.style.overflow = '';
       });
     });
+
+    // ── Pseudo ──
+    function getHeure() {
+      const h = new Date().getHours();
+      if (h >= 5  && h < 12) return "Bonjour";
+      if (h >= 12 && h < 18) return "Bon après-midi";
+      if (h >= 18 && h < 22) return "Bonsoir";
+      return "Bonne nuit";
+    }
+
+    function afficherPseudo() {
+      const pseudo = localStorage.getItem("pseudo");
+      const banner  = document.getElementById("pseudo-banner");
+      const greeting = document.getElementById("pseudo-greeting");
+
+      if (pseudo) {
+        greeting.innerHTML = `${getHeure()}, <strong>${pseudo}</strong> 💪`;
+        banner.classList.add("visible");
+      } else {
+        greeting.innerHTML = `Comment tu t'appelles ? <button class="pseudo-set-btn" onclick="ouvrirModalPseudo()">Définir mon pseudo</button>`;
+        banner.classList.add("visible");
+      }
+    }
+
+    function ouvrirModalPseudo() {
+      const pseudo = localStorage.getItem("pseudo") || "";
+      document.getElementById("pseudo-input").value = pseudo;
+      document.getElementById("pseudo-modal").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      setTimeout(() => document.getElementById("pseudo-input").focus(), 100);
+    }
+
+    function fermerModalPseudo() {
+      document.getElementById("pseudo-modal").classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
+    function sauvegarderPseudo() {
+      const val = document.getElementById("pseudo-input").value.trim();
+      if (!val) return;
+      localStorage.setItem("pseudo", val);
+      fermerModalPseudo();
+      afficherPseudo();
+    }
+
+    // Enter pour valider
+    document.getElementById("pseudo-input").addEventListener("keydown", e => {
+      if (e.key === "Enter") sauvegarderPseudo();
+    });
+
+    // Clic overlay pour fermer
+    document.getElementById("pseudo-modal").addEventListener("click", e => {
+      if (e.target === document.getElementById("pseudo-modal")) fermerModalPseudo();
+    });
+
+    afficherPseudo();
   </script>
 
+  <script src="js/notif-planning.js"></script>
 </body>
 </html>

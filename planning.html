@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Sport+ | Planning</title>
+  <link rel="stylesheet" href="css/planning.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">Sport<span>+</span></div>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Accueil</a>
+      <a href="seance.html">Créer ma séance</a>
+      <a href="planning.html" class="active">Planning</a>
+      <a href="historique.html">Historique</a>
+    </nav>
+  </header>
+
+  <section class="title-section">
+    <h1>Mon Planning</h1>
+    <p class="subtitle">Programme tes séances à l'avance</p>
+  </section>
+
+  <!-- Calendrier -->
+  <section class="calendar-section">
+    <div class="calendar-nav">
+      <button class="cal-nav-btn" id="prev-month">&#8592;</button>
+      <h2 class="cal-month-label" id="cal-month-label"></h2>
+      <button class="cal-nav-btn" id="next-month">&#8594;</button>
+    </div>
+    <div class="calendar-grid" id="calendar-grid"></div>
+  </section>
+
+  <!-- Liste des séances programmées -->
+  <section class="seances-programmees">
+    <div class="section-header">
+      <h2>📋 Séances programmées</h2>
+    </div>
+    <div id="liste-programmees"></div>
+  </section>
+
+  <!-- MODAL — Créer une séance -->
+  <div class="modal-overlay hidden" id="modal-create">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Programmer une séance</h2>
+        <button class="modal-close" onclick="fermerModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Date sélectionnée -->
+        <div class="field-group">
+          <label>Date</label>
+          <div class="date-display" id="modal-date-display"></div>
+        </div>
+
+        <!-- Nom de la séance -->
+        <div class="field-group">
+          <label for="seance-nom">Nom de la séance</label>
+          <input type="text" id="seance-nom" placeholder="Ex: Push day, Jambes, Full body…" maxlength="40">
+        </div>
+
+        <!-- Récurrence -->
+        <div class="field-group">
+          <label>Récurrence</label>
+          <div class="recurrence-options">
+            <button class="recurrence-btn active" data-value="once">Une seule fois</button>
+            <button class="recurrence-btn" data-value="weekly">Chaque semaine</button>
+          </div>
+        </div>
+
+        <!-- Sélection des exercices -->
+        <div class="field-group">
+          <label>Exercices <span class="exo-count-label" id="modal-exo-count">(0 sélectionné)</span></label>
+          <div class="modal-filters">
+            <div class="filter-scroll">
+              <button class="modal-filter-btn active" data-muscle="all">Tous</button>
+              <button class="modal-filter-btn" data-muscle="pectoraux">Pectoraux</button>
+              <button class="modal-filter-btn" data-muscle="dos">Dos</button>
+              <button class="modal-filter-btn" data-muscle="epaules">Épaules</button>
+              <button class="modal-filter-btn" data-muscle="bras">Bras</button>
+              <button class="modal-filter-btn" data-muscle="jambes">Jambes</button>
+              <button class="modal-filter-btn" data-muscle="abdos">Abdos</button>
+            </div>
+          </div>
+          <div class="modal-exo-grid" id="modal-exo-grid"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="modal-btn secondary" onclick="fermerModal()">Annuler</button>
+        <button class="modal-btn primary" onclick="sauvegarderSeanceProgrammee()">Programmer ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL — Éditer les exercices d'une séance programmée -->
+  <div class="modal-overlay hidden" id="modal-edit-planning">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>✏️ Modifier les exercices</h2>
+        <button class="modal-close" onclick="fermerModalEditPlanning()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label>Exercices <span class="exo-count-label" id="edit-exo-count">(0 sélectionné)</span></label>
+          <div class="modal-filters">
+            <div class="filter-scroll">
+              <button class="edit-filter-btn active" data-muscle="all">Tous</button>
+              <button class="edit-filter-btn" data-muscle="pectoraux">Pectoraux</button>
+              <button class="edit-filter-btn" data-muscle="dos">Dos</button>
+              <button class="edit-filter-btn" data-muscle="epaules">Épaules</button>
+              <button class="edit-filter-btn" data-muscle="bras">Bras</button>
+              <button class="edit-filter-btn" data-muscle="jambes">Jambes</button>
+              <button class="edit-filter-btn" data-muscle="abdos">Abdos</button>
+            </div>
+          </div>
+          <div class="modal-exo-grid" id="edit-exo-grid"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary" onclick="fermerModalEditPlanning()">Annuler</button>
+        <button class="modal-btn primary" onclick="sauvegarderEditPlanning()">Sauvegarder ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/planning.js"></script>
+  <script src="js/notif-planning.js"></script>
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    hamburger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+
+</body>
+</html>

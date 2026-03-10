@@ -5,8 +5,7 @@
 /* Empêche le zoom automatique sur les inputs iOS (font-size min 16px) */
 input,
 select,
-textarea,
-button {
+textarea {
   font-size: 16px;
 }
 

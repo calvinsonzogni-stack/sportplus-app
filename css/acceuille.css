@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
 body {
@@ -15,8 +15,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 18px 40px;
   background: #111;
+  border-bottom: 1px solid #1e1e1e;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -24,7 +25,8 @@ body {
 
 .logo {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .logo span {
@@ -32,10 +34,12 @@ body {
 }
 
 .nav a {
-  margin-left: 30px;
+  margin-left: 28px;
   text-decoration: none;
-  color: #ccc;
-  transition: color 0.3s;
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
 .nav a:hover,
@@ -81,15 +85,16 @@ body {
 
 .hero-buttons .btn {
   padding: 14px 24px;
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 15px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
   min-height: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .btn.primary {
@@ -178,4 +183,116 @@ body {
   .cta {
     padding: 50px 20px;
   }
+}
+
+/* ── BANDEAU PSEUDO ──────────────────────────── */
+.pseudo-banner {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+  background: #111;
+  border-bottom: 1px solid #1a1a1a;
+}
+.pseudo-banner.visible {
+  display: flex;
+}
+.pseudo-greeting {
+  font-size: 15px;
+  color: #aaa;
+  font-weight: 500;
+}
+.pseudo-greeting strong {
+  color: #00ff88;
+  font-weight: 800;
+}
+.pseudo-edit-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+.pseudo-edit-btn:hover { opacity: 1; }
+
+.pseudo-set-btn {
+  background: none;
+  border: 1px solid #00ff88;
+  color: #00ff88;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: all 0.2s;
+}
+.pseudo-set-btn:hover { background: rgba(0,255,136,0.1); }
+
+/* ── MODAL PSEUDO ────────────────────────────── */
+.pseudo-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 300; padding: 20px;
+}
+.pseudo-modal-overlay.hidden { display: none !important; }
+
+.pseudo-modal-card {
+  background: #141414;
+  border: 2px solid #2a2a2a;
+  border-radius: 20px;
+  width: 100%; max-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.pseudo-modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #1e1e1e;
+}
+.pseudo-modal-header h2 { font-size: 18px; font-weight: 800; }
+.pseudo-modal-close {
+  width: 34px; height: 34px; background: #1e1e1e; border: none;
+  border-radius: 8px; color: #888; font-size: 15px; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.pseudo-modal-close:hover { background: #2a2a2a; color: white; }
+
+.pseudo-modal-body {
+  padding: 20px 24px;
+}
+.pseudo-modal-body label {
+  display: block; font-size: 13px; font-weight: 700; color: #888;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+}
+.pseudo-modal-body input {
+  width: 100%; padding: 14px 16px;
+  background: #0f0f0f; border: 2px solid #2a2a2a; border-radius: 10px;
+  color: white; font-size: 16px; outline: none; transition: border-color 0.2s;
+}
+.pseudo-modal-body input:focus { border-color: #00ff88; }
+.pseudo-modal-body input::placeholder { color: #555; }
+
+.pseudo-modal-footer {
+  display: flex; gap: 10px; padding: 16px 24px;
+  border-top: 1px solid #1e1e1e;
+}
+.pseudo-btn {
+  flex: 1; padding: 13px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s;
+}
+.pseudo-btn.primary { background: #00ff88; color: #000; }
+.pseudo-btn.primary:hover { background: #00e87a; }
+.pseudo-btn.secondary { background: #1e1e1e; color: #888; border: 2px solid #2a2a2a; }
+.pseudo-btn.secondary:hover { border-color: #444; color: #ccc; }
+
+@media (max-width: 768px) {
+  .pseudo-banner { padding: 12px 20px; }
+  .pseudo-greeting { font-size: 14px; }
 }

@@ -266,8 +266,9 @@ body {
 }
 .seance-meta {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 .timer-badge, .progress-badge {
   background: #1a1a1a;
@@ -643,4 +644,134 @@ body {
 
 @media (max-width: 380px) {
   .exercices-grid { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════════════
+   MODIFIER LA SÉANCE EN COURS
+════════════════════════════════════════════════ */
+
+/* Bouton modifier dans le header séance */
+.btn-modifier-seance {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 24px;
+  color: #ccc; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
+}
+.btn-modifier-seance:hover {
+  background: rgba(0,255,136,0.12); border-color: #00ff88; color: #00ff88;
+}
+
+/* Modal modifier */
+.modal-card-modif {
+  max-width: 600px !important;
+  max-height: 88vh !important;
+  padding: 0 !important;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.modal-header-modif {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 24px 16px; border-bottom: 1px solid #1e1e1e; flex-shrink: 0;
+}
+.modal-header-modif h2 { font-size: 18px; font-weight: 800; }
+.modal-close-btn {
+  width: 36px; height: 36px; background: #1e1e1e; border: none;
+  border-radius: 8px; color: #888; font-size: 16px; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.modal-close-btn:hover { background: #2a2a2a; color: white; }
+
+.modal-modif-hint {
+  padding: 10px 24px; font-size: 12px; color: #666;
+  font-style: italic; flex-shrink: 0; background: rgba(255,170,0,0.05);
+  border-bottom: 1px solid #1e1e1e;
+}
+
+/* Filtres dans le modal modif */
+.modif-filters {
+  padding: 14px 24px 10px; flex-shrink: 0; border-bottom: 1px solid #1e1e1e;
+}
+.modif-filter-btn {
+  flex-shrink: 0; padding: 7px 14px; background: #1a1a1a; border: 1px solid #2a2a2a;
+  border-radius: 24px; color: #666; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.modif-filter-btn:hover { border-color: #00ff88; color: #00ff88; }
+.modif-filter-btn.active { background: #00ff88; border-color: #00ff88; color: #000; }
+
+/* Grille exos du modal modif */
+.modif-exo-grid {
+  flex: 1; overflow-y: auto; padding: 16px 24px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;
+  scrollbar-width: thin; scrollbar-color: #2a2a2a transparent;
+}
+.modif-exo-grid::-webkit-scrollbar { width: 4px; }
+.modif-exo-grid::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+.modif-exo-card {
+  background: #141414; border: 2px solid #1e1e1e; border-radius: 12px;
+  overflow: hidden; cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative; user-select: none;
+}
+.modif-exo-card:hover:not(.locked) {
+  border-color: #00ff88; transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,255,136,0.12);
+}
+.modif-exo-card.selected {
+  border-color: #00ff88;
+  box-shadow: 0 0 0 2px rgba(0,255,136,0.2);
+}
+.modif-exo-card.locked {
+  cursor: not-allowed; opacity: 0.55;
+  border-color: rgba(255,170,0,0.3);
+}
+
+.modif-exo-img {
+  position: relative; height: 88px; overflow: hidden; background: #0f0f0f;
+}
+.modif-exo-img img {
+  width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;
+}
+.modif-exo-card:hover:not(.locked) .modif-exo-img img { transform: scale(1.06); }
+
+.modif-check-badge {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px; background: #00ff88; color: #000;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  opacity: 0; transform: scale(0.5);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.modif-exo-card.selected .modif-check-badge {
+  opacity: 1; transform: scale(1);
+}
+/* Badge cadenas toujours visible sur les exos terminés */
+.modif-exo-card.locked .modif-check-badge {
+  opacity: 1; transform: scale(1);
+  background: rgba(255,170,0,0.2); color: #ffaa00; font-size: 12px;
+  border: 1px solid rgba(255,170,0,0.4);
+}
+
+.modif-exo-info {
+  padding: 8px 10px; display: flex; flex-direction: column; gap: 4px;
+}
+.modif-exo-nom { font-size: 12px; font-weight: 700; color: #ccc; line-height: 1.3; }
+.modif-exo-muscle {
+  font-size: 10px; color: #555; font-weight: 600;
+  background: #1a1a1a; padding: 2px 7px; border-radius: 20px; align-self: flex-start;
+}
+
+/* Footer modal modif */
+.modal-footer-modif {
+  display: flex; gap: 12px; padding: 16px 24px;
+  border-top: 1px solid #1e1e1e; flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .btn-modifier-seance { padding: 7px 12px; font-size: 12px; }
+  .modal-card-modif { max-height: 92vh !important; }
+  .modif-exo-grid { padding: 12px 16px; }
+  .modif-exo-img { height: 80px; }
 }
