@@ -1,28 +1,29 @@
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["public"]}
+# Site 100 % statique : pas de build, Netlify sert les fichiers tels quels.
+# (Pas de redirection « /* → /index.html » : ce n'est pas une SPA, une URL
+#  inconnue doit renvoyer une vraie 404 plutôt que la page d'accueil.)
 
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
+# CSS et JS n'ont pas d'empreinte dans leur nom de fichier : le navigateur doit
+# revalider à chaque visite, sinon les mises à jour n'arrivent jamais chez
+# les utilisateurs (Netlify répond 304 si rien n'a changé, donc ça reste rapide).
 [[headers]]
   for = "/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
+# Les images changent rarement : une semaine de cache.
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=604800"

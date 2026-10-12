@@ -32,9 +32,9 @@
   <!-- Calendrier -->
   <section class="calendar-section">
     <div class="calendar-nav">
-      <button class="cal-nav-btn" id="prev-month">&#8592;</button>
+      <button class="cal-nav-btn" id="prev-month" aria-label="Mois précédent">&#8592;</button>
       <h2 class="cal-month-label" id="cal-month-label"></h2>
-      <button class="cal-nav-btn" id="next-month">&#8594;</button>
+      <button class="cal-nav-btn" id="next-month" aria-label="Mois suivant">&#8594;</button>
     </div>
     <div class="calendar-grid" id="calendar-grid"></div>
   </section>
@@ -52,7 +52,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <h2>Programmer une séance</h2>
-        <button class="modal-close" onclick="fermerModal()">✕</button>
+        <button class="modal-close" onclick="fermerModal()" aria-label="Fermer">✕</button>
       </div>
 
       <div class="modal-body">
@@ -107,7 +107,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <h2>✏️ Modifier les exercices</h2>
-        <button class="modal-close" onclick="fermerModalEditPlanning()">✕</button>
+        <button class="modal-close" onclick="fermerModalEditPlanning()" aria-label="Fermer">✕</button>
       </div>
       <div class="modal-body">
         <div class="field-group">
@@ -133,26 +133,10 @@
     </div>
   </div>
 
+  <script src="js/commun.js"></script>
   <script src="js/planning.js"></script>
   <script src="js/notif-planning.js"></script>
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
-    hamburger.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  </script>
+  <script src="js/nav.js"></script>
 
 </body>
 </html>

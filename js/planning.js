@@ -1,96 +1,14 @@
 // ════════════════════════════════════════════════
 //  SPORT+ — planning.js
+//  Dépend de commun.js (EXERCICES_DB, dates, stockage)
 // ════════════════════════════════════════════════
-
-const EXERCICES_DB = [
-  { nom: "Développé Couché",           muscle: "pectoraux", image: "developpe-couche.jpg" },
-  { nom: "Développé Incliné",          muscle: "pectoraux", image: "developpe-incline.jpg" },
-  { nom: "Développé Décliné",          muscle: "pectoraux", image: "developpe-decline.jpg" },
-  { nom: "Développé Haltères",         muscle: "pectoraux", image: "developpe-halteres.jpg" },
-  { nom: "Écarté Couché",              muscle: "pectoraux", image: "ecarte-couche.jpg" },
-  { nom: "Écarté Incliné",             muscle: "pectoraux", image: "ecarte-incline.jpg" },
-  { nom: "Pompes",                     muscle: "pectoraux", image: "pompes.png" },
-  { nom: "Pompes Inclinées",           muscle: "pectoraux", image: "pompes-inclinees.jpg" },
-  { nom: "Dips Pectoraux",             muscle: "pectoraux", image: "dips-pectoraux.jpg" },
-  { nom: "Pull Over",                  muscle: "pectoraux", image: "pull-over.jpg" },
-  { nom: "Pec Deck",                   muscle: "pectoraux", image: "pec-deck.jpg" },
-  { nom: "Cable Crossover",            muscle: "pectoraux", image: "cable-crossover.jpg" },
-  { nom: "Tractions",                  muscle: "dos",       image: "tractions.jpg" },
-  { nom: "Tractions Pronation",        muscle: "dos",       image: "tractions-pronation.jpg" },
-  { nom: "Tractions Supination",       muscle: "dos",       image: "tractions-supination.jpg" },
-  { nom: "Rowing Barre",               muscle: "dos",       image: "rowing-barre.jpg" },
-  { nom: "Rowing Haltères",            muscle: "dos",       image: "rowing-halteres.jpg" },
-  { nom: "Rowing T-Barre",             muscle: "dos",       image: "rowing-t-barre.jpg" },
-  { nom: "Tirage Horizontal",          muscle: "dos",       image: "tirage-horizontal.jpg" },
-  { nom: "Tirage Vertical",            muscle: "dos",       image: "tirage-vertical.jpg" },
-  { nom: "Tirage Poitrine",            muscle: "dos",       image: "tirage-poitrine.jpg" },
-  { nom: "Tirage Nuque",               muscle: "dos",       image: "tirage-nuque.jpg" },
-  { nom: "Soulevé de Terre",           muscle: "dos",       image: "souleve-de-terre.jpg" },
-  { nom: "Soulevé de Terre Roumain",   muscle: "dos",       image: "souleve-de-terre-roumain.jpg" },
-  { nom: "Shrugs",                     muscle: "dos",       image: "shrugs.jpg" },
-  { nom: "Face Pull",                  muscle: "dos",       image: "face-pull.jpg" },
-  { nom: "Développé Militaire",        muscle: "epaules",   image: "Développé Militaire.jpeg" },
-  { nom: "Développé Haltères Assis",     muscle: "epaules", image: "Développé Haltères Assis.jpg" },
-  { nom: "Élévations Latérales",       muscle: "epaules",   image: "Élévations Latérales.jpg" },
-  { nom: "Élévations Frontales",       muscle: "epaules",   image: "Élévations Frontales.jpg" },
-  { nom: "Oiseau Haltères",            muscle: "epaules",   image: "Oiseau Haltères.webp" },
-  { nom: "Oiseau Poulie",              muscle: "epaules",   image: "Oiseau Poulie.jpg" },
-  { nom: "Rowing Menton",              muscle: "epaules",   image: "Rowing Menton.avif" },
-  { nom: "Arnold Press",               muscle: "epaules",   image: "Arnold Press.webp" },
-  { nom: "Élévations Latérales Câble", muscle: "epaules",   image: "Élévations Latérales Câble.webp" },
-  { nom: "Curl Barre",                 muscle: "bras",      image: "Curl Barre.webp" },
-  { nom: "Curl Haltères",              muscle: "bras",      image: "Curl Haltères.webp" },
-  { nom: "Curl Marteau",               muscle: "bras",      image: "Curl Marteau.webp" },
-  { nom: "Curl Pupitre",               muscle: "bras",      image: "Curl Pupitre.jpeg" },
-  { nom: "Curl Incliné",               muscle: "bras",      image: "Curl Incliné.webp" },
-  { nom: "Curl Concentration",         muscle: "bras",      image: "Curl Concentration.webp" },
-  { nom: "Curl Cable",                 muscle: "bras",      image: "Curl Cable.jpg" },
-  { nom: "Dips Triceps",               muscle: "bras",      image: "Dips triceps.jpeg" },
-  { nom: "Extension Nuque",            muscle: "bras",      image: "Extension Nuque.webp" },
-  { nom: "Barre au Front",             muscle: "bras",      image: "Barre au Front.jpg" },
-  { nom: "Extension Poulie Haute",     muscle: "bras",      image: "Extension Poulie Haute.jpeg" },
-  { nom: "Kickback Haltères",          muscle: "bras",      image: "Kickback Haltères.jpg" },
-  { nom: "Diamond Push-ups",           muscle: "bras",      image: "Diamond Push-ups.jpg" },
-  { nom: "Squat",                      muscle: "jambes",    image: "Squats.jpeg" },
-  { nom: "Squat Avant",                muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Squat Bulgare",              muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Presse à Cuisses",           muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Leg Extension",              muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Fentes Avant",               muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Fentes Marchées",            muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Hack Squat",                 muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Leg Curl",                   muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Leg Curl Debout",            muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Good Morning",               muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Hip Thrust",                 muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Mollets Debout",             muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Mollets Assis",              muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Mollets Presse",             muscle: "jambes",    image: "placeholder.svg" },
-  { nom: "Crunch",                     muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Crunch Obliques",            muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Relevé de Jambes",           muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Planche",                    muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Planche Latérale",           muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Mountain Climbers",          muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Russian Twist",              muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Bicycle Crunch",             muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Ab Wheel",                   muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Hanging Leg Raise",          muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Cable Crunch",               muscle: "abdos",     image: "placeholder.svg" },
-  { nom: "Sit-ups",                    muscle: "abdos",     image: "placeholder.svg" },
-];
-
-const MUSCLE_LABELS = {
-  pectoraux: "Pectoraux", dos: "Dos", epaules: "Épaules",
-  bras: "Bras", jambes: "Jambes", abdos: "Abdominaux",
-};
 
 const JOURS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 const MOIS  = ["Janvier","Février","Mars","Avril","Mai","Juin",
                "Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
 
 // ── État ────────────────────────────────────────
-let planning = JSON.parse(localStorage.getItem("planning")) || []; // [{ id, nom, date "YYYY-MM-DD", exercices[], recurrence "once"|"weekly" }]
+let planning = lireStockage("planning", []); // [{ id, nom, date "YYYY-MM-DD", exercices[], recurrence "once"|"weekly" }]
 let currentYear  = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 let selectedDate = null;
@@ -142,7 +60,7 @@ function renderCalendar() {
       <span class="cal-day-num">${d}</span>
       ${seancesDuJour.length > 0
         ? `<div class="cal-dots">${seancesDuJour.map(s =>
-            `<span class="cal-dot" title="${s.nom}"></span>`
+            `<span class="cal-dot" title="${echapperHtml(s.nom)}"></span>`
           ).join("")}</div>`
         : ""}
     `;
@@ -275,7 +193,7 @@ function sauvegarderSeanceProgrammee() {
   };
 
   planning.push(entry);
-  localStorage.setItem("planning", JSON.stringify(planning));
+  ecrireStockage("planning", planning);
 
   fermerModal();
   renderCalendar();
@@ -313,10 +231,10 @@ function renderListeProgrammees() {
             <span class="programmee-date-label">${dateStr}</span>
             ${entry.recurrence === "weekly" ? '<span class="recurrence-badge">🔁 Hebdo</span>' : ""}
           </div>
-          <div class="programmee-nom">${entry.nom}</div>
+          <div class="programmee-nom">${echapperHtml(entry.nom)}</div>
           ${entry.exercices.length > 0
             ? `<div class="programmee-exos">${entry.exercices.slice(0, 4).map(e =>
-                `<span class="exo-pill">${e}</span>`).join("")}
+                `<span class="exo-pill">${echapperHtml(e)}</span>`).join("")}
                 ${entry.exercices.length > 4
                   ? `<span class="exo-pill exo-pill-more">+${entry.exercices.length - 4}</span>`
                   : ""
@@ -329,8 +247,8 @@ function renderListeProgrammees() {
             ? `<button class="btn-lancer" onclick="lancerDepuisPlanning(${entry.id})">▶ Lancer</button>`
             : ""
           }
-          <button class="btn-edit-prog" onclick="ouvrirModalEditPlanning(${entry.id})" title="Modifier les exercices">✏️</button>
-          <button class="btn-supprimer-prog" onclick="supprimerProgrammee(${entry.id})">🗑️</button>
+          <button class="btn-edit-prog" onclick="ouvrirModalEditPlanning(${entry.id})" title="Modifier les exercices" aria-label="Modifier les exercices">✏️</button>
+          <button class="btn-supprimer-prog" onclick="supprimerProgrammee(${entry.id})" title="Supprimer" aria-label="Supprimer cette séance programmée">🗑️</button>
         </div>
       </div>`;
   }).join("");
@@ -344,15 +262,14 @@ function getSeancesAVenir() {
     if (entry.recurrence === "once") {
       if (entry.date >= today) results.push(entry);
     } else if (entry.recurrence === "weekly") {
-      // Générer les 8 prochaines occurrences
+      // Générer les 8 prochaines occurrences à partir d'aujourd'hui
+      // (et non à partir de la date de création, sinon la séance disparaît après 8 semaines)
       const baseDate = new Date(entry.date + "T12:00:00");
-      for (let i = 0; i < 8; i++) {
+      const semainesEcoulees = Math.max(0, Math.ceil(ecartJours(entry.date, today) / 7));
+      for (let i = semainesEcoulees; i < semainesEcoulees + 8; i++) {
         const d = new Date(baseDate);
         d.setDate(d.getDate() + i * 7);
-        const ds = formatDate(d.getFullYear(), d.getMonth(), d.getDate());
-        if (ds >= today) {
-          results.push({ ...entry, date: ds });
-        }
+        results.push({ ...entry, date: dateVersStr(d) });
       }
     }
   });
@@ -361,24 +278,13 @@ function getSeancesAVenir() {
 }
 
 function getSeancesPourDate(dateStr) {
-  const results = [];
-  planning.forEach(entry => {
-    if (entry.recurrence === "once" && entry.date === dateStr) {
-      results.push(entry);
-    } else if (entry.recurrence === "weekly") {
-      const base = new Date(entry.date + "T12:00:00");
-      const target = new Date(dateStr + "T12:00:00");
-      const diff = Math.round((target - base) / 86400000);
-      if (diff >= 0 && diff % 7 === 0) results.push(entry);
-    }
-  });
-  return results;
+  return planning.filter(entry => seanceTombeLe(entry, dateStr));
 }
 
 function supprimerProgrammee(id) {
   if (!confirm("Supprimer cette séance programmée ?")) return;
   planning = planning.filter(e => e.id !== id);
-  localStorage.setItem("planning", JSON.stringify(planning));
+  ecrireStockage("planning", planning);
   renderCalendar();
   renderListeProgrammees();
 }
@@ -388,18 +294,9 @@ function lancerDepuisPlanning(id) {
     || getSeancesAVenir().find(e => e.id === id);
   if (!entry) return;
   if (entry.exercices.length > 0) {
-    localStorage.setItem("seance_preloaded", JSON.stringify(entry.exercices));
+    ecrireStockage("seance_preloaded", entry.exercices);
   }
   window.location.href = "seance.html";
-}
-
-// ── UTILITAIRES ─────────────────────────────────
-function todayStr() {
-  const d = new Date();
-  return formatDate(d.getFullYear(), d.getMonth(), d.getDate());
-}
-function formatDate(y, m, d) {
-  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
 // ── INIT ────────────────────────────────────────
@@ -492,9 +389,16 @@ function sauvegarderEditPlanning() {
   if (idx === -1) return;
 
   planning[idx].exercices = [...editExosTemp];
-  localStorage.setItem("planning", JSON.stringify(planning));
+  ecrireStockage("planning", planning);
 
   fermerModalEditPlanning();
   renderCalendar();
   renderListeProgrammees();
 }
+
+// Échap ferme le modal ouvert
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (!document.getElementById("modal-create").classList.contains("hidden")) fermerModal();
+  if (!document.getElementById("modal-edit-planning").classList.contains("hidden")) fermerModalEditPlanning();
+});

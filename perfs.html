@@ -23,9 +23,8 @@
 
     <nav class="nav" id="nav">
       <a href="index.html">Accueil</a>
-      
       <a href="seance.html">Créer ma séance</a>
-      <a href="perfs.html" class="active">Mes Perfs</a>
+      <a href="planning.html">Planning</a>
       <a href="historique.html">Historique</a>
     </nav>
   </header>
@@ -43,27 +42,9 @@
     </div>
   </section>
 
+  <script src="js/commun.js"></script>
   <script src="js/perfs.js"></script>
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
-
-    hamburger.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  </script>
+  <script src="js/nav.js"></script>
 
 </body>
 </html>

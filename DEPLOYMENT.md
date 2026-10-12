@@ -98,13 +98,13 @@ Suis les instructions à l'écran et sélectionne le dossier actuel.
 - Vérifie que le dossier `assets/images` est bien présent
 - Vérifie les chemins dans le code (ils doivent être relatifs : `assets/images/...`)
 
-### Les pages 404 lors du rafraîchissement
-- Le fichier `netlify.toml` devrait gérer ça automatiquement
-- Sinon, ajoute une règle de redirection dans les paramètres Netlify
+### Une page renvoie 404
+- Le site n'est pas une SPA : chaque page est un vrai fichier `.html`
+- Vérifie que l'URL correspond bien à un fichier existant (ex : `/planning.html`)
 
 ### Le site ne se met pas à jour
 - Va dans "Deploys" et déclenche un nouveau déploiement
-- Vide le cache du navigateur (Ctrl+Shift+R ou Cmd+Shift+R)
+- CSS et JS sont revalidés à chaque visite (voir `netlify.toml`) : un simple rechargement suffit
 
 ---
 

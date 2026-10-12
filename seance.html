@@ -106,7 +106,7 @@
     <div class="modal-card modal-card-modif">
       <div class="modal-header-modif">
         <h2>✏️ Modifier la séance</h2>
-        <button class="modal-close-btn" onclick="fermerModalModif()">✕</button>
+        <button class="modal-close-btn" onclick="fermerModalModif()" aria-label="Fermer">✕</button>
       </div>
       <p class="modal-modif-hint">Les exercices déjà terminés ne peuvent pas être retirés.</p>
 
@@ -133,25 +133,10 @@
     </div>
   </div>
 
+  <script src="js/commun.js"></script>
   <script src="js/seance.js"></script>
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const nav = document.getElementById('nav');
-    hamburger.addEventListener('click', () => {
-      const isOpen = nav.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-  </script>
-  <script src="js/notif-planning.js"></script>
+  <script src="js/nav.js"></script>
+  <!-- Pas de notif-planning ici : on est déjà en train de créer sa séance,
+       et la notif masquait la barre « Let's go » sur mobile. -->
 </body>
 </html>
