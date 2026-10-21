@@ -1,121 +1,36 @@
 // ════════════════════════════════════════════════
 //  SPORT+ — seance.js
 //  Flux : Sélection → Séance active → Historique
+//  Dépend de commun.js (EXERCICES_DB, stockage)
 // ════════════════════════════════════════════════
-
-// ── Base de données des exercices ──────────────
-const EXERCICES_DB = [
-  // PECTORAUX
-  { nom: "Développé Couché",     muscle: "pectoraux", image: "developpe-couche.jpg" },
-  { nom: "Développé Incliné",    muscle: "pectoraux", image: "developpe-incline.jpg" },
-  { nom: "Développé Décliné",    muscle: "pectoraux", image: "developpe-decline.jpg" },
-  { nom: "Développé Haltères",   muscle: "pectoraux", image: "developpe-halteres.jpg" },
-  { nom: "Écarté Couché",        muscle: "pectoraux", image: "ecarte-couche.jpg" },
-  { nom: "Écarté Incliné",       muscle: "pectoraux", image: "ecarte-incline.jpg" },
-  { nom: "Pompes",               muscle: "pectoraux", image: "pompes.png" },
-  { nom: "Pompes Inclinées",     muscle: "pectoraux", image: "pompes-inclinees.jpg" },
-  { nom: "Dips Pectoraux",       muscle: "pectoraux", image: "dips-pectoraux.jpg" },
-  { nom: "Pull Over",            muscle: "pectoraux", image: "pull-over.jpg" },
-  { nom: "Pec Deck",             muscle: "pectoraux", image: "pec-deck.jpg" },
-  { nom: "Cable Crossover",      muscle: "pectoraux", image: "cable-crossover.jpg" },
-  // DOS
-  { nom: "Tractions",            muscle: "dos", image: "tractions.jpg" },
-  { nom: "Tractions Pronation",  muscle: "dos", image: "tractions-pronation.jpg" },
-  { nom: "Tractions Supination", muscle: "dos", image: "tractions-supination.jpg" },
-  { nom: "Rowing Barre",         muscle: "dos", image: "rowing-barre.jpg" },
-  { nom: "Rowing Haltères",      muscle: "dos", image: "rowing-halteres.jpg" },
-  { nom: "Rowing T-Barre",       muscle: "dos", image: "rowing-t-barre.jpg" },
-  { nom: "Tirage Horizontal",    muscle: "dos", image: "tirage-horizontal.jpg" },
-  { nom: "Tirage Vertical",      muscle: "dos", image: "tirage-vertical.jpg" },
-  { nom: "Tirage Poitrine",      muscle: "dos", image: "tirage-poitrine.jpg" },
-  { nom: "Tirage Nuque",         muscle: "dos", image: "tirage-nuque.jpg" },
-  { nom: "Soulevé de Terre",     muscle: "dos", image: "souleve-de-terre.jpg" },
-  { nom: "Soulevé de Terre Roumain", muscle: "dos", image: "souleve-de-terre-roumain.jpg" },
-  { nom: "Shrugs",               muscle: "dos", image: "shrugs.jpg" },
-  { nom: "Face Pull",            muscle: "dos", image: "face-pull.jpg" },
-  // ÉPAULES
-  { nom: "Développé Militaire",          muscle: "epaules", image: "Développé Militaire.jpeg" },
-  { nom: "Développé Haltères Assis",     muscle: "epaules", image: "Développé Haltères Assis.jpg" },
-  { nom: "Élévations Latérales",         muscle: "epaules", image: "Élévations Latérales.jpg" },
-  { nom: "Élévations Frontales",         muscle: "epaules", image: "Élévations Frontales.jpg" },
-  { nom: "Oiseau Haltères",              muscle: "epaules", image: "Oiseau Haltères.webp" },
-  { nom: "Oiseau Poulie",                muscle: "epaules", image: "Oiseau Poulie.jpg" },
-  { nom: "Rowing Menton",                muscle: "epaules", image: "Rowing Menton.avif" },
-  { nom: "Arnold Press",                 muscle: "epaules", image: "Arnold Press.webp" },
-  { nom: "Élévations Latérales Câble",   muscle: "epaules", image: "Élévations Latérales Câble.webp" },
-  // BRAS
-  { nom: "Curl Barre",           muscle: "bras", image: "Curl Barre.webp" },
-  { nom: "Curl Haltères",        muscle: "bras", image: "Curl Haltères.webp" },
-  { nom: "Curl Marteau",         muscle: "bras", image: "Curl Marteau.webp" },
-  { nom: "Curl Pupitre",         muscle: "bras", image: "Curl Pupitre.jpeg" },
-  { nom: "Curl Incliné",         muscle: "bras", image: "Curl Incliné.webp" },
-  { nom: "Curl Concentration",   muscle: "bras", image: "Curl Concentration.webp" },
-  { nom: "Curl Cable",           muscle: "bras", image: "Curl Cable.jpg" },
-  { nom: "Dips triceps",         muscle: "bras", image: "Dips triceps.jpeg" },
-  { nom: "Extension Nuque",      muscle: "bras", image: "Extension Nuque.webp" },
-  { nom: "Barre au Front",       muscle: "bras", image: "Barre au Front.jpg" },
-  { nom: "Extension Poulie Haute", muscle: "bras", image: "Extension Poulie Haute.jpeg" },
-  { nom: "Kickback Haltères",    muscle: "bras", image: "Kickback Haltères.jpg" },
-  { nom: "Diamond Push-ups",     muscle: "bras", image: "Diamond Push-ups.jpg" },
-  // JAMBES
-  { nom: "Squat",                muscle: "jambes", image: "Squats.jpeg" },
-  { nom: "Squat Avant",          muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Squat Bulgare",        muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Presse à Cuisses",     muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Leg Extension",        muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Fentes Avant",         muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Fentes Marchées",      muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Hack Squat",           muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Leg Curl",             muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Leg Curl Debout",      muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Good Morning",         muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Hip Thrust",           muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Mollets Debout",       muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Mollets Assis",        muscle: "jambes", image: "placeholder.svg" },
-  { nom: "Mollets Presse",       muscle: "jambes", image: "placeholder.svg" },
-  // ABDOMINAUX
-  { nom: "Crunch",               muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Crunch Obliques",      muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Relevé de Jambes",     muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Planche",              muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Planche Latérale",     muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Mountain Climbers",    muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Russian Twist",        muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Bicycle Crunch",       muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Ab Wheel",             muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Hanging Leg Raise",    muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Cable Crunch",         muscle: "abdos", image: "placeholder.svg" },
-  { nom: "Sit-ups",              muscle: "abdos", image: "placeholder.svg" },
-];
-
-const MUSCLE_LABELS = {
-  pectoraux: "Pectoraux",
-  dos:       "Dos",
-  epaules:   "Épaules",
-  bras:      "Bras",
-  jambes:    "Jambes",
-  abdos:     "Abdominaux",
-};
 
 // ── État de l'application ───────────────────────
 let exercicesSelectionnes = []; // noms des exos choisis
 let seanceData = [];            // [{ nom, muscle, series: [{ reps, charge, validee }] }]
 let timerInterval = null;
 let timerSeconds = 0;
+let debutSeance = null;          // timestamp (ms) du lancement, sert au chrono
 let exosTermines = 0;
+
+// La séance en cours est sauvegardée à chaque action : un rechargement de page,
+// un verrouillage du téléphone ou un onglet fermé ne fait plus perdre la séance.
+const CLE_SEANCE_EN_COURS = "seance_en_cours";
+// Au-delà, on considère la séance abandonnée plutôt que de la reprendre
+const DUREE_MAX_REPRISE_MS = 6 * 60 * 60 * 1000;
 
 // ── Initialisation ──────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  // Précharger les exercices depuis le planning si disponibles
-  const preloaded = localStorage.getItem("seance_preloaded");
-  if (preloaded) {
-    try {
-      const exos = JSON.parse(preloaded);
-      if (Array.isArray(exos) && exos.length > 0) {
-        exercicesSelectionnes = exos.filter(nom => EXERCICES_DB.some(e => e.nom === nom));
-      }
-    } catch(e) {}
-    localStorage.removeItem("seance_preloaded");
+  // Une séance en cours est prioritaire : la présélection éventuelle
+  // (planning / bibliothèque) reste en attente pour la prochaine séance.
+  const reprise = restaurerSeanceEnCours();
+
+  if (!reprise) {
+    // Précharger les exercices depuis le planning si disponibles
+    const exos = lireStockage("seance_preloaded", null);
+    if (Array.isArray(exos) && exos.length > 0) {
+      exercicesSelectionnes = exos.filter(nom => EXERCICES_DB.some(e => e.nom === nom));
+    }
+    try { localStorage.removeItem("seance_preloaded"); } catch (e) {}
   }
 
   genererGrille("all");
@@ -135,6 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.classList.add("active");
       renderModifGrille(btn.dataset.muscle);
     });
+  });
+
+  // Échap ferme le modal de modification
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !document.getElementById("modal-modif").classList.contains("hidden")) {
+      fermerModalModif();
+    }
   });
 });
 
@@ -221,7 +143,7 @@ function lancerSeance() {
   if (exercicesSelectionnes.length === 0) return;
 
   // Récupérer les perfs sauvegardées pour pré-remplir la charge
-  const perfs = JSON.parse(localStorage.getItem("perfs")) || {};
+  const perfs = lireStockage("perfs", {});
 
   // Construire la structure de la séance
   seanceData = exercicesSelectionnes.map(nom => {
@@ -234,6 +156,16 @@ function lancerSeance() {
     };
   });
 
+  exosTermines = 0;
+  debutSeance = Date.now();
+  sauvegarderSeanceEnCours();
+
+  afficherSeanceActive();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Bascule l'affichage sur l'étape 2 à partir de l'état courant
+function afficherSeanceActive() {
   // Masquer étape 1, afficher étape 2
   document.getElementById("step-selection").classList.add("hidden");
   const stepSeance = document.getElementById("step-seance");
@@ -241,17 +173,48 @@ function lancerSeance() {
   stepSeance.classList.add("fade-in");
 
   // Mettre à jour les compteurs
-  document.getElementById("total-exo-count").textContent = seanceData.length;
-  document.getElementById("current-exo-index").textContent = 1;
-  updateProgressBar();
+  majCompteurs();
 
   // Lancer le chrono
   demarrerTimer();
 
   // Rendre la séance
   renderSeance();
+  majZoneFin();
+}
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+// ────────────────────────────────────────────────
+//  PERSISTANCE DE LA SÉANCE EN COURS
+// ────────────────────────────────────────────────
+
+function sauvegarderSeanceEnCours() {
+  ecrireStockage(CLE_SEANCE_EN_COURS, { debut: debutSeance, exercices: seanceData });
+}
+
+function effacerSeanceEnCours() {
+  try { localStorage.removeItem(CLE_SEANCE_EN_COURS); } catch (e) {}
+}
+
+function restaurerSeanceEnCours() {
+  const sauvegarde = lireStockage(CLE_SEANCE_EN_COURS, null);
+  const valide = sauvegarde
+    && Array.isArray(sauvegarde.exercices) && sauvegarde.exercices.length > 0
+    && typeof sauvegarde.debut === "number"
+    && Date.now() - sauvegarde.debut < DUREE_MAX_REPRISE_MS;
+
+  if (!valide) {
+    effacerSeanceEnCours();
+    return false;
+  }
+
+  seanceData = sauvegarde.exercices;
+  debutSeance = sauvegarde.debut;
+  exercicesSelectionnes = seanceData.map(e => e.nom);
+  exosTermines = seanceData.filter(e => e.termine).length;
+
+  afficherSeanceActive();
+  showToast("Séance en cours reprise 💪", "success");
+  return true;
 }
 
 // ────────────────────────────────────────────────
@@ -348,6 +311,7 @@ function renderSeries(exoIdx, series) {
 
 function updateSerie(exoIdx, sIdx, champ, valeur) {
   seanceData[exoIdx].series[sIdx][champ] = valeur;
+  sauvegarderSeanceEnCours();
 }
 
 function validerSerie(exoIdx, sIdx) {
@@ -360,6 +324,7 @@ function validerSerie(exoIdx, sIdx) {
   }
 
   serie.validee = true;
+  sauvegarderSeanceEnCours();
 
   // Sauvegarder la charge dans les perfs si renseignée
   if (serie.charge && parseFloat(serie.charge) > 0) {
@@ -373,7 +338,7 @@ function validerSerie(exoIdx, sIdx) {
       <div class="serie-row serie-validee" id="serie-row-${exoIdx}-${sIdx}">
         <span class="serie-num">${sIdx + 1}</span>
         <input type="number" class="serie-input reps-input" value="${serie.reps}" disabled>
-        <input type="number" class="serie-input charge-input" value="${serie.charge || '-'}" disabled>
+        <input type="number" class="serie-input charge-input" value="${serie.charge || ''}" placeholder="-" disabled>
         <span class="serie-check">✓</span>
       </div>
     `;
@@ -384,10 +349,11 @@ function validerSerie(exoIdx, sIdx) {
 
 function ajouterSerie(exoIdx) {
   const exo = seanceData[exoIdx];
-  const perfs = JSON.parse(localStorage.getItem("perfs")) || {};
+  const perfs = lireStockage("perfs", {});
   const dernierPoids = perfs[exo.nom] ? parseFloat(perfs[exo.nom]) : "";
 
   exo.series.push({ reps: "", charge: dernierPoids, validee: false });
+  sauvegarderSeanceEnCours();
 
   // Re-render uniquement les rows
   const rowsContainer = document.getElementById(`series-rows-${exoIdx}`);
@@ -410,10 +376,10 @@ function validerExercice(exoIdx) {
 
   exo.termine = true;
   exosTermines++;
+  sauvegarderSeanceEnCours();
 
   // Mettre à jour le compteur global
-  document.getElementById("current-exo-index").textContent = Math.min(exosTermines + 1, seanceData.length);
-  updateProgressBar();
+  majCompteurs();
 
   // Animer la carte
   const card = document.getElementById(`exo-card-${exoIdx}`);
@@ -433,10 +399,8 @@ function validerExercice(exoIdx) {
   // Si tous les exos sont terminés, afficher le bouton final
   if (exosTermines === seanceData.length) {
     setTimeout(() => {
-      const finZone = document.getElementById("finish-zone");
-      finZone.classList.remove("hidden");
-      finZone.classList.add("fade-in");
-      finZone.scrollIntoView({ behavior: "smooth", block: "center" });
+      majZoneFin();
+      document.getElementById("finish-zone").scrollIntoView({ behavior: "smooth", block: "center" });
     }, 400);
   } else {
     // Scroll vers le prochain exercice
@@ -452,12 +416,12 @@ function validerExercice(exoIdx) {
 // ────────────────────────────────────────────────
 
 function sauvegarderPerf(nomExercice, charge) {
-  const perfs = JSON.parse(localStorage.getItem("perfs")) || {};
+  const perfs = lireStockage("perfs", {});
   // On garde la charge la plus élevée de la séance
   const chargeActuelle = parseFloat(perfs[nomExercice]) || 0;
   if (parseFloat(charge) > chargeActuelle) {
     perfs[nomExercice] = String(charge);
-    localStorage.setItem("perfs", JSON.stringify(perfs));
+    ecrireStockage("perfs", perfs);
   }
 }
 
@@ -487,9 +451,10 @@ function terminerSeance() {
   };
 
   // Sauvegarder dans l'historique
-  const historique = JSON.parse(localStorage.getItem("historique")) || [];
+  const historique = lireStockage("historique", []);
   historique.push(seanceComplete);
-  localStorage.setItem("historique", JSON.stringify(historique));
+  ecrireStockage("historique", historique);
+  effacerSeanceEnCours();
 
   // Afficher le modal de fin
   const totalSeries = seanceComplete.exercices.reduce((acc, e) => acc + e.series.length, 0);
@@ -515,11 +480,16 @@ function resetApp() {
 //  UTILITAIRES
 // ────────────────────────────────────────────────
 
+// Le chrono est calculé à partir de l'heure de début : il reste juste même si
+// le navigateur suspend l'onglet (écran verrouillé, appli en arrière-plan).
 function demarrerTimer() {
-  timerInterval = setInterval(() => {
-    timerSeconds++;
+  arreterTimer();
+  const tick = () => {
+    timerSeconds = Math.max(0, Math.floor((Date.now() - debutSeance) / 1000));
     document.getElementById("seance-timer").textContent = "⏱ " + formatDuree(timerSeconds);
-  }, 1000);
+  };
+  tick();
+  timerInterval = setInterval(tick, 1000);
 }
 
 function arreterTimer() {
@@ -528,14 +498,31 @@ function arreterTimer() {
 }
 
 function formatDuree(s) {
-  const m = Math.floor(s / 60);
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
-  return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  const mmss = `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  return h > 0 ? `${h}:${mmss}` : mmss;
 }
 
 function updateProgressBar() {
   const pct = seanceData.length > 0 ? (exosTermines / seanceData.length) * 100 : 0;
   document.getElementById("global-progress-fill").style.width = pct + "%";
+}
+
+function majCompteurs() {
+  document.getElementById("total-exo-count").textContent = seanceData.length;
+  document.getElementById("current-exo-index").textContent = Math.min(exosTermines + 1, seanceData.length);
+  updateProgressBar();
+}
+
+// Le bouton de fin n'est visible que si tous les exercices sont terminés
+// (y compris après un ajout / retrait via « Modifier »).
+function majZoneFin() {
+  const finZone = document.getElementById("finish-zone");
+  const toutFini = seanceData.length > 0 && exosTermines === seanceData.length;
+  finZone.classList.toggle("hidden", !toutFini);
+  finZone.classList.toggle("fade-in", toutFini);
 }
 
 // Toast notifications
@@ -633,7 +620,7 @@ function appliquerModif() {
     return;
   }
 
-  const perfs = JSON.parse(localStorage.getItem("perfs")) || {};
+  const perfs = lireStockage("perfs", {});
 
   // Exercices terminés — on les garde tels quels
   const exosTerminesData = seanceData.filter(e => e.termine);
@@ -669,14 +656,14 @@ function appliquerModif() {
 
   // Recalculer exosTermines
   exosTermines = seanceData.filter(e => e.termine).length;
+  sauvegarderSeanceEnCours();
 
   // Mettre à jour les compteurs
-  document.getElementById("total-exo-count").textContent = seanceData.length;
-  document.getElementById("current-exo-index").textContent = Math.min(exosTermines + 1, seanceData.length);
-  updateProgressBar();
+  majCompteurs();
 
   // Re-render la séance
   renderSeance();
+  majZoneFin();
 
   fermerModalModif();
 

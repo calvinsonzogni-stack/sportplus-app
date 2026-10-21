@@ -1,17 +1,9 @@
 // ════════════════════════════════════════════════
 //  SPORT+ — historique.js
+//  Dépend de commun.js (MUSCLE_LABELS, dates, stockage)
 // ════════════════════════════════════════════════
 
-let historique = JSON.parse(localStorage.getItem("historique")) || [];
-
-const MUSCLE_LABELS = {
-  pectoraux: "Pectoraux",
-  dos:       "Dos",
-  epaules:   "Épaules",
-  bras:      "Bras",
-  jambes:    "Jambes",
-  abdos:     "Abdominaux",
-};
+let historique = lireStockage("historique", []);
 
 // ── STATS RAPIDES ───────────────────────────────
 function calculerStats() {
@@ -29,18 +21,18 @@ function calculerStats() {
   document.getElementById("progression-mois").textContent = calculerProgressionMois();
 }
 
+// Nombre de jours consécutifs avec au moins une séance, en remontant depuis
+// aujourd'hui (ou depuis hier : la série n'est pas perdue tant que la journée n'est pas finie).
 function calculerStreak() {
-  if (!historique.length) return 0;
-  const sorted = [...historique].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const jours = new Set(historique.map(s => dateVersStr(new Date(s.date))));
+  const curseur = new Date();
+  curseur.setHours(12, 0, 0, 0);
+  if (!jours.has(dateVersStr(curseur))) curseur.setDate(curseur.getDate() - 1);
+
   let streak = 0;
-  let refDate = new Date();
-  refDate.setHours(0, 0, 0, 0);
-  for (const seance of sorted) {
-    const d = new Date(seance.date);
-    d.setHours(0, 0, 0, 0);
-    const diff = Math.floor((refDate - d) / 86400000);
-    if (diff === streak || (streak === 0 && diff === 0)) { streak++; refDate = d; }
-    else break;
+  while (jours.has(dateVersStr(curseur))) {
+    streak++;
+    curseur.setDate(curseur.getDate() - 1);
   }
   return streak;
 }
@@ -137,7 +129,7 @@ function afficherRecords(muscleFilter = "all") {
       <div class="record-card ${isPodium ? "record-podium" : ""}">
         <div class="record-top">
           <div class="record-exo-info">
-            <span class="record-nom">${nom}</span>
+            <span class="record-nom">${echapperHtml(nom)}</span>
             <span class="record-muscle-tag">${muscleLabel}</span>
           </div>
           ${isPodium ? `<span class="podium-badge">${["🥇","🥈","🥉"][idx]}</span>` : ""}
@@ -181,8 +173,15 @@ function populateExerciceSelect() {
   select.addEventListener("change", () => creerGraphiqueEvolution(select.value));
 }
 
+// Chart.js est embarqué localement ; on vérifie quand même sa présence
+// pour que les stats et la liste s'affichent même si le script n'a pas chargé.
+function chartDisponible() {
+  return typeof Chart !== "undefined";
+}
+
 let evolutionChart = null;
 function creerGraphiqueEvolution(nomExo) {
+  if (!chartDisponible()) return;
   const ctx = document.getElementById("evolution-chart").getContext("2d");
   if (evolutionChart) evolutionChart.destroy();
   if (!nomExo) return;
@@ -239,6 +238,7 @@ function creerGraphiqueEvolution(nomExo) {
 
 let frequenceChart = null;
 function creerGraphiqueFrequence() {
+  if (!chartDisponible()) return;
   const ctx = document.getElementById("frequence-chart").getContext("2d");
   if (frequenceChart) frequenceChart.destroy();
 
@@ -332,7 +332,7 @@ function afficherHistorique() {
               </div>
             </div>
           </div>
-          <button class="btn-delete" onclick="supprimerSeance(${realIdx})">🗑️</button>
+          <button class="btn-delete" onclick="supprimerSeance(${realIdx})" title="Supprimer" aria-label="Supprimer cette séance">🗑️</button>
         </div>
         <div class="exercices-list">
           ${seance.exercices.map(exo => renderExoHistorique(exo)).join("")}
@@ -348,14 +348,14 @@ function renderExoHistorique(exo) {
     ).join("");
     return `
       <div class="exercice-item exercice-item-rich">
-        <div class="exercice-nom">${exo.nom}</div>
+        <div class="exercice-nom">${echapperHtml(exo.nom)}</div>
         <div class="exercice-series">${seriesHtml}</div>
         ${exo.chargeMax > 0 ? `<div class="exercice-poids">Max : ${exo.chargeMax} kg</div>` : ""}
       </div>`;
   }
   return `
     <div class="exercice-item">
-      <span class="exercice-nom">${exo.nom}</span>
+      <span class="exercice-nom">${echapperHtml(exo.nom)}</span>
       <span class="exercice-poids">${exo.poids ? exo.poids + " kg" : "—"}</span>
     </div>`;
 }
@@ -363,7 +363,7 @@ function renderExoHistorique(exo) {
 function supprimerSeance(index) {
   if (confirm("Supprimer cette séance ?")) {
     historique.splice(index, 1);
-    localStorage.setItem("historique", JSON.stringify(historique));
+    ecrireStockage("historique", historique);
     location.reload();
   }
 }
@@ -379,6 +379,6 @@ function clearHistory() {
 calculerStats();
 afficherRecords();
 initRecordFilters();
+afficherHistorique();
 populateExerciceSelect();
 creerGraphiqueFrequence();
-afficherHistorique();

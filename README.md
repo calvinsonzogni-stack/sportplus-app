@@ -4,32 +4,31 @@ Application web pour créer et suivre ses séances de musculation.
 
 ## Fonctionnalités
 
-- **Bibliothèque d'exercices** : Plus de 100 exercices classés par groupe musculaire
-- **Création de séances** : Compose ta séance personnalisée
-- **Suivi des performances** : Enregistre tes poids pour chaque exercice
+- **Bibliothèque d'exercices** : 75 exercices classés par groupe musculaire
+- **Création de séances** : Compose ta séance, saisis tes séries (reps × charge) avec chrono
+- **Reprise automatique** : une séance en cours survit à un rechargement ou à l'écran verrouillé
+- **Planning** : Programme tes séances (ponctuelles ou hebdomadaires) avec rappel le jour J
+- **Suivi des performances** : La charge max de chaque exercice est retenue et pré-remplie
 - **Historique** : Visualise ta progression avec des graphiques
-- **Statistiques** : Suivi des séries consécutives, exercice favori, etc.
+- **Statistiques** : Jours consécutifs, exercice favori, records personnels
 
 ## Structure du projet
 
 ```
 sport-plus/
 ├── index.html           # Page d'accueil
-├── exercices.html       # Liste des exercices
-├── seance.html          # Création de séance
-├── perfs.html           # Enregistrement des performances
+├── seance.html          # Création + suivi de la séance en cours
+├── planning.html        # Calendrier des séances programmées
 ├── historique.html      # Historique et statistiques
-├── css/                 # Fichiers de styles
-│   ├── acceuille.css
-│   ├── exercices.css
-│   ├── seance.css
-│   ├── perfs.css
-│   └── historique.css
-├── js/                  # Scripts JavaScript
-│   ├── exercices.js
-│   ├── seance.js
-│   ├── perfs.js
-│   └── historique.js
+├── exercices.html       # Bibliothèque d'exercices (page secondaire)
+├── perfs.html           # Saisie manuelle des charges (page secondaire)
+├── css/                 # Un fichier par page + mobile.css (commun)
+├── js/
+│   ├── commun.js        # Liste des exercices + utilitaires partagés (à charger en premier)
+│   ├── nav.js           # Menu hamburger
+│   ├── notif-planning.js# Rappel « séance prévue aujourd'hui »
+│   ├── <page>.js        # Logique propre à chaque page
+│   └── vendor/          # Chart.js 4.4.0 (MIT), embarqué pour fonctionner hors ligne
 └── assets/
     └── images/          # Images des exercices
 ```
@@ -39,7 +38,7 @@ sport-plus/
 - HTML5
 - CSS3
 - JavaScript (Vanilla)
-- Chart.js (pour les graphiques)
+- Chart.js 4.4.0 (graphiques, copie locale dans `js/vendor/`)
 - LocalStorage (pour la persistance des données)
 
 ## Déploiement sur Netlify
@@ -67,7 +66,8 @@ npx http-server
 ## Notes
 
 - Les données sont stockées localement dans le navigateur (LocalStorage)
-- Aucune connexion internet requise après le premier chargement
+- Aucune dépendance externe : tout est servi par le site lui-même
+- Pour ajouter un exercice, il suffit de l'ajouter dans `EXERCICES_DB` (`js/commun.js`) : toutes les pages le voient
 - Compatible avec tous les navigateurs modernes
 
 ---
