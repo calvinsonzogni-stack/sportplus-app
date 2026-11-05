@@ -240,3 +240,56 @@
 @media (prefers-reduced-motion: reduce) {
   .btn-demarrer.reprise { animation: none; }
 }
+
+/* ── Installer l'appli ───────────────────────── */
+.installer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px dashed rgba(var(--accent-rgb), 0.6);
+  border-radius: 18px;
+}
+.installer img { flex-shrink: 0; border-radius: 12px; }
+.installer-texte { flex: 1; min-width: 0; }
+.installer-titre { font-size: 16px; font-weight: 800; }
+.installer-sous { margin-top: 2px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+.installer-actions { display: flex; flex-direction: column; align-items: stretch; gap: 4px; flex-shrink: 0; }
+.installer-btn {
+  min-height: 42px; padding: 0 18px;
+  background: var(--accent); border: none; border-radius: 12px;
+  color: #fff; font-size: 15px; font-weight: 800; cursor: pointer;
+  transition: background 0.2s;
+}
+.installer-btn:hover { background: var(--accent-hover); }
+.installer-plus-tard {
+  min-height: 32px; background: none; border: none;
+  color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.installer-plus-tard:hover { color: #fff; }
+
+.guide-etapes { list-style: none; display: grid; gap: 14px; counter-reset: etape; }
+.guide-etapes li {
+  display: flex; align-items: center; gap: 14px;
+  color: #ddd; font-size: 15px; line-height: 1.45;
+}
+.guide-etapes strong { color: #fff; }
+.guide-ico {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+  color: #4da3ff; font-size: 22px; font-weight: 900;
+}
+.guide-ico svg {
+  width: 24px; height: 24px; fill: none;
+  stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.guide-ico-app img { border-radius: 7px; }
+
+@media (max-width: 400px) {
+  .installer { flex-wrap: wrap; }
+  .installer-actions { flex-direction: row; width: 100%; }
+  .installer-btn { flex: 1; }
+}

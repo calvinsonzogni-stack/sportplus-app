@@ -77,6 +77,19 @@
       <div class="chiffre"><span class="chiffre-valeur" id="stat-total">0</span><span class="chiffre-label">séance(s) au total</span></div>
     </section>
 
+    <!-- Installer l'appli sur l'écran d'accueil (affichée seulement si utile) -->
+    <section class="installer hidden" id="installer" aria-label="Installer Sport+">
+      <img src="assets/icons/icon-192.png" alt="" width="52" height="52">
+      <div class="installer-texte">
+        <p class="installer-titre">Installe Sport+ sur ton téléphone</p>
+        <p class="installer-sous">Une icône sur l'écran d'accueil, et l'appli marche même sans réseau.</p>
+      </div>
+      <div class="installer-actions">
+        <button type="button" class="installer-btn" id="btn-installer">Installer</button>
+        <button type="button" class="installer-plus-tard" id="btn-installer-plus-tard">Plus tard</button>
+      </div>
+    </section>
+
     <!-- Raccourcis secondaires -->
     <nav class="raccourcis" aria-label="Raccourcis">
       <a href="exercices.html">🏋️ Tous les exercices</a>
@@ -84,6 +97,30 @@
       <a href="planning.html">🗓️ Programmer une séance</a>
     </nav>
   </main>
+
+  <!-- GUIDE D'INSTALLATION (quand le navigateur ne peut pas installer tout seul) -->
+  <div class="pseudo-modal-overlay hidden" id="guide-install" role="dialog" aria-modal="true" aria-labelledby="guide-titre">
+    <div class="pseudo-modal-card guide-card">
+      <div class="pseudo-modal-header">
+        <h2 id="guide-titre">Ajouter Sport+ à l'écran d'accueil</h2>
+      </div>
+      <div class="pseudo-modal-body">
+        <ol class="guide-etapes" data-guide="ios">
+          <li><span class="guide-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></span><span>Touche le bouton <strong>Partager</strong> de Safari (en bas de l'écran, ou en haut sur iPad).</span></li>
+          <li><span class="guide-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span>Fais défiler et choisis <strong>« Sur l'écran d'accueil »</strong>.</span></li>
+          <li><span class="guide-ico guide-ico-app"><img src="assets/icons/icon-192.png" alt="" width="28" height="28"></span><span>Touche <strong>Ajouter</strong> : l'icône Sport+ apparaît avec tes applis.</span></li>
+        </ol>
+        <ol class="guide-etapes hidden" data-guide="autre">
+          <li><span class="guide-ico">⋮</span><span>Ouvre le <strong>menu du navigateur</strong> (les trois points ou les trois traits).</span></li>
+          <li><span class="guide-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span>Choisis <strong>« Installer l'application »</strong> ou <strong>« Ajouter à l'écran d'accueil »</strong>.</span></li>
+          <li><span class="guide-ico guide-ico-app"><img src="assets/icons/icon-192.png" alt="" width="28" height="28"></span><span>Confirme : l'icône Sport+ apparaît avec tes applis.</span></li>
+        </ol>
+      </div>
+      <div class="pseudo-modal-footer">
+        <button type="button" class="pseudo-btn primary guide-ok">C'est compris</button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL PSEUDO -->
   <div class="pseudo-modal-overlay hidden" id="pseudo-modal" role="dialog" aria-modal="true" aria-label="Mon pseudo">
@@ -108,6 +145,7 @@
   <script src="js/commun.js"></script>
   <script src="js/pieces.js"></script>
   <script src="js/accueil.js"></script>
+  <script src="js/installer.js"></script>
 
 </body>
 </html>
