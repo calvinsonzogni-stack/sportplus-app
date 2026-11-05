@@ -8,7 +8,7 @@ let historique = lireStockage("historique", []);
 // ── STATS RAPIDES ───────────────────────────────
 function calculerStats() {
   document.getElementById("total-seances").textContent = historique.length;
-  document.getElementById("streak").textContent = calculerStreak();
+  document.getElementById("streak").textContent = joursConsecutifs(historique);
 
   const favori = trouverExerciceFavori();
   const el = document.getElementById("exercice-favori");
@@ -21,21 +21,6 @@ function calculerStats() {
   document.getElementById("progression-mois").textContent = calculerProgressionMois();
 }
 
-// Nombre de jours consécutifs avec au moins une séance, en remontant depuis
-// aujourd'hui (ou depuis hier : la série n'est pas perdue tant que la journée n'est pas finie).
-function calculerStreak() {
-  const jours = new Set(historique.map(s => dateVersStr(new Date(s.date))));
-  const curseur = new Date();
-  curseur.setHours(12, 0, 0, 0);
-  if (!jours.has(dateVersStr(curseur))) curseur.setDate(curseur.getDate() - 1);
-
-  let streak = 0;
-  while (jours.has(dateVersStr(curseur))) {
-    streak++;
-    curseur.setDate(curseur.getDate() - 1);
-  }
-  return streak;
-}
 
 function trouverExerciceFavori() {
   const cnt = {};
@@ -179,6 +164,13 @@ function chartDisponible() {
   return typeof Chart !== "undefined";
 }
 
+// Couleurs des graphiques : celles du thème (theme.css)
+function couleurTheme(nom, defaut) {
+  return getComputedStyle(document.documentElement).getPropertyValue(nom).trim() || defaut;
+}
+const ROUGE = couleurTheme("--accent", "#e10600");
+const ROUGE_RGB = couleurTheme("--accent-rgb", "225, 6, 0");
+
 let evolutionChart = null;
 function creerGraphiqueEvolution(nomExo) {
   if (!chartDisponible()) return;
@@ -211,10 +203,10 @@ function creerGraphiqueEvolution(nomExo) {
       datasets: [{
         label: "Charge max (kg)",
         data: points.map(p => p.y),
-        borderColor: "#00ff88",
-        backgroundColor: "rgba(0,255,136,0.08)",
+        borderColor: ROUGE,
+        backgroundColor: `rgba(${ROUGE_RGB},0.12)`,
         borderWidth: 2.5,
-        pointBackgroundColor: "#00ff88",
+        pointBackgroundColor: ROUGE,
         pointBorderColor: "#0a0a0a",
         pointBorderWidth: 2,
         pointRadius: 6,
@@ -269,8 +261,8 @@ function creerGraphiqueFrequence() {
       datasets: [{
         label: "Séances",
         data: Object.values(semaines),
-        backgroundColor: "rgba(0,255,136,0.4)",
-        borderColor: "#00ff88",
+        backgroundColor: `rgba(${ROUGE_RGB},0.45)`,
+        borderColor: ROUGE,
         borderWidth: 2,
         borderRadius: 8,
       }],

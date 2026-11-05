@@ -5,151 +5,147 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <title>Sport+ | Accueil</title>
   <link rel="stylesheet" href="css/acceuille.css">
   <link rel="stylesheet" href="css/mobile.css">
-  <link rel="stylesheet" href="css/planning.css">
+  <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
 
   <!-- Header -->
   <header class="header">
-    <div class="logo">Sport<span>+</span></div>
-    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav" id="nav">
-      <a href="index.html" class="active">Accueil</a>
-      <a href="seance.html">Créer ma séance</a>
-      <a href="planning.html">Planning</a>
-      <a href="historique.html">Historique</a>
+    <a class="logo" href="index.html" aria-label="Sport+ – accueil">Sport<span>+</span></a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="index.html" class="active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg><span>Accueil</span></a>
+      <a href="seance.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg><span>Séance</span></a>
+      <a href="planning.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Planning</span></a>
+      <a href="historique.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M6 17v-5M12 17V7M18 17v-9"/></svg><span>Historique</span></a>
+      <a href="boutique.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>Boutique</span></a>
     </nav>
+    <a class="solde-chip" href="boutique.html" aria-label="Pièces – ouvrir la boutique">
+      <img class="solde-avatar" data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="" width="34" height="34">
+      <svg class="ico-piece" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#b37f00"/><circle cx="12" cy="11" r="10" fill="#ffb800"/><circle cx="12" cy="11" r="7" fill="none" stroke="#b37f00" stroke-width="1.5"/><path d="M12 7.5v7M8.5 11h7" stroke="#b37f00" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span id="solde-pieces">0</span>
+    </a>
   </header>
 
-  <!-- BANDEAU PSEUDO -->
-  <div class="pseudo-banner" id="pseudo-banner">
-    <span class="pseudo-greeting" id="pseudo-greeting"></span>
-    <button class="pseudo-edit-btn" id="pseudo-edit-btn" onclick="ouvrirModalPseudo()" aria-label="Modifier mon pseudo">✏️</button>
-  </div>
+  <main class="tableau">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Crée ta séance de sport sur mesure</h1>
-      <p>Choisis tes exercices, organise ta séance et progresse à ton rythme.</p>
-      <div class="hero-buttons">
-        <a href="seance.html" class="btn primary">Créer ma séance</a>
-        <a href="planning.html" class="btn secondary">Planning</a>
-        <a href="historique.html" class="btn secondary">Mon historique</a>
+    <!-- Profil : avatar, pseudo, pièces -->
+    <section class="profil">
+      <a class="profil-avatar" href="boutique.html" aria-label="Changer d'avatar dans la boutique">
+        <img data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="" width="120" height="120">
+      </a>
+      <div class="profil-infos">
+        <p class="profil-salut" id="profil-salut">Salut,</p>
+        <h1 class="profil-nom">
+          <span id="profil-nom">Athlète</span>
+          <button type="button" class="pseudo-edit-btn" id="pseudo-edit-btn" aria-label="Modifier mon pseudo">✏️</button>
+        </h1>
+        <a class="profil-solde" href="boutique.html">
+          <span id="profil-solde">0</span> pièces <span class="profil-solde-lien">Boutique →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Séance prévue aujourd'hui (planning) -->
+    <section class="prevue hidden" id="prevue" aria-label="Séance prévue aujourd'hui">
+      <div>
+        <p class="prevue-sur">Prévue aujourd'hui</p>
+        <p class="prevue-nom" id="prevue-nom"></p>
+        <p class="prevue-exos" id="prevue-exos"></p>
+      </div>
+      <button type="button" class="prevue-btn" id="prevue-btn">▶ Lancer</button>
+    </section>
+
+    <!-- Action principale -->
+    <a class="btn-demarrer" href="seance.html" id="btn-demarrer">
+      <span id="btn-demarrer-texte">Démarrer une séance</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <!-- Chiffres clés -->
+    <section class="chiffres" aria-label="Mes chiffres">
+      <div class="chiffre"><span class="chiffre-valeur" id="stat-semaine">0</span><span class="chiffre-label">séance(s) cette semaine</span></div>
+      <div class="chiffre"><span class="chiffre-valeur" id="stat-serie">0</span><span class="chiffre-label">jour(s) d'affilée</span></div>
+      <div class="chiffre"><span class="chiffre-valeur" id="stat-total">0</span><span class="chiffre-label">séance(s) au total</span></div>
+    </section>
+
+    <!-- Installer l'appli sur l'écran d'accueil (affichée seulement si utile) -->
+    <section class="installer hidden" id="installer" aria-label="Installer Sport+">
+      <img src="assets/icons/icon-192.png" alt="" width="52" height="52">
+      <div class="installer-texte">
+        <p class="installer-titre">Installe Sport+ sur ton téléphone</p>
+        <p class="installer-sous">Une icône sur l'écran d'accueil, et l'appli marche même sans réseau.</p>
+      </div>
+      <div class="installer-actions">
+        <button type="button" class="installer-btn" id="btn-installer">Installer</button>
+        <button type="button" class="installer-plus-tard" id="btn-installer-plus-tard">Plus tard</button>
+      </div>
+    </section>
+
+    <!-- Raccourcis secondaires -->
+    <nav class="raccourcis" aria-label="Raccourcis">
+      <a href="exercices.html">🏋️ Tous les exercices</a>
+      <a href="perfs.html">📈 Mes charges</a>
+      <a href="planning.html">🗓️ Programmer une séance</a>
+    </nav>
+  </main>
+
+  <!-- GUIDE D'INSTALLATION (quand le navigateur ne peut pas installer tout seul) -->
+  <div class="pseudo-modal-overlay hidden" id="guide-install" role="dialog" aria-modal="true" aria-labelledby="guide-titre">
+    <div class="pseudo-modal-card guide-card">
+      <div class="pseudo-modal-header">
+        <h2 id="guide-titre">Ajouter Sport+ à l'écran d'accueil</h2>
+      </div>
+      <div class="pseudo-modal-body">
+        <ol class="guide-etapes" data-guide="ios">
+          <li><span class="guide-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg></span><span>Touche le bouton <strong>Partager</strong> de Safari (en bas de l'écran, ou en haut sur iPad).</span></li>
+          <li><span class="guide-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span>Fais défiler et choisis <strong>« Sur l'écran d'accueil »</strong>.</span></li>
+          <li><span class="guide-ico guide-ico-app"><img src="assets/icons/icon-192.png" alt="" width="28" height="28"></span><span>Touche <strong>Ajouter</strong> : l'icône Sport+ apparaît avec tes applis.</span></li>
+        </ol>
+        <ol class="guide-etapes hidden" data-guide="autre">
+          <li><span class="guide-ico">⋮</span><span>Ouvre le <strong>menu du navigateur</strong> (les trois points ou les trois traits).</span></li>
+          <li><span class="guide-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span><span>Choisis <strong>« Installer l'application »</strong> ou <strong>« Ajouter à l'écran d'accueil »</strong>.</span></li>
+          <li><span class="guide-ico guide-ico-app"><img src="assets/icons/icon-192.png" alt="" width="28" height="28"></span><span>Confirme : l'icône Sport+ apparaît avec tes applis.</span></li>
+        </ol>
+      </div>
+      <div class="pseudo-modal-footer">
+        <button type="button" class="pseudo-btn primary guide-ok">C'est compris</button>
       </div>
     </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="features">
-    <div class="feature">
-      <h3>🏋️ Tous les exercices</h3>
-      <p>Découvre une bibliothèque d'exercices classés par muscles.</p>
-    </div>
-    <div class="feature">
-      <h3>🗓️ Séance personnalisée</h3>
-      <p>Crée ta séance selon tes objectifs et ton niveau.</p>
-    </div>
-    <div class="feature">
-      <h3>📈 Progresse</h3>
-      <p>Suis ton évolution et reste motivé.</p>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta">
-    <h2>Prêt à t'entraîner ?</h2>
-    <a href="seance.html" class="btn primary">Commencer maintenant</a>
-  </section>
+  </div>
 
   <!-- MODAL PSEUDO -->
   <div class="pseudo-modal-overlay hidden" id="pseudo-modal" role="dialog" aria-modal="true" aria-label="Mon pseudo">
     <div class="pseudo-modal-card">
       <div class="pseudo-modal-header">
         <h2>Mon pseudo</h2>
-        <button class="pseudo-modal-close" onclick="fermerModalPseudo()" aria-label="Fermer">✕</button>
+        <button type="button" class="pseudo-modal-close" id="pseudo-fermer" aria-label="Fermer">✕</button>
       </div>
       <div class="pseudo-modal-body">
         <label for="pseudo-input">Comment tu t'appelles ?</label>
         <input type="text" id="pseudo-input" placeholder="Ex: Alex, Jordan, Le Boss…" maxlength="24" autocomplete="off">
       </div>
       <div class="pseudo-modal-footer">
-        <button class="pseudo-btn secondary" onclick="fermerModalPseudo()">Annuler</button>
-        <button class="pseudo-btn primary" onclick="sauvegarderPseudo()">Sauvegarder ✓</button>
+        <button type="button" class="pseudo-btn secondary" id="pseudo-annuler">Annuler</button>
+        <button type="button" class="pseudo-btn primary" id="pseudo-valider">Sauvegarder ✓</button>
       </div>
     </div>
   </div>
 
+  <script src="js/donnees-exercices.js"></script>
+  <script src="js/donnees-avatars.js"></script>
   <script src="js/commun.js"></script>
-  <script src="js/nav.js"></script>
-  <script>
-    // ── Pseudo ──
-    function getHeure() {
-      const h = new Date().getHours();
-      if (h >= 5  && h < 12) return "Bonjour";
-      if (h >= 12 && h < 18) return "Bon après-midi";
-      if (h >= 18 && h < 22) return "Bonsoir";
-      return "Bonne nuit";
-    }
+  <script src="js/pieces.js"></script>
+  <script src="js/accueil.js"></script>
+  <script src="js/installer.js"></script>
 
-    function afficherPseudo() {
-      const pseudo = localStorage.getItem("pseudo");
-      const banner  = document.getElementById("pseudo-banner");
-      const greeting = document.getElementById("pseudo-greeting");
-
-      if (pseudo) {
-        greeting.innerHTML = `${getHeure()}, <strong>${echapperHtml(pseudo)}</strong> 💪`;
-        banner.classList.add("visible");
-      } else {
-        greeting.innerHTML = `Comment tu t'appelles ? <button class="pseudo-set-btn" onclick="ouvrirModalPseudo()">Définir mon pseudo</button>`;
-        banner.classList.add("visible");
-      }
-    }
-
-    function ouvrirModalPseudo() {
-      const pseudo = localStorage.getItem("pseudo") || "";
-      document.getElementById("pseudo-input").value = pseudo;
-      document.getElementById("pseudo-modal").classList.remove("hidden");
-      document.body.style.overflow = "hidden";
-      setTimeout(() => document.getElementById("pseudo-input").focus(), 100);
-    }
-
-    function fermerModalPseudo() {
-      document.getElementById("pseudo-modal").classList.add("hidden");
-      document.body.style.overflow = "";
-    }
-
-    function sauvegarderPseudo() {
-      const val = document.getElementById("pseudo-input").value.trim();
-      if (!val) return;
-      localStorage.setItem("pseudo", val);
-      fermerModalPseudo();
-      afficherPseudo();
-    }
-
-    // Enter pour valider
-    document.getElementById("pseudo-input").addEventListener("keydown", e => {
-      if (e.key === "Enter") sauvegarderPseudo();
-    });
-
-    // Échap pour fermer
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && !document.getElementById("pseudo-modal").classList.contains("hidden")) fermerModalPseudo();
-    });
-
-    // Clic overlay pour fermer
-    document.getElementById("pseudo-modal").addEventListener("click", e => {
-      if (e.target === document.getElementById("pseudo-modal")) fermerModalPseudo();
-    });
-
-    afficherPseudo();
-  </script>
-
-  <script src="js/notif-planning.js"></script>
 </body>
 </html>

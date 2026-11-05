@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <title>Sport+ | Boutique</title>
+  <link rel="stylesheet" href="css/boutique.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+
+  <header class="header">
+    <a class="logo" href="index.html" aria-label="Sport+ – accueil">Sport<span>+</span></a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg><span>Accueil</span></a>
+      <a href="seance.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg><span>Séance</span></a>
+      <a href="planning.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Planning</span></a>
+      <a href="historique.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M6 17v-5M12 17V7M18 17v-9"/></svg><span>Historique</span></a>
+      <a href="boutique.html" class="active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>Boutique</span></a>
+    </nav>
+    <a class="solde-chip" href="boutique.html" aria-label="Pièces – ouvrir la boutique">
+      <img class="solde-avatar" data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="" width="34" height="34">
+      <svg class="ico-piece" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#b37f00"/><circle cx="12" cy="11" r="10" fill="#ffb800"/><circle cx="12" cy="11" r="7" fill="none" stroke="#b37f00" stroke-width="1.5"/><path d="M12 7.5v7M8.5 11h7" stroke="#b37f00" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span id="solde-pieces">0</span>
+    </a>
+  </header>
+
+  <main class="boutique">
+
+    <!-- Avatar équipé + solde -->
+    <section class="vitrine" aria-label="Mon avatar">
+      <div class="vitrine-avatar">
+        <img data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="Mon avatar" width="160" height="160">
+      </div>
+      <div class="vitrine-infos">
+        <p class="vitrine-sur">Mon avatar</p>
+        <h1 class="vitrine-nom" id="vitrine-nom"></h1>
+        <p class="vitrine-tenue" id="vitrine-tenue"></p>
+        <p class="vitrine-solde"><span id="vitrine-solde">0</span> pièces</p>
+      </div>
+    </section>
+
+    <!-- Filtres -->
+    <div class="filtres" role="tablist" aria-label="Filtrer les avatars">
+      <button type="button" class="filtre active" data-filtre="tous" role="tab" aria-selected="true">Tous</button>
+      <button type="button" class="filtre" data-filtre="debloques" role="tab" aria-selected="false">Débloqués</button>
+      <button type="button" class="filtre" data-filtre="verrouilles" role="tab" aria-selected="false">À débloquer</button>
+    </div>
+
+    <!-- Catalogue -->
+    <section class="catalogue" id="catalogue" aria-label="Avatars"></section>
+
+    <!-- Comment gagner -->
+    <section class="aide">
+      <h2>Comment gagner des pièces ?</h2>
+      <ul class="aide-liste" id="aide-liste"></ul>
+      <details class="journal">
+        <summary>Mes dernières transactions</summary>
+        <ul id="journal-liste"></ul>
+      </details>
+    </section>
+  </main>
+
+  <!-- Fiche d'un avatar : aperçu des tenues + achat -->
+  <div class="fiche-overlay hidden" id="fiche" role="dialog" aria-modal="true" aria-labelledby="fiche-nom">
+    <div class="fiche">
+      <button type="button" class="fiche-fermer" id="fiche-fermer" aria-label="Fermer">✕</button>
+      <div class="fiche-apercu" id="fiche-apercu">
+        <img id="fiche-image" src="" alt="" width="200" height="200">
+      </div>
+      <div class="fiche-titre">
+        <h2 id="fiche-nom"></h2>
+        <span class="badge-rarete" id="fiche-rarete"></span>
+      </div>
+      <p class="fiche-tenue-nom" id="fiche-tenue-nom"></p>
+      <div class="tenues" id="fiche-tenues" role="list"></div>
+      <button type="button" class="fiche-action" id="fiche-action"></button>
+      <p class="fiche-aide" id="fiche-aide"></p>
+    </div>
+  </div>
+
+  <script src="js/donnees-exercices.js"></script>
+  <script src="js/donnees-avatars.js"></script>
+  <script src="js/commun.js"></script>
+  <script src="js/pieces.js"></script>
+  <script src="js/boutique.js"></script>
+  <script src="js/notif-planning.js"></script>
+</body>
+</html>

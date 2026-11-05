@@ -54,8 +54,8 @@ function sauvegarderPoids(nomExercice, input, btn) {
     // Animation de confirmation
     const originalText = btn.innerHTML;
     btn.innerHTML = "✓ Sauvegardé !";
-    btn.style.background = "#00ff88";
-    btn.style.color = "#000";
+    btn.style.background = "var(--accent)";
+    btn.style.color = "#fff";
 
     setTimeout(() => {
       btn.innerHTML = originalText;

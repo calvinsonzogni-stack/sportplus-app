@@ -1,0 +1,344 @@
+/* ════════════════════════════════════════════════
+   SPORT+ — theme.css
+   Direction artistique rouge & noir + éléments communs à toutes les pages :
+   en-tête, navigation (barre d'onglets en bas sur mobile), solde de pièces,
+   animation de gain, couleurs de rareté.
+   Chargé EN DERNIER sur chaque page : il a le dernier mot sur l'en-tête.
+════════════════════════════════════════════════ */
+
+:root {
+  /* Rouge : #e10600 pour les aplats (texte blanc dessus : 4,97:1),
+     #ff4d4d pour le texte rouge sur fond noir (≥ 5,2:1) */
+  --accent: #e10600;
+  --accent-rgb: 225, 6, 0;
+  --accent-hover: #c40500;
+  --accent-deep: #8f0400;
+  --accent-text: #ff4d4d;
+
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface-2: #1c1c1c;
+  --border: #262626;
+  --text: #ffffff;
+  --muted: #9a9a9a;
+
+  --or: #ffb800;            /* pièces */
+  --rarete-commun: #9a9a9a;
+  --rarete-rare: #3d8bff;
+  --rarete-epique: #b14dff;
+  --rarete-legendaire: #ffb800;
+
+  --tabbar-h: 64px;
+  --radius: 16px;
+}
+
+/* Même police partout (certaines pages en déclaraient une autre) */
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+::selection { background: rgba(var(--accent-rgb), 0.5); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+/* ── EN-TÊTE ─────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 32px;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-decoration: none;
+}
+.logo span { color: var(--accent); }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+}
+.nav a::after { display: none; }
+.nav a:hover { color: #fff; background: var(--surface-2); }
+.nav a.active { color: #fff; background: rgba(var(--accent-rgb), 0.15); }
+.nav a.active svg { color: var(--accent-text); }
+
+.nav svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Ancien menu hamburger : remplacé par la barre d'onglets */
+.hamburger { display: none !important; }
+
+/* ── SOLDE DE PIÈCES + AVATAR ────────────────── */
+.solde-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px 4px 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+.solde-chip:hover { border-color: var(--accent); }
+
+.solde-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #4a0a08, #1a0606);
+  object-fit: cover;
+}
+
+.ico-piece {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  vertical-align: -3px;
+}
+
+.solde-chip.gain { animation: soldePulse 0.6s ease 2; }
+@keyframes soldePulse {
+  50% { transform: scale(1.12); border-color: var(--or); box-shadow: 0 0 24px rgba(255, 184, 0, 0.35); }
+}
+
+/* ── ANIMATION DE GAIN DE PIÈCES ─────────────── */
+.gain-pop {
+  position: fixed;
+  left: 50%;
+  top: 38%;
+  z-index: 600;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 26px 34px;
+  background: rgba(20, 20, 20, 0.96);
+  border: 2px solid var(--or);
+  border-radius: 24px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(255, 184, 0, 0.2);
+  width: max-content;
+  min-width: 240px;
+  max-width: calc(100vw - 40px);
+  pointer-events: none;
+  text-align: center;
+  animation: gainPop 2.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards;
+}
+.gain-pop .ico-piece { width: 56px; height: 56px; animation: gainPiece 0.9s ease; }
+.gain-montant { font-size: 34px; font-weight: 900; color: var(--or); line-height: 1; }
+.gain-texte { font-size: 15px; font-weight: 700; color: #fff; white-space: pre-line; line-height: 1.4; }
+
+/* Petites pièces qui jaillissent */
+.gain-eclat {
+  position: absolute;
+  left: 50%;
+  top: 34px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--or);
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.25);
+  animation: gainEclat 1s ease-out forwards;
+}
+
+@keyframes gainPop {
+  0%   { opacity: 0; transform: translate(-50%, -40%) scale(0.6); }
+  15%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  25%  { transform: translate(-50%, -50%) scale(1); }
+  80%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -62%) scale(0.95); }
+}
+@keyframes gainPiece {
+  0% { transform: rotateY(0); }
+  100% { transform: rotateY(720deg); }
+}
+@keyframes gainEclat {
+  0%   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), var(--dy)) scale(0.4); }
+}
+
+/* ── TITRES DE PAGE ──────────────────────────── */
+/* Blanc franc plutôt qu'un dégradé (qui virait au rose avec le rouge) */
+.title-section h1 {
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: #fff;
+}
+
+/* ── RARETÉS ─────────────────────────────────── */
+.rarete-commun     { --rarete: var(--rarete-commun); }
+.rarete-rare       { --rarete: var(--rarete-rare); }
+.rarete-epique     { --rarete: var(--rarete-epique); }
+.rarete-legendaire { --rarete: var(--rarete-legendaire); }
+
+.badge-rarete {
+  display: inline-block;
+  padding: 3px 10px;
+  border: 1px solid var(--rarete);
+  border-radius: 999px;
+  color: var(--rarete);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════════════
+   NOTIFICATION « SÉANCE PRÉVUE AUJOURD'HUI » (toutes pages)
+════════════════════════════════════════════════ */
+#planning-notif {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #141414; border: 2px solid var(--accent);
+  border-radius: 16px; padding: 16px 18px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 12px 48px rgba(var(--accent-rgb),0.25), 0 4px 16px rgba(0,0,0,0.5);
+  z-index: 500; max-width: 340px;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#planning-notif.pnotif-visible {
+  transform: translateX(0);
+}
+.pnotif-icon { font-size: 28px; flex-shrink: 0; }
+.pnotif-content { flex: 1; min-width: 0; }
+.pnotif-title { font-size: 15px; font-weight: 800; color: white; margin-bottom: 3px; }
+.pnotif-sub { font-size: 12px; color: #888; }
+.pnotif-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.pnotif-btn-lancer {
+  padding: 9px 16px; background: var(--accent); color: #fff;
+  border: none; border-radius: 10px; font-size: 13px; font-weight: 800;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.pnotif-btn-lancer:hover { background: var(--accent-hover); transform: scale(1.05); }
+.pnotif-btn-close {
+  width: 32px; height: 32px; background: #1e1e1e; border: 1px solid #2a2a2a;
+  border-radius: 8px; color: #666; font-size: 14px; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+}
+.pnotif-btn-close:hover { background: #2a2a2a; color: white; }
+
+@media (max-width: 768px) {
+  #planning-notif {
+    right: 12px; left: 12px; max-width: none;
+    transform: translateY(calc(100% + var(--tabbar-h) + 40px));
+  }
+  #planning-notif.pnotif-visible { transform: translateY(0); }
+}
+
+/* ── MOBILE : barre d'onglets en bas ─────────── */
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 16px !important;
+    padding-top: calc(10px + env(safe-area-inset-top)) !important;
+    /* Pas de flou ici : backdrop-filter ferait de l'en-tête le repère de la
+       barre d'onglets (position: fixed), qui se retrouverait en haut. */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg);
+  }
+
+  .nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+    padding: 0 4px env(safe-area-inset-bottom);
+    margin: 0;
+    background: rgba(10, 10, 10, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+  }
+
+  .nav a {
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 2px;
+    border-radius: 12px;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    background: none !important;
+  }
+  .nav a.active { color: #fff; }
+  .nav a.active svg { color: var(--accent-text); transform: translateY(-1px); }
+  .nav svg { width: 24px; height: 24px; }
+
+  body { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom)); }
+
+  /* Tout ce qui est fixé en bas d'écran remonte au-dessus de la barre */
+  .selection-bar,
+  .repos-bar,
+  #planning-notif,
+  .notification {
+    bottom: calc(var(--tabbar-h) + 12px + env(safe-area-inset-bottom)) !important;
+  }
+  #toast-notif { bottom: calc(var(--tabbar-h) + 16px + env(safe-area-inset-bottom)); }
+  body.repos-actif #toast-notif { bottom: calc(var(--tabbar-h) + 110px + env(safe-area-inset-bottom)); }
+  body.repos-actif { padding-bottom: calc(var(--tabbar-h) + 110px + env(safe-area-inset-bottom)); }
+
+  .solde-chip { font-size: 14px; padding-right: 12px; }
+  .solde-avatar { width: 30px; height: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gain-pop, .gain-pop .ico-piece, .gain-eclat, .solde-chip.gain { animation-duration: 0.01s !important; }
+  .gain-pop { animation: gainFondu 2s linear forwards !important; }
+  @keyframes gainFondu { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
+}

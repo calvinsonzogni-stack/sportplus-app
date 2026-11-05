@@ -5,24 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <title>Sport+ | Créer ma séance</title>
   <link rel="stylesheet" href="css/seance.css">
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/planning.css">
+  <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
 
   <header class="header">
-    <div class="logo">Sport<span>+</span></div>
-    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav" id="nav">
-      <a href="index.html">Accueil</a>
-      <a href="seance.html" class="active">Créer ma séance</a>
-      <a href="planning.html">Planning</a>
-      <a href="historique.html">Historique</a>
+    <a class="logo" href="index.html" aria-label="Sport+ – accueil">Sport<span>+</span></a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg><span>Accueil</span></a>
+      <a href="seance.html" class="active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg><span>Séance</span></a>
+      <a href="planning.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Planning</span></a>
+      <a href="historique.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M6 17v-5M12 17V7M18 17v-9"/></svg><span>Historique</span></a>
+      <a href="boutique.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>Boutique</span></a>
     </nav>
+    <a class="solde-chip" href="boutique.html" aria-label="Pièces – ouvrir la boutique">
+      <img class="solde-avatar" data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="" width="34" height="34">
+      <svg class="ico-piece" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#b37f00"/><circle cx="12" cy="11" r="10" fill="#ffb800"/><circle cx="12" cy="11" r="7" fill="none" stroke="#b37f00" stroke-width="1.5"/><path d="M12 7.5v7M8.5 11h7" stroke="#b37f00" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span id="solde-pieces">0</span>
+    </a>
   </header>
 
   <!-- ÉTAPE 1 — SÉLECTION DES EXERCICES -->
@@ -68,6 +78,8 @@
           <button class="btn-modifier-seance" onclick="ouvrirModalModif()" title="Ajouter / retirer des exercices">
             ✏️ Modifier
           </button>
+          <!-- Durée du minuteur de repos (60 / 90 / 120 / 180 s / off) -->
+          <button class="btn-modifier-seance" id="btn-repos-duree" type="button">⏲ Repos 90 s</button>
         </div>
       </div>
       <div class="global-progress-bar">
@@ -88,15 +100,30 @@
     </div>
   </div>
 
+  <!-- MINUTEUR DE REPOS (affiché après chaque série validée) -->
+  <div class="repos-bar hidden" id="repos-bar" role="timer" aria-live="polite">
+    <div class="repos-progress" id="repos-progress"></div>
+    <div class="repos-info">
+      <span class="repos-label" id="repos-label">Repos</span>
+      <span class="repos-temps" id="repos-temps">1:30</span>
+    </div>
+    <div class="repos-actions">
+      <button type="button" class="repos-btn" id="btn-repos-moins" aria-label="Retirer 15 secondes">−15</button>
+      <button type="button" class="repos-btn" id="btn-repos-plus" aria-label="Ajouter 15 secondes">+15</button>
+      <button type="button" class="repos-btn repos-btn-passer" id="btn-repos-passer">Passer</button>
+    </div>
+  </div>
+
   <!-- MODAL FIN DE SÉANCE -->
   <div class="modal-overlay hidden" id="modal-fin">
     <div class="modal-card">
       <div class="modal-icon">🎉</div>
       <h2>Séance terminée !</h2>
       <p id="modal-summary"></p>
+      <div class="modal-gain" id="modal-gain"></div>
       <div class="modal-actions">
-        <a href="historique.html" class="modal-btn primary">Voir l'historique</a>
-        <button class="modal-btn secondary" onclick="resetApp()">Nouvelle séance</button>
+        <a href="boutique.html" class="modal-btn primary">Aller à la boutique</a>
+        <a href="historique.html" class="modal-btn secondary">Voir l'historique</a>
       </div>
     </div>
   </div>
@@ -133,9 +160,12 @@
     </div>
   </div>
 
+  <script src="js/donnees-exercices.js"></script>
+  <script src="js/donnees-avatars.js"></script>
   <script src="js/commun.js"></script>
+  <script src="js/pieces.js"></script>
+  <script src="js/repos.js"></script>
   <script src="js/seance.js"></script>
-  <script src="js/nav.js"></script>
   <!-- Pas de notif-planning ici : on est déjà en train de créer sa séance,
        et la notif masquait la barre « Let's go » sur mobile. -->
 </body>
