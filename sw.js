@@ -11,19 +11,22 @@
 //  l'ancien cache est alors supprimé et tout est re-téléchargé.
 // ════════════════════════════════════════════════
 
-const VERSION = "sportplus-v1";
+const VERSION = "sportplus-v2";
 const DELAI_RESEAU_MS = 3000;
 
-// Fournit EXERCICES_DB : la liste des images vient de la même source que l'appli
-importScripts("js/donnees-exercices.js");
+// Fournissent EXERCICES_DB et AVATARS : la liste des images vient de la
+// même source que l'appli
+importScripts("js/donnees-exercices.js", "js/donnees-avatars.js");
 
 const FICHIERS_APPLI = [
   "./",
-  "index.html", "seance.html", "planning.html", "historique.html", "exercices.html", "perfs.html",
+  "index.html", "seance.html", "planning.html", "historique.html", "boutique.html",
+  "exercices.html", "perfs.html",
   "manifest.webmanifest",
   "css/acceuille.css", "css/exercices.css", "css/historique.css", "css/mobile.css",
-  "css/perfs.css", "css/planning.css", "css/seance.css",
-  "js/donnees-exercices.js", "js/commun.js", "js/nav.js", "js/notif-planning.js",
+  "css/perfs.css", "css/planning.css", "css/seance.css", "css/boutique.css", "css/theme.css",
+  "js/donnees-exercices.js", "js/donnees-avatars.js", "js/commun.js", "js/pieces.js",
+  "js/notif-planning.js", "js/accueil.js", "js/boutique.js",
   "js/exercices.js", "js/historique.js", "js/perfs.js", "js/planning.js", "js/seance.js",
   "js/repos.js", "js/sauvegarde.js",
   "js/vendor/chart.umd.min.js",
@@ -32,6 +35,7 @@ const FICHIERS_APPLI = [
 ];
 
 const IMAGES_EXERCICES = [...new Set(EXERCICES_DB.map(e => "assets/images/" + e.image))];
+const IMAGES_AVATARS = AVATARS.flatMap(p => p.tenues.map(t => imageAvatar(p.id, t.id)));
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
@@ -39,7 +43,7 @@ self.addEventListener("install", event => {
     // L'appli elle-même doit être complète, sinon l'installation échoue (et sera retentée)
     await cache.addAll(FICHIERS_APPLI);
     // Une image manquante ne doit pas bloquer l'installation
-    await Promise.allSettled(IMAGES_EXERCICES.map(url => cache.add(url)));
+    await Promise.allSettled([...IMAGES_EXERCICES, ...IMAGES_AVATARS].map(url => cache.add(url)));
     await self.skipWaiting();
   })());
 });

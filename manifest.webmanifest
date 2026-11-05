@@ -17,6 +17,7 @@
   "shortcuts": [
     { "name": "Créer ma séance", "url": "./seance.html" },
     { "name": "Planning", "url": "./planning.html" },
-    { "name": "Historique", "url": "./historique.html" }
+    { "name": "Historique", "url": "./historique.html" },
+    { "name": "Boutique", "url": "./boutique.html" }
   ]
 }

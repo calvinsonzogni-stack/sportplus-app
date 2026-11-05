@@ -325,12 +325,24 @@ function validerSerie(exoIdx, sIdx) {
   }
 
   serie.validee = true;
+  const exo = seanceData[exoIdx];
+
+  // Record battu ? On compare au maximum enregistré AVANT cette série.
+  // Récompense une seule fois par exercice et par séance.
+  const charge = parseFloat(serie.charge) || 0;
+  const ancienMax = parseFloat(lireStockage("perfs", {})[exo.nom]) || 0;
+  const record = ancienMax > 0 && charge > ancienMax;
+  if (record && !exo.recordRecompense) {
+    exo.recordRecompense = true;
+    Pieces.gagner(GAINS.record, `Record : ${exo.nom} (${charge} kg)`,
+      { texte: `Nouveau record !\n${exo.nom} : ${charge} kg` });
+  }
   sauvegarderSeanceEnCours();
   Repos.demarrer();
 
   // Sauvegarder la charge dans les perfs si renseignée
-  if (serie.charge && parseFloat(serie.charge) > 0) {
-    sauvegarderPerf(seanceData[exoIdx].nom, serie.charge);
+  if (charge > 0) {
+    sauvegarderPerf(exo.nom, serie.charge);
   }
 
   // Re-render la ligne
@@ -346,7 +358,8 @@ function validerSerie(exoIdx, sIdx) {
     `;
   }
 
-  showToast(`Série ${sIdx + 1} validée ! 💪`, "success");
+  // Le record a déjà son animation : pas de toast par-dessus
+  if (!record) showToast(`Série ${sIdx + 1} validée ! 💪`, "success");
 }
 
 function ajouterSerie(exoIdx) {
@@ -431,7 +444,12 @@ function sauvegarderPerf(nomExercice, charge) {
 //  TERMINER LA SÉANCE → HISTORIQUE
 // ────────────────────────────────────────────────
 
+let seanceTerminee = false;
+
 function terminerSeance() {
+  // Un double appui ne doit ni dupliquer la séance ni payer deux fois
+  if (seanceTerminee) return;
+  seanceTerminee = true;
   arreterTimer();
   Repos.arreter();
 
@@ -465,18 +483,16 @@ function terminerSeance() {
   document.getElementById("modal-summary").innerHTML =
     `<strong>${seanceComplete.exercices.length} exercice(s)</strong>, <strong>${totalSeries} série(s)</strong> en <strong>${dureeStr}</strong>. C'est dans les livres ! 💪`;
 
+  // Pièces gagnées (affichées dans le modal, sans animation par-dessus)
+  const gain = Pieces.gainFinSeance(totalSeries);
+  const records = seanceData.filter(e => e.recordRecompense).length;
+  Pieces.gagner(gain, "Séance terminée", { celebrer: false });
+  document.getElementById("modal-gain").innerHTML =
+    `${PIECE_SVG}<span>+${gain} pièces</span>` +
+    (records ? `<small>+ ${records * GAINS.record} pour ${records} record(s) battu(s) pendant la séance</small>` : "");
+
   document.getElementById("modal-fin").classList.remove("hidden");
   document.getElementById("modal-fin").classList.add("fade-in");
-}
-
-function resetApp() {
-  exercicesSelectionnes = [];
-  seanceData = [];
-  timerSeconds = 0;
-  exosTermines = 0;
-  arreterTimer();
-  // Recharger la page proprement
-  window.location.href = "seance.html";
 }
 
 // ────────────────────────────────────────────────

@@ -11,7 +11,8 @@
   const VERSION_FORMAT = 1;
   // Données de l'utilisateur. Les états temporaires (séance en cours, repos…)
   // ne sont volontairement pas sauvegardés.
-  const CLES = ["historique", "perfs", "planning", "pseudo", "repos_duree", "data_version"];
+  const CLES = ["historique", "perfs", "planning", "pseudo", "repos_duree", "data_version",
+                "pieces", "pieces_journal", "avatars"];
   const CLE_DERNIER_EXPORT = "derniere_sauvegarde";
   // Contrôle du type de chaque donnée avant d'écrire quoi que ce soit
   const VALIDATEURS = {
@@ -21,6 +22,9 @@
     pseudo:     v => v.length <= 100,
     repos_duree: v => Number.isFinite(JSON.parse(v)),
     data_version: v => Number.isFinite(JSON.parse(v)),
+    pieces:     v => { const n = JSON.parse(v); return Number.isInteger(n) && n >= 0; },
+    pieces_journal: v => Array.isArray(JSON.parse(v)),
+    avatars:    v => { const o = JSON.parse(v); return o && typeof o.possedes === "object" && o.equipe && typeof o.equipe.perso === "string"; },
   };
 
   const statut = document.getElementById("sauvegarde-statut");

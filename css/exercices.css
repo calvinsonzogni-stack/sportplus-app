@@ -30,7 +30,7 @@ body {
 }
 
 .logo span {
-  color: #00ff88;
+  color: var(--accent-text);
 }
 
 .nav a {
@@ -42,7 +42,7 @@ body {
 
 .nav a:hover,
 .nav a.active {
-  color: #00ff88;
+  color: var(--accent-text);
 }
 
 /* TITRE */
@@ -90,7 +90,7 @@ body {
 }
 
 .filters select:focus {
-  border-color: #00ff88;
+  border-color: var(--accent);
   outline: none;
 }
 
@@ -123,7 +123,7 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #00ff88, #00cc6e);
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
   transform: scaleX(0);
   transition: transform 0.3s ease;
   z-index: 2;
@@ -136,8 +136,8 @@ body {
 
   .card:hover {
     transform: translateY(-8px);
-    border-color: #00ff88;
-    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 10px 40px rgba(var(--accent-rgb), 0.2);
   }
 }
 
@@ -192,8 +192,8 @@ body {
 
 .muscle-tag {
   display: inline-block;
-  background: #00ff88;
-  color: #000;
+  background: var(--accent);
+  color: #fff;
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
@@ -208,9 +208,9 @@ body {
   width: 100%;
   padding: 14px 20px;
   background: transparent;
-  border: 2px solid #00ff88;
+  border: 2px solid var(--accent);
   border-radius: 10px;
-  color: #00ff88;
+  color: var(--accent-text);
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
@@ -223,15 +223,15 @@ body {
 }
 
 .add-btn:active {
-  background: #00ff88;
-  color: #000;
+  background: var(--accent);
+  color: #fff;
   transform: scale(0.98);
 }
 
 @media (hover: hover) {
   .add-btn:hover {
-    background: #00ff88;
-    color: #000;
+    background: var(--accent);
+    color: #fff;
     transform: scale(1.05);
   }
 }
@@ -247,12 +247,12 @@ body {
   top: 100px;
   right: 20px;
   background: #1a1a1a;
-  border: 2px solid #00ff88;
+  border: 2px solid var(--accent);
   border-radius: 12px;
   padding: 18px 24px;
   color: white;
   font-weight: 600;
-  box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+  box-shadow: 0 10px 40px rgba(var(--accent-rgb), 0.3);
   z-index: 1000;
   opacity: 0;
   transform: translateX(400px);

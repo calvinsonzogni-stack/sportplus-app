@@ -64,6 +64,22 @@ function seanceTombeLe(entry, dateStr) {
   return entry.date === dateStr;
 }
 
+// Nombre de jours consécutifs avec au moins une séance, en remontant depuis
+// aujourd'hui (ou depuis hier : la série n'est pas perdue tant que la journée n'est pas finie).
+function joursConsecutifs(historique) {
+  const jours = new Set((historique || []).map(s => dateVersStr(new Date(s.date))));
+  const curseur = new Date();
+  curseur.setHours(12, 0, 0, 0);
+  if (!jours.has(dateVersStr(curseur))) curseur.setDate(curseur.getDate() - 1);
+
+  let streak = 0;
+  while (jours.has(dateVersStr(curseur))) {
+    streak++;
+    curseur.setDate(curseur.getDate() - 1);
+  }
+  return streak;
+}
+
 // ── Migration des données ───────────────────────
 // Corrige les noms d'exercices enregistrés par d'anciennes versions
 // pour que l'historique, les records et le planning restent cohérents.

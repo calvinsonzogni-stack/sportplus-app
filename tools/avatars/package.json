@@ -1,0 +1,10 @@
+{
+  "name": "sportplus-generer-avatars",
+  "private": true,
+  "description": "Génère les SVG des avatars de la boutique à partir de js/donnees-avatars.js",
+  "scripts": { "generer": "node generer.js" },
+  "dependencies": {
+    "@dicebear/collection": "9.2.2",
+    "@dicebear/core": "9.2.2"
+  }
+}

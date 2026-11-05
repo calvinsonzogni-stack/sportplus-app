@@ -1,6 +1,7 @@
 # Sport+ 🏋️
 
 Application web pour créer et suivre ses séances de musculation.
+Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets en bas).
 
 ## Fonctionnalités
 
@@ -12,6 +13,8 @@ Application web pour créer et suivre ses séances de musculation.
 - **Suivi des performances** : La charge max de chaque exercice est retenue et pré-remplie
 - **Historique** : Visualise ta progression avec des graphiques
 - **Statistiques** : Jours consécutifs, exercice favori, records personnels
+- **Pièces** 🪙 : gagnées en terminant une séance et en battant ses records
+- **Boutique** : 8 avatars à débloquer, chacun avec 4 tenues, prix selon la rareté
 - **Sauvegarde** : export / import de toutes les données dans un fichier (page Historique)
 - **Appli installable et hors ligne** : « Ajouter à l'écran d'accueil », puis utilisable sans réseau à la salle
 
@@ -23,21 +26,29 @@ sport-plus/
 ├── seance.html          # Création + suivi de la séance en cours
 ├── planning.html        # Calendrier des séances programmées
 ├── historique.html      # Historique et statistiques
+├── boutique.html        # Boutique d'avatars et de tenues
 ├── exercices.html       # Bibliothèque d'exercices (page secondaire)
 ├── perfs.html           # Saisie manuelle des charges (page secondaire)
 ├── manifest.webmanifest # Nom, icônes et couleurs de l'appli installée
 ├── sw.js                # Service worker : cache pour le mode hors ligne
-├── css/                 # Un fichier par page + mobile.css (commun)
+├── css/                 # Un fichier par page + mobile.css + theme.css (couleurs, en-tête,
+│                        #   navigation, pièces — chargé en dernier sur chaque page)
 ├── js/
 │   ├── donnees-exercices.js # Liste des exercices (source unique, lue aussi par sw.js)
+│   ├── donnees-avatars.js   # Catalogue de la boutique : avatars, tenues, raretés, prix
 │   ├── commun.js        # Utilitaires partagés + enregistrement du service worker
+│   ├── pieces.js        # Monnaie, gains, collection d'avatars, solde dans l'en-tête
+│   ├── accueil.js       # Tableau de bord (page d'accueil)
+│   ├── boutique.js      # Boutique : aperçu, achat, équipement
 │   ├── nav.js           # Menu hamburger
 │   ├── notif-planning.js# Rappel « séance prévue aujourd'hui »
 │   ├── repos.js         # Minuteur de repos (page séance)
 │   ├── sauvegarde.js    # Export / import des données (page historique)
 │   ├── <page>.js        # Logique propre à chaque page
 │   └── vendor/          # Chart.js 4.4.0 (MIT), embarqué pour fonctionner hors ligne
+├── tools/avatars/       # Script de génération des avatars (développement uniquement)
 └── assets/
+    ├── avatars/         # Avatars générés (SVG), voir CREDITS.md
     ├── icons/           # Icônes de l'appli (écran d'accueil, favicon)
     └── images/          # Images des exercices (sources : voir CREDITS.md)
 ```
@@ -77,6 +88,25 @@ npx http-server
 - Les données sont stockées localement dans le navigateur (LocalStorage)
 - Aucune dépendance externe : tout est servi par le site lui-même
 - Pour ajouter un exercice, il suffit de l'ajouter dans `EXERCICES_DB` (`js/donnees-exercices.js`) : toutes les pages le voient, et son image est automatiquement gardée hors ligne
+
+## Pièces et boutique
+
+| Action | Gain |
+|---|---|
+| Terminer une séance | 30 pièces + 2 par série validée (60 max) |
+| Battre son record de charge sur un exercice | 25 pièces (une fois par exercice et par séance) |
+| Première ouverture | 100 pièces de bienvenue + 30 par séance déjà enregistrée |
+
+| Rareté | Avatar | Tenue |
+|---|---|---|
+| Commun | 150 | 100 |
+| Rare | 400 | 200 |
+| Épique | 800 | 400 |
+| Légendaire | 1 500 | 800 |
+
+Chaque avatar inclut sa tenue de base ; « La Recrue » est offerte. Les valeurs se
+règlent dans `GAINS` (`js/pieces.js`) et `RARETES` (`js/donnees-avatars.js`).
+Pour ajouter un avatar ou une tenue : voir `tools/avatars/README.md`.
 
 ## Mode hors ligne : une règle à retenir
 

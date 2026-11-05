@@ -1,3 +1,8 @@
+/* ════════════════════════════════════════════════
+   SPORT+ — acceuille.css
+   Accueil = tableau de bord. Couleurs, en-tête et navigation : theme.css.
+════════════════════════════════════════════════ */
+
 * {
   margin: 0;
   padding: 0;
@@ -5,234 +10,162 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
-body {
-  background: #0f0f0f;
-  color: white;
-}
+.hidden { display: none !important; }
 
-/* HEADER */
-.header {
+.tableau {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 40px;
-  background: #111;
-  border-bottom: 1px solid #1e1e1e;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: 800;
+/* ── Profil ──────────────────────────────────── */
+.profil {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.2), var(--surface) 65%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+}
+.profil-avatar {
+  flex-shrink: 0;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 38%, #5a0c08, #160505 70%);
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 36px rgba(var(--accent-rgb), 0.35);
+  transition: transform 0.2s;
+}
+.profil-avatar:hover { transform: scale(1.04); }
+.profil-avatar img { width: 100%; height: 100%; display: block; }
+.profil-infos { min-width: 0; }
+.profil-salut { color: var(--muted); font-size: 15px; font-weight: 600; }
+.profil-nom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 900;
   letter-spacing: -0.5px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
-
-.logo span {
-  color: #00ff88;
+.profil-nom .vide { color: var(--accent-text); cursor: pointer; font-size: 0.75em; }
+.pseudo-edit-btn {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  background: none; border: none; border-radius: 10px;
+  font-size: 16px; cursor: pointer; opacity: 0.6; transition: opacity 0.2s, background 0.2s;
 }
-
-.nav a {
-  margin-left: 28px;
-  text-decoration: none;
-  color: #888;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.nav a:hover,
-.nav a.active {
-  color: #00ff88;
-}
-
-/* HERO */
-.hero {
-  min-height: 80vh;
-  background: linear-gradient(
-      rgba(0,0,0,0.75),
-      rgba(0,0,0,0.75)
-    ),
-    #111;
-  display: flex;
-  align-items: center;
-  padding: 60px 40px;
-}
-
-.hero-content {
-  max-width: 600px;
-}
-
-.hero h1 {
-  font-size: clamp(28px, 6vw, 48px);
-  margin-bottom: 20px;
-  line-height: 1.2;
-}
-
-.hero p {
-  color: #ccc;
-  margin-bottom: 30px;
-  font-size: clamp(15px, 2.5vw, 18px);
-  line-height: 1.6;
-}
-
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.hero-buttons .btn {
-  padding: 14px 24px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 15px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  min-height: 50px;
+.pseudo-edit-btn:hover { opacity: 1; background: var(--surface-2); }
+.profil-solde {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.btn.primary {
-  background: #00ff88;
-  color: #000;
-}
-
-.btn.primary:hover {
-  background: #00dd77;
-}
-
-.btn.secondary {
-  border: 2px solid #00ff88;
-  color: #00ff88;
-}
-
-.btn.secondary:hover {
-  background: rgba(0, 255, 136, 0.1);
-}
-
-/* FEATURES */
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
-  padding: 60px 40px;
-  text-align: center;
-}
-
-.feature {
-  background: #1a1a1a;
-  padding: 30px;
-  border-radius: 12px;
-  border: 1px solid #222;
-}
-
-.feature h3 {
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-
-.feature p {
-  color: #999;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* CTA */
-.cta {
-  text-align: center;
-  padding: 60px 20px;
-  background: #111;
-}
-
-.cta h2 {
-  margin-bottom: 24px;
-  font-size: clamp(22px, 4vw, 32px);
-}
-
-@media (max-width: 768px) {
-  .hero {
-    min-height: 75vh;
-    padding: 50px 20px 60px;
-    align-items: flex-end;
-  }
-
-  .hero-content {
-    max-width: 100%;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-  }
-
-  .hero-buttons .btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-    padding: 40px 20px;
-    gap: 16px;
-  }
-
-  .cta {
-    padding: 50px 20px;
-  }
-}
-
-/* ── BANDEAU PSEUDO ──────────────────────────── */
-.pseudo-banner {
-  display: none;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 40px;
-  background: #111;
-  border-bottom: 1px solid #1a1a1a;
-}
-.pseudo-banner.visible {
-  display: flex;
-}
-.pseudo-greeting {
-  font-size: 15px;
-  color: #aaa;
-  font-weight: 500;
-}
-.pseudo-greeting strong {
-  color: #00ff88;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 7px 14px;
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.35);
+  border-radius: 999px;
+  color: var(--or);
   font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
 }
-.pseudo-edit-btn {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 8px;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-.pseudo-edit-btn:hover { opacity: 1; }
+.profil-solde-lien { color: #fff; font-weight: 600; opacity: 0.85; margin-left: 4px; }
+.profil-solde:hover .profil-solde-lien { opacity: 1; text-decoration: underline; }
 
-.pseudo-set-btn {
-  background: none;
-  border: 1px solid #00ff88;
-  color: #00ff88;
-  padding: 4px 12px;
+/* ── Séance prévue ───────────────────────────── */
+.prevue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 18px;
+}
+.prevue-sur { font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-text); }
+.prevue-nom { font-size: 19px; font-weight: 800; margin-top: 2px; }
+.prevue-exos { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.prevue-btn {
+  flex-shrink: 0;
+  min-height: 46px;
+  padding: 0 20px;
+  background: var(--surface-2);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.prevue-btn:hover { background: var(--accent); }
+
+/* ── Action principale ───────────────────────── */
+.btn-demarrer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 68px;
+  padding: 18px 24px;
+  background: var(--accent);
   border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-left: 8px;
-  transition: all 0.2s;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 12px 40px rgba(var(--accent-rgb), 0.35);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
-.pseudo-set-btn:hover { background: rgba(0,255,136,0.1); }
+.btn-demarrer:hover { background: var(--accent-hover); box-shadow: 0 14px 48px rgba(var(--accent-rgb), 0.45); }
+.btn-demarrer:active { transform: scale(0.98); }
+.btn-demarrer svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.btn-demarrer.reprise { animation: reprisePulse 2s ease infinite; }
+@keyframes reprisePulse { 50% { box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0.2), 0 12px 40px rgba(var(--accent-rgb), 0.35); } }
 
-/* ── MODAL PSEUDO ────────────────────────────── */
+/* ── Chiffres clés ───────────────────────────── */
+.chiffres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.chiffre {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.chiffre-valeur { font-size: 30px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.chiffre-label { color: var(--muted); font-size: 13px; line-height: 1.3; }
+
+/* ── Raccourcis ──────────────────────────────── */
+.raccourcis { display: flex; flex-wrap: wrap; gap: 8px; }
+.raccourcis a {
+  flex: 1 1 auto;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: #ddd;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.raccourcis a:hover { border-color: var(--accent); color: #fff; }
+
+/* ── Fenêtre pseudo ──────────────────────────── */
 .pseudo-modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.85);
@@ -276,7 +209,7 @@ body {
   background: #0f0f0f; border: 2px solid #2a2a2a; border-radius: 10px;
   color: white; font-size: 16px; outline: none; transition: border-color 0.2s;
 }
-.pseudo-modal-body input:focus { border-color: #00ff88; }
+.pseudo-modal-body input:focus { border-color: var(--accent); }
 .pseudo-modal-body input::placeholder { color: #555; }
 
 .pseudo-modal-footer {
@@ -287,32 +220,23 @@ body {
   flex: 1; padding: 13px; border-radius: 10px;
   font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s;
 }
-.pseudo-btn.primary { background: #00ff88; color: #000; }
-.pseudo-btn.primary:hover { background: #00e87a; }
+.pseudo-btn.primary { background: var(--accent); color: #fff; }
+.pseudo-btn.primary:hover { background: var(--accent-hover); }
 .pseudo-btn.secondary { background: #1e1e1e; color: #888; border: 2px solid #2a2a2a; }
 .pseudo-btn.secondary:hover { border-color: #444; color: #ccc; }
 
-@media (max-width: 768px) {
-  .pseudo-banner { padding: 12px 20px; }
-  .pseudo-greeting { font-size: 14px; }
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 560px) {
+  .tableau { padding: 18px 14px 28px; gap: 12px; }
+  .profil { gap: 14px; padding: 16px; border-radius: 20px; }
+  .profil-avatar { width: 88px; height: 88px; }
+  .prevue { padding: 14px 16px; }
+  .btn-demarrer { min-height: 62px; font-size: 18px; }
+  .chiffre { padding: 14px 10px; }
+  .chiffre-valeur { font-size: 26px; }
+  .chiffre-label { font-size: 12px; }
 }
 
-/* Cartes de l'accueil cliquables (Exercices, Séance, Mes Perfs) */
-a.feature {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  transition: border-color 0.2s, transform 0.2s;
-}
-a.feature:hover,
-a.feature:focus-visible {
-  border-color: #00ff88;
-  transform: translateY(-2px);
-}
-.feature-link {
-  display: inline-block;
-  margin-top: 14px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #00ff88;
+@media (prefers-reduced-motion: reduce) {
+  .btn-demarrer.reprise { animation: none; }
 }
