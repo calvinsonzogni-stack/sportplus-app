@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <title>Sport+ | Historique</title>
   <link rel="stylesheet" href="css/historique.css">
   <link rel="stylesheet" href="css/mobile.css">
@@ -59,7 +65,7 @@
   <section class="records-section">
     <div class="section-header">
       <h2>🏆 Records personnels</h2>
-      <p class="section-subtitle">Ta charge max atteinte par exercice</p>
+      <p class="section-subtitle">Ta charge max atteinte par exercice · <a class="lien-perfs" href="perfs.html">Modifier mes charges →</a></p>
     </div>
     <div class="records-filters">
       <div class="filter-scroll">
@@ -105,9 +111,31 @@
     <div id="liste-historique"></div>
   </section>
 
+  <!-- Sauvegarde des données -->
+  <section class="sauvegarde-section" aria-labelledby="sauvegarde-titre">
+    <div class="sauvegarde-card">
+      <div>
+        <h2 id="sauvegarde-titre">💾 Sauvegarde de mes données</h2>
+        <p class="sauvegarde-texte">
+          Tes séances sont enregistrées uniquement sur cet appareil.
+          Exporte-les régulièrement pour ne rien perdre en changeant de téléphone,
+          puis importe le fichier sur le nouvel appareil.
+        </p>
+        <p class="sauvegarde-statut" id="sauvegarde-statut"></p>
+      </div>
+      <div class="sauvegarde-actions">
+        <button type="button" class="btn-sauvegarde primary" id="btn-exporter">⬇ Exporter</button>
+        <button type="button" class="btn-sauvegarde" id="btn-importer">⬆ Importer</button>
+        <input type="file" id="sauvegarde-fichier" accept="application/json,.json" hidden>
+      </div>
+    </div>
+  </section>
+
   <script src="js/vendor/chart.umd.min.js"></script>
+  <script src="js/donnees-exercices.js"></script>
   <script src="js/commun.js"></script>
   <script src="js/historique.js"></script>
+  <script src="js/sauvegarde.js"></script>
   <script src="js/nav.js"></script>
 
   <script src="js/notif-planning.js"></script>

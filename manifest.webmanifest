@@ -1,0 +1,22 @@
+{
+  "name": "Sport+",
+  "short_name": "Sport+",
+  "description": "Crée et suis tes séances de musculation, même sans réseau.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Créer ma séance", "url": "./seance.html" },
+    { "name": "Planning", "url": "./planning.html" },
+    { "name": "Historique", "url": "./historique.html" }
+  ]
+}

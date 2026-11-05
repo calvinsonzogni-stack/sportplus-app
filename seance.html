@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <title>Sport+ | Créer ma séance</title>
   <link rel="stylesheet" href="css/seance.css">
   <link rel="stylesheet" href="css/mobile.css">
@@ -68,6 +74,8 @@
           <button class="btn-modifier-seance" onclick="ouvrirModalModif()" title="Ajouter / retirer des exercices">
             ✏️ Modifier
           </button>
+          <!-- Durée du minuteur de repos (60 / 90 / 120 / 180 s / off) -->
+          <button class="btn-modifier-seance" id="btn-repos-duree" type="button">⏲ Repos 90 s</button>
         </div>
       </div>
       <div class="global-progress-bar">
@@ -85,6 +93,20 @@
       <button class="btn-douche" onclick="terminerSeance()">
         🚿 Go à la douche !
       </button>
+    </div>
+  </div>
+
+  <!-- MINUTEUR DE REPOS (affiché après chaque série validée) -->
+  <div class="repos-bar hidden" id="repos-bar" role="timer" aria-live="polite">
+    <div class="repos-progress" id="repos-progress"></div>
+    <div class="repos-info">
+      <span class="repos-label" id="repos-label">Repos</span>
+      <span class="repos-temps" id="repos-temps">1:30</span>
+    </div>
+    <div class="repos-actions">
+      <button type="button" class="repos-btn" id="btn-repos-moins" aria-label="Retirer 15 secondes">−15</button>
+      <button type="button" class="repos-btn" id="btn-repos-plus" aria-label="Ajouter 15 secondes">+15</button>
+      <button type="button" class="repos-btn repos-btn-passer" id="btn-repos-passer">Passer</button>
     </div>
   </div>
 
@@ -133,7 +155,9 @@
     </div>
   </div>
 
+  <script src="js/donnees-exercices.js"></script>
   <script src="js/commun.js"></script>
+  <script src="js/repos.js"></script>
   <script src="js/seance.js"></script>
   <script src="js/nav.js"></script>
   <!-- Pas de notif-planning ici : on est déjà en train de créer sa séance,

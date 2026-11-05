@@ -1,102 +1,8 @@
 // ════════════════════════════════════════════════
 //  SPORT+ — commun.js
-//  Données et utilitaires partagés par toutes les pages.
-//  À charger AVANT les scripts propres à chaque page.
+//  Utilitaires partagés par toutes les pages (stockage, dates, sécurité).
+//  À charger après donnees-exercices.js et AVANT les scripts propres à chaque page.
 // ════════════════════════════════════════════════
-
-// ── Base de données des exercices (source unique) ──
-const EXERCICES_DB = [
-  // PECTORAUX
-  { nom: "Développé Couché",           muscle: "pectoraux", image: "developpe-couche.jpg" },
-  { nom: "Développé Incliné",          muscle: "pectoraux", image: "developpe-incline.jpg" },
-  { nom: "Développé Décliné",          muscle: "pectoraux", image: "developpe-decline.jpg" },
-  { nom: "Développé Haltères",         muscle: "pectoraux", image: "developpe-halteres.jpg" },
-  { nom: "Écarté Couché",              muscle: "pectoraux", image: "ecarte-couche.jpg" },
-  { nom: "Écarté Incliné",             muscle: "pectoraux", image: "ecarte-incline.jpg" },
-  { nom: "Pompes",                     muscle: "pectoraux", image: "pompes.png" },
-  { nom: "Pompes Inclinées",           muscle: "pectoraux", image: "pompes-inclinees.jpg" },
-  { nom: "Dips Pectoraux",             muscle: "pectoraux", image: "dips-pectoraux.jpg" },
-  { nom: "Pull Over",                  muscle: "pectoraux", image: "pull-over.jpg" },
-  { nom: "Pec Deck",                   muscle: "pectoraux", image: "pec-deck.jpg" },
-  { nom: "Cable Crossover",            muscle: "pectoraux", image: "cable-crossover.jpg" },
-  // DOS
-  { nom: "Tractions",                  muscle: "dos",       image: "tractions.jpg" },
-  { nom: "Tractions Pronation",        muscle: "dos",       image: "tractions-pronation.jpg" },
-  { nom: "Tractions Supination",       muscle: "dos",       image: "tractions-supination.jpg" },
-  { nom: "Rowing Barre",               muscle: "dos",       image: "rowing-barre.jpg" },
-  { nom: "Rowing Haltères",            muscle: "dos",       image: "rowing-halteres.jpg" },
-  { nom: "Rowing T-Barre",             muscle: "dos",       image: "rowing-t-barre.jpg" },
-  { nom: "Tirage Horizontal",          muscle: "dos",       image: "tirage-horizontal.jpg" },
-  { nom: "Tirage Vertical",            muscle: "dos",       image: "tirage-vertical.jpg" },
-  { nom: "Tirage Poitrine",            muscle: "dos",       image: "tirage-poitrine.jpg" },
-  { nom: "Tirage Nuque",               muscle: "dos",       image: "tirage-nuque.jpg" },
-  { nom: "Soulevé de Terre",           muscle: "dos",       image: "souleve-de-terre.jpg" },
-  { nom: "Soulevé de Terre Roumain",   muscle: "dos",       image: "souleve-de-terre-roumain.jpg" },
-  { nom: "Shrugs",                     muscle: "dos",       image: "shrugs.jpg" },
-  { nom: "Face Pull",                  muscle: "dos",       image: "face-pull.jpg" },
-  // ÉPAULES
-  { nom: "Développé Militaire",        muscle: "epaules",   image: "Développé Militaire.jpeg" },
-  { nom: "Développé Haltères Assis",   muscle: "epaules",   image: "Développé Haltères Assis.jpg" },
-  { nom: "Élévations Latérales",       muscle: "epaules",   image: "Élévations Latérales.jpg" },
-  { nom: "Élévations Frontales",       muscle: "epaules",   image: "Élévations Frontales.jpg" },
-  { nom: "Oiseau Haltères",            muscle: "epaules",   image: "Oiseau Haltères.webp" },
-  { nom: "Oiseau Poulie",              muscle: "epaules",   image: "Oiseau Poulie.jpg" },
-  { nom: "Rowing Menton",              muscle: "epaules",   image: "Rowing Menton.avif" },
-  { nom: "Arnold Press",               muscle: "epaules",   image: "Arnold Press.webp" },
-  { nom: "Élévations Latérales Câble", muscle: "epaules",   image: "Élévations Latérales Câble.webp" },
-  // BRAS
-  { nom: "Curl Barre",                 muscle: "bras",      image: "Curl Barre.webp" },
-  { nom: "Curl Haltères",              muscle: "bras",      image: "Curl Haltères.webp" },
-  { nom: "Curl Marteau",               muscle: "bras",      image: "Curl Marteau.webp" },
-  { nom: "Curl Pupitre",               muscle: "bras",      image: "Curl Pupitre.jpeg" },
-  { nom: "Curl Incliné",               muscle: "bras",      image: "Curl Incliné.webp" },
-  { nom: "Curl Concentration",         muscle: "bras",      image: "Curl Concentration.webp" },
-  { nom: "Curl Cable",                 muscle: "bras",      image: "Curl Cable.jpg" },
-  { nom: "Dips Triceps",               muscle: "bras",      image: "Dips triceps.jpeg" },
-  { nom: "Extension Nuque",            muscle: "bras",      image: "Extension Nuque.webp" },
-  { nom: "Barre au Front",             muscle: "bras",      image: "Barre au Front.jpg" },
-  { nom: "Extension Poulie Haute",     muscle: "bras",      image: "Extension Poulie Haute.jpeg" },
-  { nom: "Kickback Haltères",          muscle: "bras",      image: "Kickback Haltères.jpg" },
-  { nom: "Diamond Push-ups",           muscle: "bras",      image: "Diamond Push-ups.jpg" },
-  // JAMBES
-  { nom: "Squat",                      muscle: "jambes",    image: "Squats.jpeg" },
-  { nom: "Squat Avant",                muscle: "jambes",    image: "squat-avant.jpg" },
-  { nom: "Squat Bulgare",              muscle: "jambes",    image: "squat-bulgare.jpg" },
-  { nom: "Presse à Cuisses",           muscle: "jambes",    image: "presse-a-cuisses.jpg" },
-  { nom: "Leg Extension",              muscle: "jambes",    image: "leg-extension.jpg" },
-  { nom: "Fentes Avant",               muscle: "jambes",    image: "fentes-avant.jpg" },
-  { nom: "Fentes Marchées",            muscle: "jambes",    image: "fentes-marchees.jpg" },
-  { nom: "Hack Squat",                 muscle: "jambes",    image: "hack-squat.jpg" },
-  { nom: "Leg Curl",                   muscle: "jambes",    image: "leg-curl.jpg" },
-  { nom: "Leg Curl Debout",            muscle: "jambes",    image: "leg-curl-debout.jpg" },
-  { nom: "Good Morning",               muscle: "jambes",    image: "good-morning.jpg" },
-  { nom: "Hip Thrust",                 muscle: "jambes",    image: "hip-thrust.jpg" },
-  { nom: "Mollets Debout",             muscle: "jambes",    image: "mollets-debout.jpg" },
-  { nom: "Mollets Assis",              muscle: "jambes",    image: "mollets-assis.jpg" },
-  { nom: "Mollets Presse",             muscle: "jambes",    image: "mollets-presse.jpg" },
-  // ABDOMINAUX
-  { nom: "Crunch",                     muscle: "abdos",     image: "crunch.jpg" },
-  { nom: "Crunch Obliques",            muscle: "abdos",     image: "crunch-obliques.jpg" },
-  { nom: "Relevé de Jambes",           muscle: "abdos",     image: "releve-de-jambes.jpg" },
-  { nom: "Planche",                    muscle: "abdos",     image: "planche.jpg" },
-  { nom: "Planche Latérale",           muscle: "abdos",     image: "planche-laterale.jpg" },
-  { nom: "Mountain Climbers",          muscle: "abdos",     image: "mountain-climbers.jpg" },
-  { nom: "Russian Twist",              muscle: "abdos",     image: "russian-twist.jpg" },
-  { nom: "Bicycle Crunch",             muscle: "abdos",     image: "bicycle-crunch.jpg" },
-  { nom: "Ab Wheel",                   muscle: "abdos",     image: "ab-wheel.jpg" },
-  { nom: "Hanging Leg Raise",          muscle: "abdos",     image: "hanging-leg-raise.jpg" },
-  { nom: "Cable Crunch",               muscle: "abdos",     image: "cable-crunch.jpg" },
-  { nom: "Sit-ups",                    muscle: "abdos",     image: "sit-ups.jpg" },
-];
-
-const MUSCLE_LABELS = {
-  pectoraux: "Pectoraux",
-  dos:       "Dos",
-  epaules:   "Épaules",
-  bras:      "Bras",
-  jambes:    "Jambes",
-  abdos:     "Abdominaux",
-};
 
 // ── Stockage local ──────────────────────────────
 // Une donnée corrompue ou un stockage indisponible (navigation privée)
@@ -194,3 +100,12 @@ function seanceTombeLe(entry, dateStr) {
 
   ecrireStockage("data_version", VERSION);
 })();
+
+// ── Appli installable / hors ligne ──────────────
+// Le service worker (sw.js) garde l'appli en cache pour l'utiliser sans réseau.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(e =>
+      console.warn("Sport+ : mode hors ligne indisponible", e));
+  });
+}

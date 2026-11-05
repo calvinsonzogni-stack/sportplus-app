@@ -213,6 +213,7 @@ function restaurerSeanceEnCours() {
   exosTermines = seanceData.filter(e => e.termine).length;
 
   afficherSeanceActive();
+  Repos.reprendre();
   showToast("Séance en cours reprise 💪", "success");
   return true;
 }
@@ -325,6 +326,7 @@ function validerSerie(exoIdx, sIdx) {
 
   serie.validee = true;
   sauvegarderSeanceEnCours();
+  Repos.demarrer();
 
   // Sauvegarder la charge dans les perfs si renseignée
   if (serie.charge && parseFloat(serie.charge) > 0) {
@@ -431,6 +433,7 @@ function sauvegarderPerf(nomExercice, charge) {
 
 function terminerSeance() {
   arreterTimer();
+  Repos.arreter();
 
   // Construire l'objet séance pour l'historique
   const seanceComplete = {
