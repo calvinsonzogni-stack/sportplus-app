@@ -234,13 +234,15 @@ function renderSeance() {
           <div>
             <h2>${exo.nom}</h2>
             <span class="muscle-tag-small">${MUSCLE_LABELS[exo.muscle] || exo.muscle}</span>
-            ${rappelRecord(exo.nom)}
           </div>
         </div>
         <div class="exo-status-badge" id="status-${exoIdx}">
           ${exo.termine ? '<span class="badge-done">✓ Terminé</span>' : '<span class="badge-progress">En cours</span>'}
         </div>
       </div>
+
+      <!-- Rappel du record (pleine largeur, sous l'en-tête) -->
+      ${rappelRecord(exo, exoIdx)}
 
       <!-- Tableau des séries -->
       <div class="series-table ${estPoidsDeCorps(exo.nom) ? "poids-du-corps" : ""}">
@@ -370,6 +372,7 @@ function validerSerie(exoIdx, sIdx) {
   }
 
   // Le record a déjà son animation : pas de toast par-dessus
+  majBulleRecord(exoIdx);
   if (!record) showToast(`Série ${sIdx + 1} validée ! 💪`, "success");
 }
 
@@ -455,12 +458,54 @@ function chargeInitiale(nom) {
   return perfs[nom] ? parseFloat(perfs[nom]) : "";
 }
 
-// Rappel du record à battre, pour les exercices au poids du corps
-// (pour les autres, la charge max est déjà pré-remplie dans la série)
-function rappelRecord(nom) {
-  if (!estPoidsDeCorps(nom)) return "";
-  const max = parseInt(lireStockage("perfs", {})[nom]) || 0;
-  return max ? `<span class="record-a-battre">Record : ${max} ${uniteReps(nom)}</span>` : "";
+// Meilleure série enregistrée pour une valeur max donnée : les reps faites
+// à cette charge (ou la série qui a établi le max de reps) et sa date.
+// Cherche d'abord dans la séance en cours, puis dans l'historique.
+function serieDuMax(exo, max, pdc) {
+  const valeurDe = s => pdc ? (parseInt(s.reps) || 0) : (parseFloat(s.charge) || 0);
+  const enCours = exo.series.filter(s => s.validee && valeurDe(s) === max);
+  if (enCours.length) return { reps: Math.max(...enCours.map(s => parseInt(s.reps) || 0)), date: null };
+
+  let meilleure = null;
+  lireStockage("historique", []).forEach(seance => (seance.exercices || []).forEach(e => {
+    if (e.nom !== exo.nom) return;
+    (e.series || []).forEach(serie => {
+      if (valeurDe(serie) !== max) return;
+      const reps = parseInt(serie.reps) || 0;
+      if (!meilleure || reps > meilleure.reps || (reps === meilleure.reps && seance.date > meilleure.date)) {
+        meilleure = { reps, date: seance.date };
+      }
+    });
+  }));
+  return meilleure;
+}
+
+// Bulle de rappel du record sur chaque exercice de la séance :
+// « 🏆 Ton max : 100 kg × 5 », puis « 🔥 Nouveau max » une fois battu.
+function rappelRecord(exo, exoIdx) {
+  const pdc = estPoidsDeCorps(exo.nom);
+  const unite = pdc ? uniteReps(exo.nom) : "kg";
+  const max = parseFloat(lireStockage("perfs", {})[exo.nom]) || 0;
+  let contenu;
+
+  if (!max) {
+    contenu = `🏆 Première fois : ta 1re série sera ton record`;
+  } else {
+    const serie = serieDuMax(exo, max, pdc);
+    // Le détail « × reps » n'a de sens que pour une charge
+    const detail = !pdc && serie && serie.reps ? ` × ${serie.reps}` : "";
+    const date = !exo.recordRecompense && serie && serie.date
+      ? ` <small>(${new Date(serie.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })})</small>` : "";
+    contenu = exo.recordRecompense
+      ? `🔥 Nouveau max : <strong>${max} ${unite}${detail}</strong>`
+      : `🏆 Ton max : <strong>${max} ${unite}${detail}</strong>${date}`;
+  }
+  return `<span class="bulle-record ${exo.recordRecompense ? "battu" : ""}" id="bulle-record-${exoIdx}">${contenu}</span>`;
+}
+
+function majBulleRecord(exoIdx) {
+  const bulle = document.getElementById(`bulle-record-${exoIdx}`);
+  if (bulle) bulle.outerHTML = rappelRecord(seanceData[exoIdx], exoIdx);
 }
 
 // ────────────────────────────────────────────────
