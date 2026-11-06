@@ -15,7 +15,7 @@ function genererExercices() {
     
     card.innerHTML = `
       <div class="card-image-container">
-        <img src="assets/images/${exercice.image}" alt="${exercice.nom}" class="card-image" loading="lazy" onerror="this.src='assets/images/placeholder.svg'">
+        ${imageExercice(exercice, "card-image")}
         <div class="image-overlay"></div>
       </div>
       <div class="card-content">

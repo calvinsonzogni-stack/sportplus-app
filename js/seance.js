@@ -81,8 +81,7 @@ function genererGrille(muscle) {
 
     card.innerHTML = `
       <div class="exo-card-image">
-        <img src="assets/images/${exo.image}" alt="${exo.nom}" loading="lazy"
-             onerror="this.src='assets/images/placeholder.svg'">
+        ${imageExercice(exo)}
         <div class="exo-card-overlay"></div>
         <div class="exo-check-badge">✓</div>
       </div>
@@ -230,7 +229,7 @@ function renderSeance() {
     card.innerHTML = `
       <div class="seance-exo-header">
         <div class="seance-exo-title">
-          <span class="seance-exo-num">${exoIdx + 1}</span>
+          ${vignetteExercice(exo, exoIdx)}
           <div>
             <h2>${exo.nom}</h2>
             <span class="muscle-tag-small">${MUSCLE_LABELS[exo.muscle] || exo.muscle}</span>
@@ -271,6 +270,65 @@ function renderSeance() {
 
     body.appendChild(card);
   });
+}
+
+// Vignette animée de l'exercice (numéro en coin) : un appui ouvre la démo
+function vignetteExercice(exo, exoIdx) {
+  const infos = infosExercice(exo.nom);
+  if (!infos) return `<span class="seance-exo-num">${exoIdx + 1}</span>`;
+  return `
+    <button type="button" class="exo-vignette anim-auto" onclick="ouvrirDemo(${exoIdx})"
+            aria-label="Voir le mouvement : ${echapperHtml(exo.nom)}">
+      ${imageExercice(infos)}
+      <span class="seance-exo-num">${exoIdx + 1}</span>
+    </button>`;
+}
+
+// Démo en grand du mouvement (fenêtre créée au premier usage)
+function ouvrirDemo(exoIdx) {
+  const infos = infosExercice(seanceData[exoIdx].nom);
+  if (!infos) return;
+  let demo = document.getElementById("modal-demo");
+  if (!demo) {
+    demo = document.createElement("div");
+    demo.id = "modal-demo";
+    demo.className = "modal-overlay hidden";
+    demo.setAttribute("role", "dialog");
+    demo.setAttribute("aria-modal", "true");
+    demo.setAttribute("aria-labelledby", "demo-nom");
+    demo.innerHTML = `
+      <div class="modal-card demo-card">
+        <div class="demo-media anim-auto" id="demo-media"></div>
+        <div class="demo-infos">
+          <h2 id="demo-nom"></h2>
+          <span class="muscle-tag-small" id="demo-muscle"></span>
+          <p class="demo-aide" id="demo-aide"></p>
+        </div>
+        <button type="button" class="modal-btn primary" id="demo-fermer">Fermer</button>
+      </div>`;
+    document.body.appendChild(demo);
+    demo.addEventListener("click", e => { if (e.target === demo) fermerDemo(); });
+    demo.querySelector("#demo-fermer").addEventListener("click", fermerDemo);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && !demo.classList.contains("hidden")) fermerDemo();
+    });
+  }
+  demo.querySelector("#demo-media").innerHTML = imageExercice(infos);
+  demo.querySelector("#demo-nom").textContent = infos.nom;
+  demo.querySelector("#demo-muscle").textContent = MUSCLE_LABELS[infos.muscle] || infos.muscle;
+  demo.querySelector("#demo-aide").textContent = infos.image2
+    ? "Le mouvement s'enchaîne : position de départ, puis position d'arrivée."
+    : "Pas encore d'animation pour cet exercice : voici sa position.";
+  demo.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  demo.querySelector("#demo-fermer").focus();
+}
+
+function fermerDemo() {
+  const demo = document.getElementById("modal-demo");
+  if (!demo) return;
+  demo.classList.add("hidden");
+  document.body.style.overflow = "";
 }
 
 function renderSeries(exoIdx, series) {
@@ -680,8 +738,7 @@ function renderModifGrille(muscle) {
       <div class="modif-exo-card ${estSelectionne ? "selected" : ""} ${estTermine ? "locked" : ""}"
            onclick="${estTermine ? "" : `toggleModifExo('${exo.nom.replace(/'/g, "\\'")}')`}">
         <div class="modif-exo-img">
-          <img src="assets/images/${exo.image}" alt="${exo.nom}" loading="lazy"
-               onerror="this.src='assets/images/placeholder.svg'">
+          ${imageExercice(exo)}
           <div class="modif-check-badge">${estTermine ? "🔒" : "✓"}</div>
         </div>
         <div class="modif-exo-info">

@@ -5,7 +5,9 @@ Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets 
 
 ## Fonctionnalités
 
-- **Bibliothèque d'exercices** : 75 exercices classés par groupe musculaire
+- **Bibliothèque d'exercices** : 121 exercices classés par groupe musculaire, dont les machines
+  guidées des salles (chest press, shoulder press, low row, leg curl assis, abducteurs…) ;
+  72 sont **animés** (positions de départ et d'arrivée en fondu)
 - **Création de séances** : Compose ta séance, saisis tes séries (reps × charge) avec chrono
 - **Minuteur de repos** : démarre à chaque série validée (60 / 90 / 120 / 180 s ou désactivé), vibration et bip à la fin
 - **Reprise automatique** : une séance en cours survit à un rechargement ou à l'écran verrouillé

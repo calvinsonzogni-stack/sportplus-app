@@ -35,6 +35,17 @@ function echapperHtml(texte) {
     .replace(/'/g, "&#39;");
 }
 
+// ── Image d'un exercice (animée si deux positions) ──
+// Avec image2, les deux positions du mouvement se succèdent en fondu :
+// l'animation joue au survol, quand l'exercice est sélectionné, ou en
+// continu dans un conteneur .anim-auto (voir css/theme.css).
+function imageExercice(exo, classe = "") {
+  const repli = `onerror="this.src='assets/images/placeholder.svg'"`;
+  const principale = `<img src="assets/images/${exo.image}" alt="${echapperHtml(exo.nom)}" class="${classe}" loading="lazy" ${repli}>`;
+  if (!exo.image2) return principale;
+  return `<span class="anim-exo">${principale}<img src="assets/images/${exo.image2}" alt="" aria-hidden="true" class="anim-frame2 ${classe}" loading="lazy"></span>`;
+}
+
 // ── Dates (format local "YYYY-MM-DD") ───────────
 function formatDate(y, m, d) {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
