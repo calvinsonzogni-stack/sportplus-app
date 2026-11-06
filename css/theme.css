@@ -216,6 +216,43 @@ body {
   color: #fff;
 }
 
+/* ── EXERCICES ANIMÉS ────────────────────────── */
+/* Deux photos (départ / arrivée) superposées : la 2e apparaît et disparaît
+   en fondu, ce qui anime le mouvement. Mêmes cadrages, donc aucun saut. */
+.anim-exo {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.anim-exo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.anim-exo .anim-frame2 {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+/* Quand l'animation joue : au survol, une fois sélectionné, ou en continu */
+.anim-auto .anim-frame2,
+.selected .anim-frame2 {
+  animation: mouvementExo 2.4s ease-in-out infinite;
+}
+@media (hover: hover) {
+  .exo-card:hover .anim-frame2,
+  .card:hover .anim-frame2,
+  .modal-exo-card:hover .anim-frame2,
+  .modif-exo-card:hover .anim-frame2 {
+    animation: mouvementExo 2.4s ease-in-out infinite;
+  }
+}
+@keyframes mouvementExo {
+  0%, 38%   { opacity: 0; }
+  50%, 88%  { opacity: 1; }
+  100%      { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-exo .anim-frame2 { animation: none !important; }
+}
+
 /* ── RARETÉS ─────────────────────────────────── */
 .rarete-commun     { --rarete: var(--rarete-commun); }
 .rarete-rare       { --rarete: var(--rarete-rare); }

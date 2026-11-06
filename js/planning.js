@@ -148,8 +148,7 @@ function renderModalExos(muscle) {
       <div class="modal-exo-card ${selected ? "selected" : ""}"
            onclick="toggleModalExo('${exo.nom.replace(/'/g, "\\'")}', this)">
         <div class="modal-exo-img-wrap">
-          <img src="assets/images/${exo.image}" alt="${exo.nom}" loading="lazy"
-               onerror="this.src='assets/images/placeholder.svg'">
+          ${imageExercice(exo)}
           <div class="modal-exo-img-overlay"></div>
           <div class="modal-exo-check-badge">✓</div>
         </div>
@@ -356,8 +355,7 @@ function renderEditGrille(muscle) {
       <div class="modal-exo-card ${selected ? "selected" : ""}"
            onclick="toggleEditExo('${exo.nom.replace(/'/g, "\\'")}')">
         <div class="modal-exo-img-wrap">
-          <img src="assets/images/${exo.image}" alt="${exo.nom}" loading="lazy"
-               onerror="this.src='assets/images/placeholder.svg'">
+          ${imageExercice(exo)}
           <div class="modal-exo-img-overlay"></div>
           <div class="modal-exo-check-badge">✓</div>
         </div>

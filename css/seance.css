@@ -913,3 +913,39 @@ body.repos-actif { padding-bottom: 110px; }
 .seance-exo-num { flex-shrink: 0; }
 .exo-status-badge { flex-shrink: 0; }
 .bulle-record { display: flex; width: fit-content; max-width: 100%; margin: -10px 0 16px; }
+
+/* ── Vignette animée de l'exercice (séance) ─── */
+.exo-vignette {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  overflow: hidden;
+  background: #111;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.exo-vignette:hover { border-color: var(--accent); }
+.exo-vignette img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.exo-vignette .seance-exo-num {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+.exo-done .exo-vignette { opacity: 0.7; }
+
+/* ── Démo du mouvement en grand ───────────────── */
+.demo-card { max-width: 520px; padding: 0 0 20px; text-align: center; overflow: hidden; }
+.demo-media { aspect-ratio: 3 / 2; background: #0d0d0d; }
+.demo-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.demo-infos { padding: 18px 22px 16px; }
+.demo-infos h2 { font-size: 22px; font-weight: 900; margin-bottom: 8px; }
+.demo-aide { margin-top: 12px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.demo-card .modal-btn { width: calc(100% - 44px); margin: 0 22px; }

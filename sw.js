@@ -11,7 +11,7 @@
 //  l'ancien cache est alors supprimé et tout est re-téléchargé.
 // ════════════════════════════════════════════════
 
-const VERSION = "sportplus-v5";
+const VERSION = "sportplus-v6";
 const DELAI_RESEAU_MS = 3000;
 
 // Fournissent EXERCICES_DB et AVATARS : la liste des images vient de la
@@ -34,7 +34,8 @@ const FICHIERS_APPLI = [
   "assets/icons/icon-192.png", "assets/icons/favicon-48.png", "assets/icons/apple-touch-icon.png",
 ];
 
-const IMAGES_EXERCICES = [...new Set(EXERCICES_DB.map(e => "assets/images/" + e.image))];
+// Les deux positions de chaque exercice (image + image2 pour l'animation)
+const IMAGES_EXERCICES = [...new Set(EXERCICES_DB.flatMap(e => [e.image, e.image2].filter(Boolean)).map(f => "assets/images/" + f))];
 const IMAGES_AVATARS = AVATARS.flatMap(p => p.tenues.map(t => imageAvatar(p.id, t.id)));
 
 self.addEventListener("install", event => {
