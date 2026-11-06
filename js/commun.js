@@ -81,39 +81,52 @@ function joursConsecutifs(historique) {
 }
 
 // ── Migration des données ───────────────────────
-// Corrige les noms d'exercices enregistrés par d'anciennes versions
-// pour que l'historique, les records et le planning restent cohérents.
+// Met à niveau les données enregistrées par d'anciennes versions, étape par
+// étape (data_version). Rejouée aussi après l'import d'une vieille sauvegarde.
 (function migrerDonnees() {
-  const VERSION = 1;
-  if (lireStockage("data_version", 0) >= VERSION) return;
-
-  const RENOMMAGES = { "Dips triceps": "Dips Triceps" };
-  const renommer = nom => RENOMMAGES[nom] || nom;
+  const VERSION = 2;
+  const version = lireStockage("data_version", 0);
+  if (version >= VERSION) return;
 
   const historique = lireStockage("historique", []);
-  if (Array.isArray(historique)) {
-    historique.forEach(s => (s.exercices || []).forEach(e => { e.nom = renommer(e.nom); }));
-    ecrireStockage("historique", historique);
-  }
-
   const planning = lireStockage("planning", []);
-  if (Array.isArray(planning)) {
-    planning.forEach(p => { p.exercices = (p.exercices || []).map(renommer); });
-    ecrireStockage("planning", planning);
-  }
-
   const perfs = lireStockage("perfs", {});
-  if (perfs && typeof perfs === "object") {
-    Object.keys(RENOMMAGES).forEach(ancien => {
-      if (ancien in perfs) {
-        const nouveau = RENOMMAGES[ancien];
-        perfs[nouveau] = String(Math.max(parseFloat(perfs[ancien]) || 0, parseFloat(perfs[nouveau]) || 0));
-        delete perfs[ancien];
-      }
-    });
-    ecrireStockage("perfs", perfs);
+  const histOk = Array.isArray(historique);
+  const perfsOk = perfs && typeof perfs === "object" && !Array.isArray(perfs);
+
+  // v1 : noms d'exercices corrigés, pour que historique, records et planning restent cohérents
+  if (version < 1) {
+    const RENOMMAGES = { "Dips triceps": "Dips Triceps" };
+    const renommer = nom => RENOMMAGES[nom] || nom;
+    if (histOk) historique.forEach(s => (s.exercices || []).forEach(e => { e.nom = renommer(e.nom); }));
+    if (Array.isArray(planning)) planning.forEach(p => { p.exercices = (p.exercices || []).map(renommer); });
+    if (perfsOk) {
+      Object.keys(RENOMMAGES).forEach(ancien => {
+        if (ancien in perfs) {
+          const nouveau = RENOMMAGES[ancien];
+          perfs[nouveau] = String(Math.max(parseFloat(perfs[ancien]) || 0, parseFloat(perfs[nouveau]) || 0));
+          delete perfs[ancien];
+        }
+      });
+    }
   }
 
+  // v2 : exercices au poids du corps → la « perf » devient le nombre de
+  // répétitions max (au lieu d'une charge), recalculé depuis l'historique
+  if (version < 2 && perfsOk) {
+    EXERCICES_DB.filter(e => e.poidsDeCorps).forEach(e => {
+      let max = 0;
+      if (histOk) historique.forEach(s => (s.exercices || []).forEach(x => {
+        if (x.nom === e.nom) (x.series || []).forEach(serie => { max = Math.max(max, parseInt(serie.reps) || 0); });
+      }));
+      if (max > 0) perfs[e.nom] = String(max);
+      else delete perfs[e.nom];
+    });
+  }
+
+  if (histOk) ecrireStockage("historique", historique);
+  if (Array.isArray(planning)) ecrireStockage("planning", planning);
+  if (perfsOk) ecrireStockage("perfs", perfs);
   ecrireStockage("data_version", VERSION);
 })();
 

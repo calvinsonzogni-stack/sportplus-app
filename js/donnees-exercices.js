@@ -4,6 +4,10 @@
 //  chargée par toutes les pages ET par le service worker (sw.js),
 //  qui en déduit les images à garder hors ligne.
 //  Pour ajouter un exercice : une ligne ici + son image dans assets/images/.
+//
+//  poidsDeCorps : exercice sans charge → on ne suit que les répétitions
+//  (record = répétitions max). mesure "secondes" : exercice tenu (gainage),
+//  le champ répétitions contient alors une durée en secondes.
 // ════════════════════════════════════════════════
 
 const EXERCICES_DB = [
@@ -14,16 +18,16 @@ const EXERCICES_DB = [
   { nom: "Développé Haltères",         muscle: "pectoraux", image: "developpe-halteres.jpg" },
   { nom: "Écarté Couché",              muscle: "pectoraux", image: "ecarte-couche.jpg" },
   { nom: "Écarté Incliné",             muscle: "pectoraux", image: "ecarte-incline.jpg" },
-  { nom: "Pompes",                     muscle: "pectoraux", image: "pompes.png" },
-  { nom: "Pompes Inclinées",           muscle: "pectoraux", image: "pompes-inclinees.jpg" },
-  { nom: "Dips Pectoraux",             muscle: "pectoraux", image: "dips-pectoraux.jpg" },
+  { nom: "Pompes",                     muscle: "pectoraux", image: "pompes.png", poidsDeCorps: true },
+  { nom: "Pompes Inclinées",           muscle: "pectoraux", image: "pompes-inclinees.jpg", poidsDeCorps: true },
+  { nom: "Dips Pectoraux",             muscle: "pectoraux", image: "dips-pectoraux.jpg", poidsDeCorps: true },
   { nom: "Pull Over",                  muscle: "pectoraux", image: "pull-over.jpg" },
   { nom: "Pec Deck",                   muscle: "pectoraux", image: "pec-deck.jpg" },
   { nom: "Cable Crossover",            muscle: "pectoraux", image: "cable-crossover.jpg" },
   // DOS
-  { nom: "Tractions",                  muscle: "dos",       image: "tractions.jpg" },
-  { nom: "Tractions Pronation",        muscle: "dos",       image: "tractions-pronation.jpg" },
-  { nom: "Tractions Supination",       muscle: "dos",       image: "tractions-supination.jpg" },
+  { nom: "Tractions",                  muscle: "dos",       image: "tractions.jpg", poidsDeCorps: true },
+  { nom: "Tractions Pronation",        muscle: "dos",       image: "tractions-pronation.jpg", poidsDeCorps: true },
+  { nom: "Tractions Supination",       muscle: "dos",       image: "tractions-supination.jpg", poidsDeCorps: true },
   { nom: "Rowing Barre",               muscle: "dos",       image: "rowing-barre.jpg" },
   { nom: "Rowing Haltères",            muscle: "dos",       image: "rowing-halteres.jpg" },
   { nom: "Rowing T-Barre",             muscle: "dos",       image: "rowing-t-barre.jpg" },
@@ -53,12 +57,12 @@ const EXERCICES_DB = [
   { nom: "Curl Incliné",               muscle: "bras",      image: "Curl Incliné.webp" },
   { nom: "Curl Concentration",         muscle: "bras",      image: "Curl Concentration.webp" },
   { nom: "Curl Cable",                 muscle: "bras",      image: "Curl Cable.jpg" },
-  { nom: "Dips Triceps",               muscle: "bras",      image: "Dips triceps.jpeg" },
+  { nom: "Dips Triceps",               muscle: "bras",      image: "Dips triceps.jpeg", poidsDeCorps: true },
   { nom: "Extension Nuque",            muscle: "bras",      image: "Extension Nuque.webp" },
   { nom: "Barre au Front",             muscle: "bras",      image: "Barre au Front.jpg" },
   { nom: "Extension Poulie Haute",     muscle: "bras",      image: "Extension Poulie Haute.jpeg" },
   { nom: "Kickback Haltères",          muscle: "bras",      image: "Kickback Haltères.jpg" },
-  { nom: "Diamond Push-ups",           muscle: "bras",      image: "Diamond Push-ups.jpg" },
+  { nom: "Diamond Push-ups",           muscle: "bras",      image: "Diamond Push-ups.jpg", poidsDeCorps: true },
   // JAMBES
   { nom: "Squat",                      muscle: "jambes",    image: "Squats.jpeg" },
   { nom: "Squat Avant",                muscle: "jambes",    image: "squat-avant.jpg" },
@@ -76,18 +80,18 @@ const EXERCICES_DB = [
   { nom: "Mollets Assis",              muscle: "jambes",    image: "mollets-assis.jpg" },
   { nom: "Mollets Presse",             muscle: "jambes",    image: "mollets-presse.jpg" },
   // ABDOMINAUX
-  { nom: "Crunch",                     muscle: "abdos",     image: "crunch.jpg" },
-  { nom: "Crunch Obliques",            muscle: "abdos",     image: "crunch-obliques.jpg" },
-  { nom: "Relevé de Jambes",           muscle: "abdos",     image: "releve-de-jambes.jpg" },
-  { nom: "Planche",                    muscle: "abdos",     image: "planche.jpg" },
-  { nom: "Planche Latérale",           muscle: "abdos",     image: "planche-laterale.jpg" },
-  { nom: "Mountain Climbers",          muscle: "abdos",     image: "mountain-climbers.jpg" },
-  { nom: "Russian Twist",              muscle: "abdos",     image: "russian-twist.jpg" },
-  { nom: "Bicycle Crunch",             muscle: "abdos",     image: "bicycle-crunch.jpg" },
-  { nom: "Ab Wheel",                   muscle: "abdos",     image: "ab-wheel.jpg" },
-  { nom: "Hanging Leg Raise",          muscle: "abdos",     image: "hanging-leg-raise.jpg" },
+  { nom: "Crunch",                     muscle: "abdos",     image: "crunch.jpg", poidsDeCorps: true },
+  { nom: "Crunch Obliques",            muscle: "abdos",     image: "crunch-obliques.jpg", poidsDeCorps: true },
+  { nom: "Relevé de Jambes",           muscle: "abdos",     image: "releve-de-jambes.jpg", poidsDeCorps: true },
+  { nom: "Planche",                    muscle: "abdos",     image: "planche.jpg", poidsDeCorps: true, mesure: "secondes" },
+  { nom: "Planche Latérale",           muscle: "abdos",     image: "planche-laterale.jpg", poidsDeCorps: true, mesure: "secondes" },
+  { nom: "Mountain Climbers",          muscle: "abdos",     image: "mountain-climbers.jpg", poidsDeCorps: true },
+  { nom: "Russian Twist",              muscle: "abdos",     image: "russian-twist.jpg", poidsDeCorps: true },
+  { nom: "Bicycle Crunch",             muscle: "abdos",     image: "bicycle-crunch.jpg", poidsDeCorps: true },
+  { nom: "Ab Wheel",                   muscle: "abdos",     image: "ab-wheel.jpg", poidsDeCorps: true },
+  { nom: "Hanging Leg Raise",          muscle: "abdos",     image: "hanging-leg-raise.jpg", poidsDeCorps: true },
   { nom: "Cable Crunch",               muscle: "abdos",     image: "cable-crunch.jpg" },
-  { nom: "Sit-ups",                    muscle: "abdos",     image: "sit-ups.jpg" },
+  { nom: "Sit-ups",                    muscle: "abdos",     image: "sit-ups.jpg", poidsDeCorps: true },
 ];
 
 const MUSCLE_LABELS = {
@@ -98,3 +102,19 @@ const MUSCLE_LABELS = {
   jambes:    "Jambes",
   abdos:     "Abdominaux",
 };
+
+// ── Exercices au poids du corps ─────────────────
+function infosExercice(nom) {
+  return EXERCICES_DB.find(e => e.nom === nom) || null;
+}
+
+function estPoidsDeCorps(nom) {
+  const exo = infosExercice(nom);
+  return !!(exo && exo.poidsDeCorps);
+}
+
+// Unité de la performance au poids du corps : « reps » ou « s » (gainage)
+function uniteReps(nom) {
+  const exo = infosExercice(nom);
+  return exo && exo.mesure === "secondes" ? "s" : "reps";
+}

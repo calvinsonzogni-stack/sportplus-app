@@ -866,3 +866,24 @@ body.repos-actif { padding-bottom: 110px; }
 .modal-gain .ico-piece { width: 30px; height: 30px; }
 .modal-gain small { flex-basis: 100%; text-align: center; font-size: 12px; font-weight: 600; color: #c9a54a; }
 @keyframes gainModal { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
+
+/* ── Exercices au poids du corps : pas de colonne « charge » ── */
+.series-table.poids-du-corps .series-table-header,
+.series-table.poids-du-corps .serie-row {
+  grid-template-columns: 48px 1fr 52px;
+}
+@media (max-width: 768px) {
+  .series-table.poids-du-corps .series-table-header,
+  .series-table.poids-du-corps .serie-row {
+    grid-template-columns: 40px 1fr 48px;
+  }
+}
+
+/* Record à battre, sous le nom de l'exercice */
+.record-a-battre {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--or);
+}
