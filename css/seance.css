@@ -879,11 +879,37 @@ body.repos-actif { padding-bottom: 110px; }
   }
 }
 
-/* Record à battre, sous le nom de l'exercice */
-.record-a-battre {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  font-weight: 700;
+/* Bulle de rappel du record, sous le nom de l'exercice */
+.bulle-record {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 5px 12px;
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  border-radius: 999px;
   color: var(--or);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
 }
+.bulle-record strong { font-weight: 900; }
+.bulle-record small { color: #c9a54a; font-weight: 600; }
+.bulle-record.battu {
+  background: rgba(var(--accent-rgb), 0.15);
+  border-color: var(--accent);
+  color: #fff;
+  animation: bulleBattue 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+}
+@keyframes bulleBattue { from { transform: scale(0.8); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .bulle-record.battu { animation: none; } }
+
+/* En-tête d'exercice : le statut reste à droite, la bulle du record
+   prend sa propre ligne sous le groupe musculaire */
+.seance-exo-header { flex-wrap: nowrap; align-items: flex-start; }
+.seance-exo-title { flex: 1; min-width: 0; align-items: flex-start; }
+.seance-exo-num { flex-shrink: 0; }
+.exo-status-badge { flex-shrink: 0; }
+.bulle-record { display: flex; width: fit-content; max-width: 100%; margin: -10px 0 16px; }

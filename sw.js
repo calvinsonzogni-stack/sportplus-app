@@ -11,7 +11,7 @@
 //  l'ancien cache est alors supprimé et tout est re-téléchargé.
 // ════════════════════════════════════════════════
 
-const VERSION = "sportplus-v4";
+const VERSION = "sportplus-v5";
 const DELAI_RESEAU_MS = 3000;
 
 // Fournissent EXERCICES_DB et AVATARS : la liste des images vient de la
