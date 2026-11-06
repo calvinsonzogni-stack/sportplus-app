@@ -14,6 +14,10 @@ function afficherExercices() {
   EXERCICES_DB.forEach((exercice, idx) => {
     const poids = perfs[exercice.nom] || "";
     const inputId = `poids-${idx}`;
+    // Poids du corps : on note les répétitions max (ou la durée), pas une charge
+    const pdc = !!exercice.poidsDeCorps;
+    const secondes = exercice.mesure === "secondes";
+    const libelle = !pdc ? "Poids utilisé (kg)" : secondes ? "Durée max (secondes)" : "Répétitions max";
 
     const card = document.createElement("div");
     card.className = "perf-card";
@@ -23,13 +27,14 @@ function afficherExercices() {
         <span class="muscle-tag">${MUSCLE_LABELS[exercice.muscle]}</span>
       </div>
       <div class="perf-input-group">
-        <label for="${inputId}">Poids utilisé (kg)</label>
+        <label for="${inputId}">${libelle}</label>
         <input
           type="number"
           id="${inputId}"
           value="${echapperHtml(poids)}"
-          placeholder="Ex: 50"
-          step="0.5"
+          placeholder="${!pdc ? "Ex: 50" : secondes ? "Ex: 60" : "Ex: 20"}"
+          step="${pdc ? 1 : 0.5}"
+          inputmode="${pdc ? "numeric" : "decimal"}"
           min="0"
         >
       </div>
@@ -38,17 +43,21 @@ function afficherExercices() {
       </button>
     `;
     const btn = card.querySelector(".save-btn");
-    btn.addEventListener("click", () => sauvegarderPoids(exercice.nom, card.querySelector("input"), btn));
+    btn.addEventListener("click", () => sauvegarderPoids(exercice, card.querySelector("input"), btn));
     grid.appendChild(card);
   });
 }
 
 // Fonction pour sauvegarder un poids
-function sauvegarderPoids(nomExercice, input, btn) {
-  const poids = input.value;
+function sauvegarderPoids(exercice, input, btn) {
+  const valeur = input.value;
+  // Poids du corps : un nombre entier de répétitions (ou de secondes)
+  const valide = exercice.poidsDeCorps
+    ? Number.isInteger(Number(valeur)) && Number(valeur) >= 1
+    : valeur !== "" && parseFloat(valeur) >= 0;
 
-  if (poids && parseFloat(poids) >= 0) {
-    perfs[nomExercice] = poids;
+  if (valide) {
+    perfs[exercice.nom] = valeur;
     ecrireStockage("perfs", perfs);
 
     // Animation de confirmation
@@ -63,7 +72,7 @@ function sauvegarderPoids(nomExercice, input, btn) {
       btn.style.color = "";
     }, 1500);
   } else {
-    alert("Veuillez entrer un poids valide");
+    alert(exercice.poidsDeCorps ? "Entre un nombre entier de répétitions (1 ou plus)." : "Entre un poids valide (en kg).");
   }
 }
 

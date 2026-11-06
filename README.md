@@ -94,7 +94,7 @@ npx http-server
 | Action | Gain |
 |---|---|
 | Terminer une séance | 30 pièces + 2 par série validée (60 max) |
-| Battre son record de charge sur un exercice | 25 pièces (une fois par exercice et par séance) |
+| Battre son record sur un exercice (charge, ou répétitions au poids du corps) | 25 pièces (une fois par exercice et par séance) |
 | Première ouverture | 100 pièces de bienvenue + 30 par séance déjà enregistrée |
 
 | Rareté | Avatar | Tenue |
@@ -103,6 +103,10 @@ npx http-server
 | Rare | 400 | 200 |
 | Épique | 800 | 400 |
 | Légendaire | 1 500 | 800 |
+
+Exercices au poids du corps (pompes, dips, tractions, abdos…) : marqués `poidsDeCorps`
+dans `js/donnees-exercices.js` ; on n'y saisit que les répétitions (les planches : en
+secondes, `mesure: "secondes"`) et le record porte sur le maximum de répétitions.
 
 Chaque avatar inclut sa tenue de base ; « La Recrue » est offerte. Les valeurs se
 règlent dans `GAINS` (`js/pieces.js`) et `RARETES` (`js/donnees-avatars.js`).

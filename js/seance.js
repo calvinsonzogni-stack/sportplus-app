@@ -142,17 +142,13 @@ function initFiltres() {
 function lancerSeance() {
   if (exercicesSelectionnes.length === 0) return;
 
-  // Récupérer les perfs sauvegardées pour pré-remplir la charge
-  const perfs = lireStockage("perfs", {});
-
-  // Construire la structure de la séance
+  // Construire la structure de la séance (charge pré-remplie avec le dernier max)
   seanceData = exercicesSelectionnes.map(nom => {
     const exo = EXERCICES_DB.find(e => e.nom === nom);
-    const dernierPoids = perfs[nom] ? parseFloat(perfs[nom]) : "";
     return {
       nom,
       muscle: exo ? exo.muscle : "",
-      series: [{ reps: "", charge: dernierPoids, validee: false }],
+      series: [{ reps: "", charge: chargeInitiale(nom), validee: false }],
     };
   });
 
@@ -238,6 +234,7 @@ function renderSeance() {
           <div>
             <h2>${exo.nom}</h2>
             <span class="muscle-tag-small">${MUSCLE_LABELS[exo.muscle] || exo.muscle}</span>
+            ${rappelRecord(exo.nom)}
           </div>
         </div>
         <div class="exo-status-badge" id="status-${exoIdx}">
@@ -246,11 +243,11 @@ function renderSeance() {
       </div>
 
       <!-- Tableau des séries -->
-      <div class="series-table">
+      <div class="series-table ${estPoidsDeCorps(exo.nom) ? "poids-du-corps" : ""}">
         <div class="series-table-header">
           <span>Série</span>
-          <span>Reps</span>
-          <span>Charge (kg)</span>
+          <span>${uniteReps(exo.nom) === "s" ? "Secondes" : "Reps"}</span>
+          ${estPoidsDeCorps(exo.nom) ? "" : "<span>Charge (kg)</span>"}
           <span></span>
         </div>
         <div class="series-rows" id="series-rows-${exoIdx}">
@@ -275,28 +272,34 @@ function renderSeance() {
 }
 
 function renderSeries(exoIdx, series) {
+  const pdc = estPoidsDeCorps(seanceData[exoIdx].nom);
+  const secondes = uniteReps(seanceData[exoIdx].nom) === "s";
   return series.map((serie, sIdx) => `
     <div class="serie-row ${serie.validee ? "serie-validee" : ""}" id="serie-row-${exoIdx}-${sIdx}">
       <span class="serie-num">${sIdx + 1}</span>
       <input
         type="number"
         class="serie-input reps-input"
-        placeholder="12"
+        placeholder="${secondes ? "30" : "12"}"
         min="1"
+        inputmode="numeric"
+        aria-label="${secondes ? "Secondes" : "Répétitions"}, série ${sIdx + 1}"
         value="${serie.reps}"
         ${serie.validee ? "disabled" : ""}
         oninput="updateSerie(${exoIdx}, ${sIdx}, 'reps', this.value)"
       >
-      <input
+      ${pdc ? "" : `<input
         type="number"
         class="serie-input charge-input"
         placeholder="kg"
         min="0"
         step="0.5"
+        inputmode="decimal"
+        aria-label="Charge en kg, série ${sIdx + 1}"
         value="${serie.charge}"
         ${serie.validee ? "disabled" : ""}
         oninput="updateSerie(${exoIdx}, ${sIdx}, 'charge', this.value)"
-      >
+      >`}
       ${!serie.validee ? `
         <button class="btn-valider-serie" onclick="validerSerie(${exoIdx}, ${sIdx})" title="Valider cette série">
           ✓
@@ -318,31 +321,39 @@ function updateSerie(exoIdx, sIdx, champ, valeur) {
 function validerSerie(exoIdx, sIdx) {
   const serie = seanceData[exoIdx].series[sIdx];
 
-  // Vérification : au moins les reps
+  const exo = seanceData[exoIdx];
+  const pdc = estPoidsDeCorps(exo.nom);
+  const secondes = uniteReps(exo.nom) === "s";
+
+  // Vérification : au moins les reps (ou la durée pour le gainage)
   if (!serie.reps || parseInt(serie.reps) < 1) {
-    showToast("Entre le nombre de répétitions avant de valider 👀", "warning");
+    showToast(secondes ? "Entre la durée tenue (en secondes) avant de valider 👀"
+                       : "Entre le nombre de répétitions avant de valider 👀", "warning");
     return;
   }
 
   serie.validee = true;
-  const exo = seanceData[exoIdx];
+  // Poids du corps : pas de charge, même si une ancienne valeur traînait
+  if (pdc) serie.charge = "";
 
-  // Record battu ? On compare au maximum enregistré AVANT cette série.
+  // Record battu ? On compare au maximum enregistré AVANT cette série :
+  // la charge, ou les répétitions pour un exercice au poids du corps.
   // Récompense une seule fois par exercice et par séance.
-  const charge = parseFloat(serie.charge) || 0;
+  const valeur = pdc ? (parseInt(serie.reps) || 0) : (parseFloat(serie.charge) || 0);
+  const unite = pdc ? (secondes ? "s" : "reps") : "kg";
   const ancienMax = parseFloat(lireStockage("perfs", {})[exo.nom]) || 0;
-  const record = ancienMax > 0 && charge > ancienMax;
+  const record = ancienMax > 0 && valeur > ancienMax;
   if (record && !exo.recordRecompense) {
     exo.recordRecompense = true;
-    Pieces.gagner(GAINS.record, `Record : ${exo.nom} (${charge} kg)`,
-      { texte: `Nouveau record !\n${exo.nom} : ${charge} kg` });
+    Pieces.gagner(GAINS.record, `Record : ${exo.nom} (${valeur} ${unite})`,
+      { texte: `Nouveau record !\n${exo.nom} : ${valeur} ${unite}` });
   }
   sauvegarderSeanceEnCours();
   Repos.demarrer();
 
-  // Sauvegarder la charge dans les perfs si renseignée
-  if (charge > 0) {
-    sauvegarderPerf(exo.nom, serie.charge);
+  // Mettre à jour la perf (charge max, ou reps max au poids du corps)
+  if (valeur > 0) {
+    sauvegarderPerf(exo.nom, valeur);
   }
 
   // Re-render la ligne
@@ -352,7 +363,7 @@ function validerSerie(exoIdx, sIdx) {
       <div class="serie-row serie-validee" id="serie-row-${exoIdx}-${sIdx}">
         <span class="serie-num">${sIdx + 1}</span>
         <input type="number" class="serie-input reps-input" value="${serie.reps}" disabled>
-        <input type="number" class="serie-input charge-input" value="${serie.charge || ''}" placeholder="-" disabled>
+        ${pdc ? "" : `<input type="number" class="serie-input charge-input" value="${serie.charge || ''}" placeholder="-" disabled>`}
         <span class="serie-check">✓</span>
       </div>
     `;
@@ -364,10 +375,7 @@ function validerSerie(exoIdx, sIdx) {
 
 function ajouterSerie(exoIdx) {
   const exo = seanceData[exoIdx];
-  const perfs = lireStockage("perfs", {});
-  const dernierPoids = perfs[exo.nom] ? parseFloat(perfs[exo.nom]) : "";
-
-  exo.series.push({ reps: "", charge: dernierPoids, validee: false });
+  exo.series.push({ reps: "", charge: chargeInitiale(exo.nom), validee: false });
   sauvegarderSeanceEnCours();
 
   // Re-render uniquement les rows
@@ -430,14 +438,29 @@ function validerExercice(exoIdx) {
 //  PERFORMANCES
 // ────────────────────────────────────────────────
 
-function sauvegarderPerf(nomExercice, charge) {
+// Perf d'un exercice : charge max (kg), ou répétitions max au poids du corps
+function sauvegarderPerf(nomExercice, valeur) {
   const perfs = lireStockage("perfs", {});
-  // On garde la charge la plus élevée de la séance
-  const chargeActuelle = parseFloat(perfs[nomExercice]) || 0;
-  if (parseFloat(charge) > chargeActuelle) {
-    perfs[nomExercice] = String(charge);
+  const actuelle = parseFloat(perfs[nomExercice]) || 0;
+  if (parseFloat(valeur) > actuelle) {
+    perfs[nomExercice] = String(valeur);
     ecrireStockage("perfs", perfs);
   }
+}
+
+// Charge pré-remplie pour une nouvelle série : le dernier max, sauf au poids du corps
+function chargeInitiale(nom) {
+  if (estPoidsDeCorps(nom)) return "";
+  const perfs = lireStockage("perfs", {});
+  return perfs[nom] ? parseFloat(perfs[nom]) : "";
+}
+
+// Rappel du record à battre, pour les exercices au poids du corps
+// (pour les autres, la charge max est déjà pré-remplie dans la série)
+function rappelRecord(nom) {
+  if (!estPoidsDeCorps(nom)) return "";
+  const max = parseInt(lireStockage("perfs", {})[nom]) || 0;
+  return max ? `<span class="record-a-battre">Record : ${max} ${uniteReps(nom)}</span>` : "";
 }
 
 // ────────────────────────────────────────────────
@@ -457,18 +480,22 @@ function terminerSeance() {
   const seanceComplete = {
     date: new Date().toISOString(),
     duree: timerSeconds,
-    exercices: seanceData.map(exo => ({
-      nom: exo.nom,
-      muscle: exo.muscle,
-      series: exo.series
-        .filter(s => s.validee)
-        .map(s => ({
+    exercices: seanceData.map(exo => {
+      const pdc = estPoidsDeCorps(exo.nom);
+      const validees = exo.series.filter(s => s.validee);
+      return {
+        nom: exo.nom,
+        muscle: exo.muscle,
+        ...(pdc ? { poidsDeCorps: true } : {}),
+        series: validees.map(s => ({
           reps: parseInt(s.reps) || 0,
-          charge: parseFloat(s.charge) || 0,
+          charge: pdc ? 0 : (parseFloat(s.charge) || 0),
         })),
-      // Charge max de la séance pour cet exo
-      chargeMax: Math.max(0, ...exo.series.filter(s => s.validee && s.charge).map(s => parseFloat(s.charge) || 0)),
-    })).filter(e => e.series.length > 0), // Ne garder que les exos avec au moins 1 série validée
+        // Charge max de la séance (0 au poids du corps) et répétitions max
+        chargeMax: pdc ? 0 : Math.max(0, ...validees.map(s => parseFloat(s.charge) || 0)),
+        repsMax: Math.max(0, ...validees.map(s => parseInt(s.reps) || 0)),
+      };
+    }).filter(e => e.series.length > 0), // Ne garder que les exos avec au moins 1 série validée
   };
 
   // Sauvegarder dans l'historique
@@ -639,8 +666,6 @@ function appliquerModif() {
     return;
   }
 
-  const perfs = lireStockage("perfs", {});
-
   // Exercices terminés — on les garde tels quels
   const exosTerminesData = seanceData.filter(e => e.termine);
   const nomsTermines     = exosTerminesData.map(e => e.nom);
@@ -662,11 +687,10 @@ function appliquerModif() {
 
   const nouveaux = aAjouter.map(nom => {
     const exo = EXERCICES_DB.find(e => e.nom === nom);
-    const dernierPoids = perfs[nom] ? parseFloat(perfs[nom]) : "";
     return {
       nom,
       muscle: exo ? exo.muscle : "",
-      series: [{ reps: "", charge: dernierPoids, validee: false }],
+      series: [{ reps: "", charge: chargeInitiale(nom), validee: false }],
       termine: false,
     };
   });

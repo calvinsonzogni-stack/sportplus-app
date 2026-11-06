@@ -302,3 +302,14 @@ canvas { max-height: 260px !important; width: 100% !important; }
   .sauvegarde-actions .btn-sauvegarde { flex: 1; }
 }
 .historique-seances { padding-bottom: 40px; }
+
+/* Record au poids du corps : « 25 reps » + mention discrète en dessous */
+.charge-unit + .charge-bodyweight {
+  flex-basis: 100%;
+  margin-top: 2px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--muted);
+}
+.record-charge { flex-wrap: wrap; }

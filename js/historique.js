@@ -28,6 +28,20 @@ function trouverExerciceFavori() {
   return Object.entries(cnt).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
 }
 
+// Performance d'un exercice dans une séance : la charge max (kg), ou les
+// répétitions max (ou secondes, pour le gainage) au poids du corps
+function perfExo(exo) {
+  const pdc = exo.poidsDeCorps || estPoidsDeCorps(exo.nom);
+  if (pdc) {
+    const reps = exo.repsMax || (exo.series ? Math.max(0, ...exo.series.map(s => parseInt(s.reps) || 0)) : 0);
+    return { valeur: reps, unite: uniteReps(exo.nom), pdc: true };
+  }
+  const charge = exo.chargeMax
+    || (exo.series ? Math.max(0, ...exo.series.map(s => parseFloat(s.charge) || 0)) : 0)
+    || (exo.poids ? parseFloat(exo.poids) : 0);
+  return { valeur: charge, unite: "kg", pdc: false };
+}
+
 function calculerProgressionMois() {
   const debut = new Date(); debut.setDate(1); debut.setHours(0, 0, 0, 0);
   const seancesMois = historique.filter(s => new Date(s.date) >= debut);
@@ -37,8 +51,10 @@ function calculerProgressionMois() {
   let total = 0, count = 0;
   last.exercices.forEach(exo => {
     const prev = first.exercices.find(e => e.nom === exo.nom);
-    if (prev && prev.chargeMax > 0 && exo.chargeMax > 0) {
-      total += ((exo.chargeMax - prev.chargeMax) / prev.chargeMax) * 100;
+    const avant = prev ? perfExo(prev).valeur : 0;
+    const apres = perfExo(exo).valeur;
+    if (avant > 0 && apres > 0) {
+      total += ((apres - avant) / avant) * 100;
       count++;
     }
   });
@@ -51,23 +67,21 @@ function calculerProgressionMois() {
 
 // Calcule les records à partir de tout l'historique
 function calculerRecords() {
-  const records = {}; // { nomExo: { chargeMax, muscle, nbFois, derniereDate } }
+  const records = {}; // { nomExo: { valeur, unite, pdc, muscle, nbFois, derniereDate } }
 
   historique.forEach(seance => {
     seance.exercices.forEach(exo => {
-      const chargeMax = exo.chargeMax
-        || (exo.series ? Math.max(0, ...exo.series.map(s => parseFloat(s.charge) || 0)) : 0)
-        || (exo.poids ? parseFloat(exo.poids) : 0);
+      const { valeur, unite, pdc } = perfExo(exo);
 
       if (!records[exo.nom]) {
         records[exo.nom] = {
-          chargeMax: chargeMax,
+          valeur, unite, pdc,
           muscle: exo.muscle || "",
           nbFois: 1,
           derniereDate: seance.date,
         };
       } else {
-        if (chargeMax > records[exo.nom].chargeMax) records[exo.nom].chargeMax = chargeMax;
+        if (valeur > records[exo.nom].valeur) records[exo.nom].valeur = valeur;
         records[exo.nom].nbFois++;
         if (new Date(seance.date) > new Date(records[exo.nom].derniereDate)) {
           records[exo.nom].derniereDate = seance.date;
@@ -102,13 +116,15 @@ function afficherRecords(muscleFilter = "all") {
     return;
   }
 
-  // Trier par charge max décroissante
-  filtered.sort((a, b) => b[1].chargeMax - a[1].chargeMax);
+  // Charges d'abord (du plus lourd au plus léger), puis le poids du corps
+  // (du plus de répétitions au moins) : comparer des kg et des reps n'a pas de sens.
+  filtered.sort((a, b) => (a[1].pdc - b[1].pdc) || (b[1].valeur - a[1].valeur));
 
   grid.innerHTML = filtered.map(([nom, record], idx) => {
     const dateStr = new Date(record.derniereDate).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
     const muscleLabel = MUSCLE_LABELS[record.muscle] || record.muscle || "—";
-    const isPodium = idx < 3;
+    // Podium = les 3 plus grosses charges (les records au poids du corps n'y entrent pas)
+    const isPodium = !record.pdc && idx < 3;
 
     return `
       <div class="record-card ${isPodium ? "record-podium" : ""}">
@@ -120,10 +136,11 @@ function afficherRecords(muscleFilter = "all") {
           ${isPodium ? `<span class="podium-badge">${["🥇","🥈","🥉"][idx]}</span>` : ""}
         </div>
         <div class="record-charge">
-          ${record.chargeMax > 0
-            ? `<span class="charge-value">${record.chargeMax}</span><span class="charge-unit">kg</span>`
-            : `<span class="charge-bodyweight">Poids de corps</span>`
+          ${record.valeur > 0
+            ? `<span class="charge-value">${record.valeur}</span> <span class="charge-unit">${record.unite}</span>`
+            : `<span class="charge-bodyweight">—</span>`
           }
+          ${record.pdc ? `<span class="charge-bodyweight">Poids du corps</span>` : ""}
         </div>
         <div class="record-meta">
           <span>🔁 ${record.nbFois} fois pratiqué</span>
@@ -185,23 +202,26 @@ function creerGraphiqueEvolution(nomExo) {
     .forEach(s => {
       const exo = s.exercices.find(e => e.nom === nomExo);
       if (!exo) return;
-      const charge = exo.chargeMax
-        || (exo.series ? Math.max(0, ...exo.series.map(s => parseFloat(s.charge) || 0)) : null)
-        || (exo.poids ? parseFloat(exo.poids) : null);
-      if (charge !== null && charge > 0) {
+      const { valeur } = perfExo(exo);
+      if (valeur > 0) {
         points.push({
           label: new Date(s.date).toLocaleDateString("fr-FR", { day: "2-digit", month: "short" }),
-          y: charge,
+          y: valeur,
         });
       }
     });
+
+  // Poids du corps : on suit les répétitions max (ou la durée), pas une charge
+  const pdc = estPoidsDeCorps(nomExo);
+  const unite = pdc ? uniteReps(nomExo) : "kg";
+  const libelle = !pdc ? "Charge max (kg)" : unite === "s" ? "Durée max (s)" : "Répétitions max";
 
   evolutionChart = new Chart(ctx, {
     type: "line",
     data: {
       labels: points.map(p => p.label),
       datasets: [{
-        label: "Charge max (kg)",
+        label: libelle,
         data: points.map(p => p.y),
         borderColor: ROUGE,
         backgroundColor: `rgba(${ROUGE_RGB},0.12)`,
@@ -218,10 +238,10 @@ function creerGraphiqueEvolution(nomExo) {
       responsive: true,
       plugins: {
         legend: { labels: { color: "#888", font: { size: 13 } } },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} kg` } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} ${unite}` } },
       },
       scales: {
-        y: { beginAtZero: false, grid: { color: "#1e1e1e" }, ticks: { color: "#666", callback: v => v + " kg" } },
+        y: { beginAtZero: false, grid: { color: "#1e1e1e" }, ticks: { color: "#666", callback: v => `${v} ${unite}` } },
         x: { grid: { display: false }, ticks: { color: "#666" } },
       },
     },
@@ -335,14 +355,15 @@ function afficherHistorique() {
 
 function renderExoHistorique(exo) {
   if (exo.series && exo.series.length > 0) {
+    const { valeur, unite, pdc } = perfExo(exo);
     const seriesHtml = exo.series.map((s, i) =>
-      `<span class="serie-pill">${i + 1}. ${s.reps} reps${s.charge ? " × " + s.charge + " kg" : ""}</span>`
+      `<span class="serie-pill">${i + 1}. ${s.reps} ${pdc ? unite : "reps"}${!pdc && s.charge ? " × " + s.charge + " kg" : ""}</span>`
     ).join("");
     return `
       <div class="exercice-item exercice-item-rich">
         <div class="exercice-nom">${echapperHtml(exo.nom)}</div>
         <div class="exercice-series">${seriesHtml}</div>
-        ${exo.chargeMax > 0 ? `<div class="exercice-poids">Max : ${exo.chargeMax} kg</div>` : ""}
+        ${valeur > 0 ? `<div class="exercice-poids">Max : ${valeur} ${unite}</div>` : ""}
       </div>`;
   }
   return `
