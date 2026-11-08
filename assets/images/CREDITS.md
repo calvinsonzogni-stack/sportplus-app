@@ -35,7 +35,7 @@ du mouvement ; l'appli les fait alterner pour animer l'exercice.
 | `russian-twist.jpg` | Russian Twist | [`Russian_Twist/1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Russian_Twist) |
 | `bicycle-crunch.jpg` | Bicycle Crunch | [`Air_Bike/1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Air_Bike) |
 | `ab-wheel.jpg` | Ab Wheel | [`Ab_Roller/1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Ab_Roller) |
-| `hanging-leg-raise.jpg` | Hanging Leg Raise | [`Hanging_Leg_Raise/1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Hanging_Leg_Raise) |
+| `hanging-leg-raise.jpg` | Hanging Leg Raise | [`Hanging_Pike/0.jpg` + `1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Hanging_Pike) (la photo Hanging_Leg_Raise coupait la tête) |
 | `cable-crunch.jpg` | Cable Crunch | [`Cable_Crunch/1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Cable_Crunch) |
 | `sit-ups.jpg` | Sit-ups | [`Sit-Up/1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Sit-Up) |
 | `chest-press-machine.jpg` + `chest-press-machine-2.jpg` | Chest Press (machine) | [`Leverage_Chest_Press`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Leverage_Chest_Press) |
@@ -84,5 +84,6 @@ du mouvement ; l'appli les fait alterner pour animer l'exercice.
 | `developpe-incline-poulie.jpg` + `developpe-incline-poulie-2.jpg` | Développé Incliné Poulie | [`Incline_Cable_Chest_Press`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Incline_Cable_Chest_Press) |
 | `pec-deck-inverse-poulie.jpg` + `pec-deck-inverse-poulie-2.jpg` | Pec Deck Inversé Poulie | [`Cable_Rear_Delt_Fly`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Cable_Rear_Delt_Fly) |
 | `curl-pupitre-poulie.jpg` + `curl-pupitre-poulie-2.jpg` | Curl Pupitre Poulie | [`Cable_Preacher_Curl`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Cable_Preacher_Curl) |
+| `souleve-de-terre-roumain.jpg` + `souleve-de-terre-roumain-2.jpg` | Soulevé de Terre Roumain | [`Romanian_Deadlift/0.jpg` + `1.jpg`](https://github.com/yuhonas/free-exercise-db/tree/main/exercises/Romanian_Deadlift) |
 
 Les autres images de ce dossier ont été ajoutées avant cette liste ; leur source n'est pas documentée ici.
