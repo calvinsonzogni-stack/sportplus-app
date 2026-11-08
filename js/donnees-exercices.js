@@ -44,7 +44,7 @@ const EXERCICES_DB = [
   { nom: "Tirage Poitrine",            muscle: "dos",       image: "tirage-poitrine.jpg" },
   { nom: "Tirage Nuque",               muscle: "dos",       image: "tirage-nuque.jpg" },
   { nom: "Soulevé de Terre",           muscle: "dos",       image: "souleve-de-terre.jpg" },
-  { nom: "Soulevé de Terre Roumain",   muscle: "dos",       image: "souleve-de-terre-roumain.jpg" },
+  { nom: "Soulevé de Terre Roumain",   muscle: "dos",       image: "souleve-de-terre-roumain.jpg", image2: "souleve-de-terre-roumain-2.jpg" },
   { nom: "Shrugs",                     muscle: "dos",       image: "shrugs.jpg" },
   { nom: "Face Pull",                  muscle: "dos",       image: "face-pull.jpg" },
   { nom: "Tirage Prise Serrée",            muscle: "dos",        image: "tirage-prise-serree.jpg", image2: "tirage-prise-serree-2.jpg" },
