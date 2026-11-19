@@ -293,3 +293,19 @@
   .installer-actions { flex-direction: row; width: 100%; }
   .installer-btn { flex: 1; }
 }
+
+/* Salle de sport du profil */
+.profil-salle {
+  display: block;
+  margin-top: 8px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #ddd;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.profil-salle:hover { color: #fff; text-decoration: underline; }
+.profil-salle.vide { color: var(--accent-text); }

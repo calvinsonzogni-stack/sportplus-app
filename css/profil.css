@@ -1,0 +1,144 @@
+/* ════════════════════════════════════════════════
+   SPORT+ — profil.css
+   Page « Mon profil ». Couleurs, en-tête et navigation : theme.css.
+════════════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { min-height: 100vh; }
+.hidden { display: none !important; }
+button, input, select { font: inherit; color: inherit; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.profil-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 26px 18px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.profil-titre { font-size: clamp(28px, 6vw, 36px); font-weight: 900; letter-spacing: -0.5px; }
+
+.bloc {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.bloc h2 { font-size: 19px; font-weight: 800; margin-bottom: 14px; }
+.sous-titre {
+  margin: 22px 0 10px;
+  font-size: 13px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* ── Champs et boutons ───────────────────────── */
+.ligne-champ { display: flex; gap: 8px; }
+.ligne-champ input {
+  flex: 1; min-width: 0; min-height: 46px; padding: 0 14px;
+  background: var(--bg); border: 2px solid var(--border); border-radius: 12px;
+  outline: none; transition: border-color 0.2s;
+}
+.ligne-champ input:focus { border-color: var(--accent); }
+.ligne-champ input::placeholder { color: #666; }
+
+.btn-principal, .btn-secondaire {
+  flex-shrink: 0; min-height: 46px; padding: 0 18px;
+  border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-principal { background: var(--accent); border: none; color: #fff; }
+.btn-principal:hover { background: var(--accent-hover); }
+.btn-secondaire { background: var(--surface-2); border: 2px solid var(--border); color: #fff; }
+.btn-secondaire:hover { border-color: var(--accent); }
+.btn-lien { background: none; border: none; color: var(--muted); font-weight: 700; cursor: pointer; padding: 8px; }
+.btn-lien:hover { color: var(--accent-text); }
+
+.aide { margin-top: 8px; min-height: 18px; color: var(--muted); font-size: 14px; }
+
+/* ── Recherche ───────────────────────────────── */
+.recherche { display: flex; flex-direction: column; gap: 10px; }
+.recherche > .btn-principal { width: 100%; font-size: 16px; }
+.options { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.options label { color: var(--muted); font-size: 14px; font-weight: 700; }
+.options select {
+  min-height: 40px; padding: 0 10px;
+  background: var(--bg); border: 2px solid var(--border); border-radius: 10px;
+}
+.tri { display: flex; gap: 6px; margin-left: auto; }
+.tri-btn {
+  min-height: 36px; padding: 0 12px;
+  background: transparent; border: 1px solid var(--border); border-radius: 999px;
+  color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.tri-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.statut { margin-top: 14px; min-height: 20px; color: var(--muted); font-size: 14px; }
+.statut.erreur { color: var(--accent-text); }
+
+.resultats { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+/* ── Carte d'une salle ───────────────────────── */
+.carte-salle {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
+}
+.carte-salle.choisie { border-color: var(--accent); background: rgba(var(--accent-rgb), 0.08); }
+.carte-salle-infos { min-width: 0; }
+.carte-salle-nom { font-size: 16px; font-weight: 800; overflow-wrap: anywhere; }
+.carte-salle-adresse { margin-top: 4px; color: var(--muted); font-size: 13px; }
+.badge-enseigne {
+  display: inline-block; margin-top: 6px; padding: 2px 10px;
+  background: rgba(255, 184, 0, 0.1); border: 1px solid rgba(255, 184, 0, 0.4);
+  border-radius: 999px; color: var(--or); font-size: 12px; font-weight: 800;
+}
+.ma-salle { flex-shrink: 0; color: var(--accent-text); font-size: 13px; font-weight: 800; }
+.vide { color: var(--muted); font-size: 15px; }
+
+.manuel { margin-top: 16px; }
+.manuel summary { cursor: pointer; color: var(--muted); font-size: 14px; font-weight: 700; }
+.manuel summary:hover { color: #fff; }
+.manuel .ligne-champ { margin-top: 10px; }
+
+.mention { margin-top: 16px; color: #777; font-size: 12px; line-height: 1.5; }
+.mention a, .sources a { color: var(--muted); }
+
+/* ── Classements ─────────────────────────────── */
+.onglets { display: flex; gap: 8px; margin-bottom: 10px; }
+.onglet {
+  flex: 1; min-height: 42px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+  color: var(--muted); font-weight: 800; cursor: pointer;
+}
+.onglet.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.classement-critere { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.classement { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.classement-ligne {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 12px; background: var(--bg);
+}
+.classement-ligne.mienne { box-shadow: inset 0 0 0 1px var(--accent); }
+.classement-rang {
+  flex-shrink: 0; width: 30px; height: 30px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--surface-2); font-weight: 900; font-size: 14px;
+}
+.classement-ligne:nth-child(-n+3) .classement-rang { background: var(--accent); color: #fff; }
+.classement-infos { flex: 1; min-width: 0; }
+.classement-nom { font-weight: 800; }
+.classement-detail { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.classement-chiffre { flex-shrink: 0; font-weight: 800; color: var(--or); font-size: 14px; text-align: right; }
+.sources { margin-top: 12px; color: #777; font-size: 12px; line-height: 1.5; }
+
+@media (max-width: 560px) {
+  .profil-page { padding: 18px 12px 32px; }
+  .bloc { padding: 16px; }
+  .tri { margin-left: 0; width: 100%; }
+  .tri-btn { flex: 1; }
+  .carte-salle { flex-wrap: wrap; }
+  .carte-salle .btn-secondaire { width: 100%; }
+  .classement-chiffre { font-size: 13px; }
+}
