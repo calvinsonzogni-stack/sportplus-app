@@ -17,6 +17,8 @@ Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets 
 - **Statistiques** : Jours consécutifs, exercice favori, records personnels
 - **Pièces** 🪙 : gagnées en terminant une séance et en battant ses records
 - **Boutique** : 8 avatars à débloquer, chacun avec 4 tenues, prix selon la rareté
+- **Profil et salle** : choisis ta salle (recherche autour de toi ou par ville, via OpenStreetMap),
+  les enseignes connues sont reconnues, avec le top 10 des chaînes mondiales et françaises
 - **Sauvegarde** : export / import de toutes les données dans un fichier (page Historique)
 - **Appli installable et hors ligne** : « Ajouter à l'écran d'accueil », puis utilisable sans réseau à la salle
 
@@ -29,6 +31,7 @@ sport-plus/
 ├── planning.html        # Calendrier des séances programmées
 ├── historique.html      # Historique et statistiques
 ├── boutique.html        # Boutique d'avatars et de tenues
+├── profil.html          # Profil : pseudo, salle, classements des chaînes
 ├── exercices.html       # Bibliothèque d'exercices (page secondaire)
 ├── perfs.html           # Saisie manuelle des charges (page secondaire)
 ├── manifest.webmanifest # Nom, icônes et couleurs de l'appli installée
@@ -38,16 +41,19 @@ sport-plus/
 ├── js/
 │   ├── donnees-exercices.js # Liste des exercices (source unique, lue aussi par sw.js)
 │   ├── donnees-avatars.js   # Catalogue de la boutique : avatars, tenues, raretés, prix
+│   ├── donnees-salles.js    # Classements des chaînes (avec sources) et reconnaissance des enseignes
 │   ├── commun.js        # Utilitaires partagés + enregistrement du service worker
 │   ├── pieces.js        # Monnaie, gains, collection d'avatars, solde dans l'en-tête
 │   ├── accueil.js       # Tableau de bord (page d'accueil)
 │   ├── boutique.js      # Boutique : aperçu, achat, équipement
+│   ├── profil.js        # Profil : recherche de salles (OpenStreetMap), classements
 │   ├── nav.js           # Menu hamburger
 │   ├── notif-planning.js# Rappel « séance prévue aujourd'hui »
 │   ├── repos.js         # Minuteur de repos (page séance)
 │   ├── sauvegarde.js    # Export / import des données (page historique)
 │   ├── <page>.js        # Logique propre à chaque page
 │   └── vendor/          # Chart.js 4.4.0 (MIT), embarqué pour fonctionner hors ligne
+├── tests/               # Tests de bout en bout (Playwright), voir tests/README.md
 ├── tools/avatars/       # Script de génération des avatars (développement uniquement)
 └── assets/
     ├── avatars/         # Avatars générés (SVG), voir CREDITS.md
@@ -85,10 +91,14 @@ python -m http.server 8000
 npx http-server
 ```
 
+Tests (dans un vrai navigateur) : `bash tests/lancer.sh` — voir [tests/README.md](tests/README.md).
+
 ## Notes
 
 - Les données sont stockées localement dans le navigateur (LocalStorage)
-- Aucune dépendance externe : tout est servi par le site lui-même
+- Aucune dépendance externe : tout est servi par le site lui-même. Seule exception, la recherche
+  de salle (page Profil) interroge OpenStreetMap (Overpass et Nominatim) à la demande ; la position
+  n'est envoyée qu'à ce moment-là et n'est pas conservée. Le reste de l'appli marche hors ligne
 - Pour ajouter un exercice, il suffit de l'ajouter dans `EXERCICES_DB` (`js/donnees-exercices.js`) : toutes les pages le voient, et son image est automatiquement gardée hors ligne
 
 ## Pièces et boutique

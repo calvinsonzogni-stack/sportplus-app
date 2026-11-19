@@ -27,6 +27,10 @@
     $("profil-nom").textContent = pseudo || "Choisis ton pseudo";
     $("profil-nom").classList.toggle("vide", !pseudo);
     $("profil-solde").textContent = Pieces.solde();
+    // Salle choisie dans « Mon profil »
+    const salle = lireStockage("salle", null);
+    $("profil-salle").textContent = salle && salle.nom ? `📍 ${salle.nom}` : "📍 Choisir ma salle";
+    $("profil-salle").classList.toggle("vide", !(salle && salle.nom));
   }
 
   // ── Bouton principal : démarrer, ou reprendre une séance en cours ──
