@@ -17,8 +17,8 @@ Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets 
 - **Statistiques** : Jours consécutifs, exercice favori, records personnels
 - **Pièces** 🪙 : gagnées en terminant une séance et en battant ses records
 - **Boutique** : 8 avatars à débloquer, chacun avec 4 tenues, prix selon la rareté
-- **Profil et salle** : choisis ta salle (recherche autour de toi ou par ville, via OpenStreetMap),
-  les enseignes connues sont reconnues, avec le top 10 des chaînes mondiales et françaises
+- **Profil et salle** : choisis ta salle parmi le top 10 des chaînes françaises et mondiales
+  (ou saisis-la si elle n'y est pas)
 - **Sauvegarde** : export / import de toutes les données dans un fichier (page Historique)
 - **Appli installable et hors ligne** : « Ajouter à l'écran d'accueil », puis utilisable sans réseau à la salle
 
@@ -46,7 +46,7 @@ sport-plus/
 │   ├── pieces.js        # Monnaie, gains, collection d'avatars, solde dans l'en-tête
 │   ├── accueil.js       # Tableau de bord (page d'accueil)
 │   ├── boutique.js      # Boutique : aperçu, achat, équipement
-│   ├── profil.js        # Profil : recherche de salles (OpenStreetMap), classements
+│   ├── profil.js        # Profil : pseudo, choix de la salle dans les classements
 │   ├── nav.js           # Menu hamburger
 │   ├── notif-planning.js# Rappel « séance prévue aujourd'hui »
 │   ├── repos.js         # Minuteur de repos (page séance)
@@ -96,9 +96,7 @@ Tests (dans un vrai navigateur) : `bash tests/lancer.sh` — voir [tests/README.
 ## Notes
 
 - Les données sont stockées localement dans le navigateur (LocalStorage)
-- Aucune dépendance externe : tout est servi par le site lui-même. Seule exception, la recherche
-  de salle (page Profil) interroge OpenStreetMap (Overpass et Nominatim) à la demande ; la position
-  n'est envoyée qu'à ce moment-là et n'est pas conservée. Le reste de l'appli marche hors ligne
+- Aucune dépendance externe : tout est servi par le site lui-même
 - Pour ajouter un exercice, il suffit de l'ajouter dans `EXERCICES_DB` (`js/donnees-exercices.js`) : toutes les pages le voient, et son image est automatiquement gardée hors ligne
 
 ## Pièces et boutique

@@ -48,61 +48,28 @@
       <p class="aide" id="pseudo-statut" role="status"></p>
     </section>
 
-    <!-- Ma salle -->
+    <!-- Ma salle : choix parmi les plus grandes enseignes -->
     <section class="bloc" aria-labelledby="titre-salle">
       <h2 id="titre-salle">Ma salle de sport</h2>
       <div class="salle-actuelle" id="salle-actuelle"></div>
 
-      <h3 class="sous-titre">Trouver ma salle</h3>
-      <div class="recherche">
-        <button type="button" class="btn-principal" id="btn-autour">📍 Autour de moi</button>
-        <form class="ligne-champ" id="form-ville">
-          <label class="sr-only" for="champ-ville">Ville ou adresse</label>
-          <input type="search" id="champ-ville" placeholder="Ou une ville : Nîmes, Lyon…" autocomplete="off">
-          <button type="submit" class="btn-secondaire">Chercher</button>
-        </form>
-        <div class="options">
-          <label for="rayon">Rayon</label>
-          <select id="rayon">
-            <option value="2000">2 km</option>
-            <option value="5000" selected>5 km</option>
-            <option value="10000">10 km</option>
-            <option value="20000">20 km</option>
-          </select>
-          <div class="tri" role="group" aria-label="Trier les salles">
-            <button type="button" class="tri-btn active" data-tri="distance" aria-pressed="true">Plus proches</button>
-            <button type="button" class="tri-btn" data-tri="enseigne" aria-pressed="false">Plus grandes enseignes</button>
-          </div>
-        </div>
+      <h3 class="sous-titre">Les plus grandes salles</h3>
+      <div class="onglets" role="tablist" aria-label="Classement">
+        <button type="button" class="onglet active" role="tab" aria-selected="true" data-classement="france">🇫🇷 France</button>
+        <button type="button" class="onglet" role="tab" aria-selected="false" data-classement="monde">🌍 Monde</button>
       </div>
-      <p class="statut" id="recherche-statut" role="status" aria-live="polite"></p>
-      <ol class="resultats" id="resultats"></ol>
+      <p class="classement-critere" id="classement-critere"></p>
+      <ol class="classement" id="classement"></ol>
+      <p class="sources" id="classement-sources"></p>
 
       <details class="manuel">
         <summary>Ma salle n'est pas dans la liste</summary>
         <form class="ligne-champ" id="form-manuel">
           <label class="sr-only" for="champ-manuel">Nom de ta salle</label>
-          <input type="text" id="champ-manuel" maxlength="60" placeholder="Nom de ta salle et ville" autocomplete="off">
+          <input type="text" id="champ-manuel" maxlength="60" placeholder="Nom de ta salle" autocomplete="off">
           <button type="submit" class="btn-secondaire">Choisir</button>
         </form>
       </details>
-
-      <p class="mention">
-        La recherche utilise <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© les contributeurs d'OpenStreetMap</a>.
-        Ta position n'est envoyée que pour la recherche, et n'est jamais enregistrée.
-      </p>
-    </section>
-
-    <!-- Classements -->
-    <section class="bloc" aria-labelledby="titre-classements">
-      <h2 id="titre-classements">Les plus grandes salles</h2>
-      <div class="onglets" role="tablist" aria-label="Classement">
-        <button type="button" class="onglet active" role="tab" aria-selected="true" data-classement="monde">🌍 Monde</button>
-        <button type="button" class="onglet" role="tab" aria-selected="false" data-classement="france">🇫🇷 France</button>
-      </div>
-      <p class="classement-critere" id="classement-critere"></p>
-      <ol class="classement" id="classement"></ol>
-      <p class="sources" id="classement-sources"></p>
     </section>
   </main>
 

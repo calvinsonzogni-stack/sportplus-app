@@ -1,7 +1,7 @@
 // ════════════════════════════════════════════════
 //  SPORT+ — donnees-salles.js
 //  Classements des plus grandes chaînes de salles de sport et
-//  reconnaissance des enseignes dans les résultats de recherche.
+//  reconnaissance des enseignes (salle saisie à la main).
 //  Données sans effet de bord, lues par profil.js.
 //
 //  Les chiffres viennent de sources publiques (voir SOURCES_CLASSEMENTS) ;
@@ -54,8 +54,7 @@ const SOURCES_CLASSEMENTS = {
   },
 };
 
-// Reconnaissance des enseignes dans les noms de salles (OpenStreetMap).
-// rang : sert à classer les salles « des plus grandes enseignes » d'abord.
+// Reconnaissance des enseignes dans un nom de salle saisi à la main.
 const ENSEIGNES = [
   { nom: "Basic-Fit",        motif: /basic.?fit/i },
   { nom: "Fitness Park",     motif: /fitness.?park/i },
@@ -78,9 +77,13 @@ const ENSEIGNES = [
   { nom: "Orangetheory",     motif: /orange.?theory/i },
 ];
 
-// Enseigne reconnue + son rang dans les classements (France d'abord, puis monde)
+// Enseigne reconnue + son rang dans les classements (France d'abord, puis monde).
+// Accepte le nom exact d'une ligne des classements (choix dans la liste)
+// ou un texte libre (« Basic-Fit Nîmes Centre ») reconnu par les motifs.
 function infosEnseigne(texte) {
-  const enseigne = ENSEIGNES.find(e => e.motif.test(texte || ""));
+  texte = texte || "";
+  const exact = [...CLASSEMENT_FRANCE, ...CLASSEMENT_MONDE].find(c => c.nom === texte);
+  const enseigne = exact || ENSEIGNES.find(e => e.motif.test(texte));
   if (!enseigne) return null;
   const rangFrance = CLASSEMENT_FRANCE.findIndex(c => c.nom === enseigne.nom);
   const groupe = { "Anytime Fitness": "Purpose Brands", "Orangetheory": "Purpose Brands", "McFit": "RSG Group", "Gold's Gym": "RSG Group" }[enseigne.nom];

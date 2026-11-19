@@ -11,8 +11,7 @@ bash tests/lancer.sh
 - `regression.test.js` : les parcours principaux (séance, records et pièces,
   poids du corps, bulle du max, minuteur de repos, reprise après rechargement,
   boutique, planning, historique, sauvegarde, animations, installation, hors ligne).
-- `profil.test.js` : profil, recherche de salle (OpenStreetMap **simulé**, donc
-  sans dépendre du réseau) et classements.
+- `profil.test.js` : profil, pseudo, choix de la salle dans les classements.
 
 Chaque ligne affiche `PASS` ou `FAIL`. Le script s'arrête en erreur si un test échoue.
 Les captures d'écran vont dans un dossier temporaire (affiché à la fin).
