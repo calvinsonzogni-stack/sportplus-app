@@ -75,6 +75,12 @@ const PAGES = ['index', 'seance', 'planning', 'historique', 'boutique', 'profil'
   // Démo animée
   await p.click('#exo-card-1 .exo-vignette');
   ok(await p.locator('#modal-demo:not(.hidden)').count() === 1, 'exercise demo opens from thumbnail');
+  const tiktok = p.locator('#modal-demo #demo-tiktok');
+  ok(await tiktok.getAttribute('href') === 'https://www.tiktok.com/tag/pushups' && (await tiktok.textContent()).includes('#pushups')
+     && await tiktok.getAttribute('target') === '_blank' && (await tiktok.getAttribute('rel')).includes('noopener'), 'demo: TikTok link to the exercise hashtag');
+  await p.keyboard.press('Escape');
+  await p.click('#exo-card-0 .exo-vignette');
+  ok(await tiktok.getAttribute('href') === 'https://www.tiktok.com/tag/squat', 'demo: TikTok link follows the exercise shown');
   await p.keyboard.press('Escape');
   for (const i of [0, 1]) await p.click(`#btn-valider-${i}`);
   await p.waitForTimeout(600);
@@ -116,6 +122,15 @@ const PAGES = ['index', 'seance', 'planning', 'historique', 'boutique', 'profil'
   await p.setInputFiles('#sauvegarde-fichier', f);
   await p.waitForLoadState('load'); await p.waitForTimeout(600);
   ok(await solde() === 124 && await p.evaluate(() => JSON.parse(localStorage.getItem('historique')).length) === 4, 'backup: export then import restores everything');
+
+  // ── 7 bis. Bibliothèque : un lien TikTok par exercice
+  await p.goto(B + 'exercices.html');
+  const liens = await p.$$eval('.card .btn-tiktok', els => els.map(a => ({ href: a.href, cache: a.hidden })));
+  const nbExos = await p.evaluate(() => EXERCICES_DB.length);
+  ok(liens.length === nbExos && liens.every(l => !l.cache && /^https:\/\/www\.tiktok\.com\/tag\/[a-z0-9]+$/.test(l.href)), `library: every exercise (${nbExos}) has a valid TikTok hashtag link`);
+  ok(await p.evaluate(() => Object.keys(HASHTAGS_EXERCICES).every(n => infosExercice(n))), 'no hashtag for an unknown exercise');
+  ok(await p.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, 'library: no horizontal overflow with TikTok links');
+  await p.screenshot({ path: OUT + '/regression-bibliotheque.png' });
 
   // ── 8. Animation et accessibilité
   await p.goto(B + 'seance.html');

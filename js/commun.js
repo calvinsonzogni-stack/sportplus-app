@@ -35,6 +35,21 @@ function echapperHtml(texte) {
     .replace(/'/g, "&#39;");
 }
 
+// ── Vidéos TikTok d'un exercice ─────────────────
+// Remplit un lien <a class="btn-tiktok"> vers la page du hashtag de
+// l'exercice (voir HASHTAGS_EXERCICES) ; masqué si l'exercice n'en a pas.
+function majLienTikTok(lien, nomExercice) {
+  const tiktok = typeof tiktokExercice === "function" ? tiktokExercice(nomExercice) : null;
+  lien.hidden = !tiktok;
+  if (!tiktok) return;
+  lien.href = tiktok.url;
+  lien.setAttribute("aria-label", `Voir les vidéos TikTok #${tiktok.tag} (s'ouvre dans TikTok)`);
+  lien.innerHTML = `
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M10 9v6l5-3z" fill="currentColor" stroke="none"/></svg>
+    <span class="btn-tiktok-texte">Vidéos TikTok</span>
+    <span class="btn-tiktok-tag">#${echapperHtml(tiktok.tag)}</span>`;
+}
+
 // ── Image d'un exercice (animée si deux positions) ──
 // Avec image2, les deux positions du mouvement se succèdent en fondu :
 // l'animation joue au survol, quand l'exercice est sélectionné, ou en
