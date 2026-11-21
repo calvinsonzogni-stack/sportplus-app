@@ -8,6 +8,8 @@ Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets 
 - **Bibliothèque d'exercices** : 121 exercices classés par groupe musculaire, dont les machines
   guidées des salles (chest press, shoulder press, low row, leg curl assis, abducteurs…) ;
   72 sont **animés** (positions de départ et d'arrivée en fondu)
+- **Vidéos TikTok** : chaque exercice a son hashtag (#benchpress, #hipthrust…) ; un bouton ouvre ses vidéos
+  dans TikTok, depuis la démo en séance et la bibliothèque
 - **Création de séances** : Compose ta séance, saisis tes séries (reps × charge) avec chrono
 - **Minuteur de repos** : démarre à chaque série validée (60 / 90 / 120 / 180 s ou désactivé), vibration et bip à la fin
 - **Reprise automatique** : une séance en cours survit à un rechargement ou à l'écran verrouillé
@@ -97,7 +99,7 @@ Tests (dans un vrai navigateur) : `bash tests/lancer.sh` — voir [tests/README.
 
 - Les données sont stockées localement dans le navigateur (LocalStorage)
 - Aucune dépendance externe : tout est servi par le site lui-même
-- Pour ajouter un exercice, il suffit de l'ajouter dans `EXERCICES_DB` (`js/donnees-exercices.js`) : toutes les pages le voient, et son image est automatiquement gardée hors ligne
+- Pour ajouter un exercice, il suffit de l'ajouter dans `EXERCICES_DB` (`js/donnees-exercices.js`), avec son hashtag dans `HASHTAGS_EXERCICES` : toutes les pages le voient, et son image est automatiquement gardée hors ligne
 
 ## Pièces et boutique
 

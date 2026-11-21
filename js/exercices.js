@@ -25,9 +25,11 @@ function genererExercices() {
           <span class="btn-icon">+</span>
           <span class="btn-text">Ajouter</span>
         </button>
+        <a class="btn-tiktok" target="_blank" rel="noopener"></a>
       </div>
     `;
     card.querySelector(".add-btn").addEventListener("click", () => addExercice(exercice.nom));
+    majLienTikTok(card.querySelector(".btn-tiktok"), exercice.nom);
 
     grid.appendChild(card);
   });

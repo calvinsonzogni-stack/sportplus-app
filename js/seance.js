@@ -303,6 +303,7 @@ function ouvrirDemo(exoIdx) {
           <h2 id="demo-nom"></h2>
           <span class="muscle-tag-small" id="demo-muscle"></span>
           <p class="demo-aide" id="demo-aide"></p>
+          <a class="btn-tiktok" id="demo-tiktok" target="_blank" rel="noopener"></a>
         </div>
         <button type="button" class="modal-btn primary" id="demo-fermer">Fermer</button>
       </div>`;
@@ -319,6 +320,7 @@ function ouvrirDemo(exoIdx) {
   demo.querySelector("#demo-aide").textContent = infos.image2
     ? "Le mouvement s'enchaîne : position de départ, puis position d'arrivée."
     : "Pas encore d'animation pour cet exercice : voici sa position.";
+  majLienTikTok(demo.querySelector("#demo-tiktok"), infos.nom);
   demo.classList.remove("hidden");
   document.body.style.overflow = "hidden";
   demo.querySelector("#demo-fermer").focus();
