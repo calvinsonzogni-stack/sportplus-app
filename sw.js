@@ -11,7 +11,7 @@
 //  l'ancien cache est alors supprimé et tout est re-téléchargé.
 // ════════════════════════════════════════════════
 
-const VERSION = "sportplus-v13";
+const VERSION = "sportplus-v14";
 const DELAI_RESEAU_MS = 3000;
 
 // Fournissent EXERCICES_DB et AVATARS : la liste des images vient de la
@@ -28,7 +28,7 @@ const FICHIERS_APPLI = [
   "js/donnees-exercices.js", "js/donnees-avatars.js", "js/donnees-salles.js", "js/profil.js", "js/commun.js", "js/pieces.js",
   "js/notif-planning.js", "js/accueil.js", "js/installer.js", "js/boutique.js",
   "js/exercices.js", "js/historique.js", "js/perfs.js", "js/planning.js", "js/seance.js",
-  "js/repos.js", "js/sauvegarde.js", "js/calendrier.js",
+  "js/repos.js", "js/sauvegarde.js",
   "js/vendor/chart.umd.min.js",
   "assets/images/placeholder.svg",
   "assets/icons/icon-192.png", "assets/icons/favicon-48.png", "assets/icons/apple-touch-icon.png",
@@ -63,20 +63,6 @@ self.addEventListener("fetch", event => {
   if (requete.method !== "GET") return;
   const url = new URL(requete.url);
   if (url.origin !== self.location.origin) return;
-
-  // Fichier de calendrier généré par l'appli (voir js/calendrier.js) :
-  // une vraie adresse en https, que l'iPhone accepte d'ouvrir dans le
-  // calendrier, y compris depuis l'appli installée sur l'écran d'accueil.
-  if (url.pathname.endsWith("/calendrier.ics")) {
-    event.respondWith(new Response(url.searchParams.get("d") || "", {
-      headers: {
-        "Content-Type": "text/calendar; charset=utf-8",
-        "Content-Disposition": 'inline; filename="sport-plus.ics"',
-        "Cache-Control": "no-store",
-      },
-    }));
-    return;
-  }
 
   if (requete.destination === "image") {
     event.respondWith(cacheDabord(requete));
