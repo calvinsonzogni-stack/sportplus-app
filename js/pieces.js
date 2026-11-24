@@ -19,12 +19,11 @@ const GAINS = {
   seancePassee: 30,   // bonus rétroactif pour l'historique existant
 };
 
-const PIECE_SVG = `<svg class="ico-piece" viewBox="0 0 24 24" aria-hidden="true">
-  <circle cx="12" cy="12" r="11" fill="#b37f00"/>
-  <circle cx="12" cy="11" r="10" fill="#ffb800"/>
-  <circle cx="12" cy="11" r="7" fill="none" stroke="#b37f00" stroke-width="1.5"/>
-  <path d="M12 7.5v7M8.5 11h7" stroke="#b37f00" stroke-width="2.2" stroke-linecap="round"/>
-</svg>`;
+// Pièce « Or gravé » avec le symbole Sport+ (assets/icons/piece*.svg).
+// Petite version (+ simplifié) pour les tailles courantes (14-18 px),
+// grande version (avec les traînées) pour les gains affichés en grand.
+const PIECE_SVG = `<img class="ico-piece" src="assets/icons/piece-petite.svg" alt="" aria-hidden="true" width="18" height="18">`;
+const PIECE_GRANDE = `<img class="ico-piece" src="assets/icons/piece.svg" alt="" aria-hidden="true" width="48" height="48">`;
 
 const Pieces = (function () {
   const CLE_SOLDE = "pieces";
@@ -48,7 +47,7 @@ const Pieces = (function () {
     const pop = document.createElement("div");
     pop.className = "gain-pop";
     pop.setAttribute("role", "status");
-    pop.innerHTML = `${PIECE_SVG}
+    pop.innerHTML = `${PIECE_GRANDE}
       <div class="gain-montant">+${montant}</div>
       <div class="gain-texte">${echapperHtml(texte)}</div>`;
     document.querySelectorAll(".gain-pop").forEach(el => el.remove());
