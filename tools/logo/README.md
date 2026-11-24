@@ -15,3 +15,10 @@ node tools/logo/generer.js     # nécessite Playwright (npm install -g playwrigh
 | `favicon-48.png` | 48 | Onglet du navigateur |
 
 Après une modification, incrémenter `VERSION` dans `sw.js`.
+
+## Pièces
+
+La pièce « Or gravé » (symbole gravé dans l'or) existe en deux fichiers :
+`assets/icons/piece.svg` (grande taille, avec les traînées) et
+`assets/icons/piece-petite.svg` (+ simplifié et agrandi, lisible jusqu'à 14 px).
+Elles sont utilisées via `PIECE_SVG` et `PIECE_GRANDE` dans `js/pieces.js`.

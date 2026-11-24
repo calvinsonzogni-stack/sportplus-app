@@ -620,7 +620,7 @@ function terminerSeance() {
   const records = seanceData.filter(e => e.recordRecompense).length;
   Pieces.gagner(gain, "Séance terminée", { celebrer: false });
   document.getElementById("modal-gain").innerHTML =
-    `${PIECE_SVG}<span>+${gain} pièces</span>` +
+    `${PIECE_GRANDE}<span>+${gain} pièces</span>` +
     (records ? `<small>+ ${records * GAINS.record} pour ${records} record(s) battu(s) pendant la séance</small>` : "");
 
   document.getElementById("modal-fin").classList.remove("hidden");

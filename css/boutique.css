@@ -49,7 +49,7 @@ button { font: inherit; color: inherit; }
 }
 .vitrine-solde::before {
   content: ''; width: 18px; height: 18px; border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #ffd75a, #ffb800 55%, #b37f00);
+  background: url(../assets/icons/piece-petite.svg) center / contain no-repeat;
 }
 
 /* ── Filtres ─────────────────────────────────── */
