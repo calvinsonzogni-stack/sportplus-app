@@ -54,6 +54,10 @@
   <section class="seances-programmees">
     <div class="section-header">
       <h2>📋 Séances programmées</h2>
+      <button type="button" class="btn-calendrier-tout hidden" id="btn-calendrier-tout">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg>
+        Tout ajouter au calendrier
+      </button>
     </div>
     <div id="liste-programmees"></div>
   </section>
@@ -71,6 +75,27 @@
         <div class="field-group">
           <label>Date</label>
           <div class="date-display" id="modal-date-display"></div>
+        </div>
+
+        <!-- Heure et durée (facultatives) : utilisées pour le calendrier du téléphone -->
+        <div class="field-group">
+          <div class="horaire">
+            <div class="horaire-champ">
+              <label for="seance-heure">Heure <span class="facultatif">(facultatif)</span></label>
+              <input type="time" id="seance-heure" step="300">
+            </div>
+            <div class="horaire-champ">
+              <label for="seance-duree">Durée</label>
+              <select id="seance-duree">
+                <option value="30">30 min</option>
+                <option value="45">45 min</option>
+                <option value="60" selected>1 h</option>
+                <option value="75">1 h 15</option>
+                <option value="90">1 h 30</option>
+                <option value="120">2 h</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <!-- Nom de la séance -->
@@ -113,6 +138,25 @@
     </div>
   </div>
 
+  <!-- MODAL — Ajouter au calendrier du téléphone -->
+  <div class="modal-overlay hidden" id="modal-calendrier" role="dialog" aria-modal="true" aria-labelledby="calendrier-titre">
+    <div class="modal-card calendrier-card">
+      <div class="modal-header">
+        <h2 id="calendrier-titre">Ajouter à mon calendrier</h2>
+        <button class="modal-close" id="calendrier-fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="calendrier-intro" id="calendrier-intro"></p>
+        <ul class="calendrier-liste" id="calendrier-liste"></ul>
+        <div class="calendrier-actions" id="calendrier-actions"></div>
+        <p class="calendrier-note">C'est un ajout ponctuel : si tu modifies ou supprimes la séance dans Sport+, fais-le aussi dans ton calendrier.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary" id="calendrier-plus-tard">Plus tard</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL — Éditer les exercices d'une séance programmée -->
   <div class="modal-overlay hidden" id="modal-edit-planning">
     <div class="modal-card">
@@ -148,6 +192,7 @@
   <script src="js/donnees-avatars.js"></script>
   <script src="js/commun.js"></script>
   <script src="js/pieces.js"></script>
+  <script src="js/calendrier.js"></script>
   <script src="js/planning.js"></script>
   <script src="js/notif-planning.js"></script>
 
