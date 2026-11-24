@@ -210,7 +210,7 @@ function renderListeProgrammees() {
   if (!entries.length) {
     liste.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">📆</div>
+        <div class="empty-icon">${icone("calendrier")}</div>
         <h3>Aucune séance programmée</h3>
         <p>Clique sur un jour du calendrier pour programmer ta prochaine séance.</p>
       </div>`;
@@ -228,7 +228,7 @@ function renderListeProgrammees() {
           <div class="programmee-date">
             ${isToday ? '<span class="today-badge">Aujourd\'hui</span>' : ""}
             <span class="programmee-date-label">${dateStr}</span>
-            ${entry.recurrence === "weekly" ? '<span class="recurrence-badge">🔁 Hebdo</span>' : ""}
+            ${entry.recurrence === "weekly" ? `<span class="recurrence-badge">${icone("repetition")}Hebdo</span>` : ""}
           </div>
           <div class="programmee-nom">${echapperHtml(entry.nom)}</div>
           ${entry.exercices.length > 0
@@ -246,8 +246,8 @@ function renderListeProgrammees() {
             ? `<button class="btn-lancer" onclick="lancerDepuisPlanning(${entry.id})">▶ Lancer</button>`
             : ""
           }
-          <button class="btn-edit-prog" onclick="ouvrirModalEditPlanning(${entry.id})" title="Modifier les exercices" aria-label="Modifier les exercices">✏️</button>
-          <button class="btn-supprimer-prog" onclick="supprimerProgrammee(${entry.id})" title="Supprimer" aria-label="Supprimer cette séance programmée">🗑️</button>
+          <button class="btn-edit-prog" onclick="ouvrirModalEditPlanning(${entry.id})" title="Modifier les exercices" aria-label="Modifier les exercices">${icone("crayon")}</button>
+          <button class="btn-supprimer-prog" onclick="supprimerProgrammee(${entry.id})" title="Supprimer" aria-label="Supprimer cette séance programmée">${icone("corbeille")}</button>
         </div>
       </div>`;
   }).join("");

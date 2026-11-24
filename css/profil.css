@@ -132,3 +132,4 @@ button, input, select { font: inherit; color: inherit; }
   .bloc { padding: 16px; }
   .classement-chiffre { font-size: 13px; }
 }
+.carte-salle-nom .icone { width: 15px; height: 15px; color: var(--muted); vertical-align: -2px; }

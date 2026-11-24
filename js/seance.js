@@ -209,7 +209,7 @@ function restaurerSeanceEnCours() {
 
   afficherSeanceActive();
   Repos.reprendre();
-  showToast("Séance en cours reprise 💪", "success");
+  showToast("Séance en cours reprise", "success");
   return true;
 }
 
@@ -389,8 +389,8 @@ function validerSerie(exoIdx, sIdx) {
 
   // Vérification : au moins les reps (ou la durée pour le gainage)
   if (!serie.reps || parseInt(serie.reps) < 1) {
-    showToast(secondes ? "Entre la durée tenue (en secondes) avant de valider 👀"
-                       : "Entre le nombre de répétitions avant de valider 👀", "warning");
+    showToast(secondes ? "Entre la durée tenue (en secondes) avant de valider"
+                       : "Entre le nombre de répétitions avant de valider", "warning");
     return;
   }
 
@@ -433,7 +433,7 @@ function validerSerie(exoIdx, sIdx) {
 
   // Le record a déjà son animation : pas de toast par-dessus
   majBulleRecord(exoIdx);
-  if (!record) showToast(`Série ${sIdx + 1} validée ! 💪`, "success");
+  if (!record) showToast(`Série ${sIdx + 1} validée`, "success");
 }
 
 function ajouterSerie(exoIdx) {
@@ -480,7 +480,7 @@ function validerExercice(exoIdx) {
     if (actions) actions.remove();
   }
 
-  showToast(`${exo.nom} terminé ! 🔥`, "success");
+  showToast(`${exo.nom} terminé`, "success");
 
   // Si tous les exos sont terminés, afficher le bouton final
   if (exosTermines === seanceData.length) {
@@ -541,7 +541,7 @@ function serieDuMax(exo, max, pdc) {
 }
 
 // Bulle de rappel du record sur chaque exercice de la séance :
-// « 🏆 Ton max : 100 kg × 5 », puis « 🔥 Nouveau max » une fois battu.
+// « Ton max : 100 kg × 5 », puis « Nouveau max » une fois battu.
 function rappelRecord(exo, exoIdx) {
   const pdc = estPoidsDeCorps(exo.nom);
   const unite = pdc ? uniteReps(exo.nom) : "kg";
@@ -549,7 +549,7 @@ function rappelRecord(exo, exoIdx) {
   let contenu;
 
   if (!max) {
-    contenu = `🏆 Première fois : ta 1re série sera ton record`;
+    contenu = `${icone("trophee")} Première fois : ta 1re série sera ton record`;
   } else {
     const serie = serieDuMax(exo, max, pdc);
     // Le détail « × reps » n'a de sens que pour une charge
@@ -557,8 +557,8 @@ function rappelRecord(exo, exoIdx) {
     const date = !exo.recordRecompense && serie && serie.date
       ? ` <small>(${new Date(serie.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })})</small>` : "";
     contenu = exo.recordRecompense
-      ? `🔥 Nouveau max : <strong>${max} ${unite}${detail}</strong>`
-      : `🏆 Ton max : <strong>${max} ${unite}${detail}</strong>${date}`;
+      ? `${icone("tendance")} Nouveau max : <strong>${max} ${unite}${detail}</strong>`
+      : `${icone("trophee")} Ton max : <strong>${max} ${unite}${detail}</strong>${date}`;
   }
   return `<span class="bulle-record ${exo.recordRecompense ? "battu" : ""}" id="bulle-record-${exoIdx}">${contenu}</span>`;
 }
@@ -613,7 +613,7 @@ function terminerSeance() {
   const totalSeries = seanceComplete.exercices.reduce((acc, e) => acc + e.series.length, 0);
   const dureeStr = formatDuree(timerSeconds);
   document.getElementById("modal-summary").innerHTML =
-    `<strong>${seanceComplete.exercices.length} exercice(s)</strong>, <strong>${totalSeries} série(s)</strong> en <strong>${dureeStr}</strong>. C'est dans les livres ! 💪`;
+    `<strong>${seanceComplete.exercices.length} exercice(s)</strong>, <strong>${totalSeries} série(s)</strong> en <strong>${dureeStr}</strong>. C'est dans les livres !`;
 
   // Pièces gagnées (affichées dans le modal, sans animation par-dessus)
   const gain = Pieces.gainFinSeance(totalSeries);
@@ -637,7 +637,7 @@ function demarrerTimer() {
   arreterTimer();
   const tick = () => {
     timerSeconds = Math.max(0, Math.floor((Date.now() - debutSeance) / 1000));
-    document.getElementById("seance-timer").textContent = "⏱ " + formatDuree(timerSeconds);
+    document.getElementById("seance-timer").textContent = formatDuree(timerSeconds);
   };
   tick();
   timerInterval = setInterval(tick, 1000);
@@ -741,7 +741,7 @@ function renderModifGrille(muscle) {
            onclick="${estTermine ? "" : `toggleModifExo('${exo.nom.replace(/'/g, "\\'")}')`}">
         <div class="modif-exo-img">
           ${imageExercice(exo)}
-          <div class="modif-check-badge">${estTermine ? "🔒" : "✓"}</div>
+          <div class="modif-check-badge">${estTermine ? icone("cadenas") : "✓"}</div>
         </div>
         <div class="modif-exo-info">
           <span class="modif-exo-nom">${exo.nom}</span>
@@ -817,6 +817,6 @@ function appliquerModif() {
   const msg = [];
   if (aAjouter.length > 0)  msg.push(`+${aAjouter.length} ajouté(s)`);
   if (aRetirer.length > 0)  msg.push(`-${aRetirer.length} retiré(s)`);
-  if (msg.length > 0) showToast(msg.join(" · ") + " ✓", "success");
+  if (msg.length > 0) showToast(msg.join(" · "), "success");
   else showToast("Séance inchangée", "success");
 }

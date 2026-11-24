@@ -495,7 +495,11 @@ body {
   gap: 8px;
   margin-bottom: 24px;
 }
-.finish-icon { font-size: 52px; }
+.finish-icon {
+  width: 64px; height: 64px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(var(--succes-rgb), 0.12); color: var(--succes);
+}
+.finish-icon .icone { width: 30px; height: 30px; }
 .finish-message p { color: var(--muted); font-size: 16px; }
 
 .btn-douche {
@@ -538,7 +542,11 @@ body {
   width: 100%;
   box-shadow: 0 20px 80px rgba(var(--accent-rgb),0.2);
 }
-.modal-icon { font-size: 56px; margin-bottom: 16px; }
+.modal-icon {
+  width: 64px; height: 64px; margin: 0 auto 16px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(var(--succes-rgb), 0.12); color: var(--succes);
+}
+.modal-icon .icone { width: 30px; height: 30px; }
 .modal-card h2 {
   font-size: 28px;
   font-weight: 800;
@@ -937,3 +945,9 @@ body.repos-actif { padding-bottom: 110px; }
 .demo-infos h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
 .demo-aide { margin-top: 12px; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .demo-card .modal-btn { width: calc(100% - 44px); margin: 0 22px; }
+
+/* Icônes au trait dans les pastilles et boutons de la séance */
+.timer-badge, .btn-modifier-seance { display: inline-flex; align-items: center; gap: 6px; }
+.timer-badge .icone, .btn-modifier-seance .icone { width: 15px; height: 15px; }
+.bulle-record .icone { width: 14px; height: 14px; align-self: center; }
+.modif-check-badge .icone { width: 13px; height: 13px; }

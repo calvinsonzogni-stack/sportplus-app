@@ -30,7 +30,7 @@
     notif.id = "planning-notif";
     notif.setAttribute("role", "status");
     notif.innerHTML = `
-      <div class="pnotif-icon" aria-hidden="true">💪</div>
+      <div class="pnotif-icon" aria-hidden="true"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg></div>
       <div class="pnotif-content">
         <div class="pnotif-title">${echapperHtml(seance.nom)}</div>
         <div class="pnotif-sub">Séance prévue aujourd'hui${seances.length > 1 ? ` · +${seances.length - 1} autre(s)` : ""}</div>

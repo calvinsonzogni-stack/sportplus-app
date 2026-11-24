@@ -44,7 +44,7 @@
 
     if (!liste.length) {
       $("catalogue").innerHTML = `<p class="catalogue-vide">${
-        filtre === "verrouilles" ? "Tu as débloqué tous les avatars. Respect 🏆" : "Aucun avatar ici pour l'instant."}</p>`;
+        filtre === "verrouilles" ? "Tu as débloqué tous les avatars. Respect !" : "Aucun avatar ici pour l'instant."}</p>`;
       return;
     }
 
@@ -64,7 +64,7 @@
                 aria-label="${echapperHtml(perso.nom)}, ${RARETES[perso.rarete].label}${etat === "verrouille" ? `, ${prix} pièces` : ""}">
           <span class="carte-image">
             <img src="${imageAvatar(perso.id, tenueAffichee)}" alt="" loading="lazy" width="140" height="140">
-            ${etat === "verrouille" ? `<span class="carte-cadenas" aria-hidden="true">🔒</span>` : ""}
+            ${etat === "verrouille" ? `<span class="carte-cadenas" aria-hidden="true">${icone("cadenas")}</span>` : ""}
           </span>
           <span class="carte-nom">${echapperHtml(perso.nom)}</span>
           <span class="badge-rarete">${RARETES[perso.rarete].label}</span>

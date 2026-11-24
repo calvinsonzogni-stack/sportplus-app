@@ -48,6 +48,9 @@ const ICONES = {
   recherche:  '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
   trophee:    '<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/>',
   boite:      '<path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1 2h6l1-2h5"/>',
+  crayon:     '<path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/>',
+  cadenas:    '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  epingle:    '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
 };
 function icone(nom, classe = "") {
   return `<svg class="icone ${classe}" viewBox="0 0 24 24" aria-hidden="true">${ICONES[nom] || ""}</svg>`;
