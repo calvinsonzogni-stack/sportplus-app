@@ -60,10 +60,11 @@ sport-plus/
 │   └── vendor/          # Chart.js 4.4.0 (MIT), embarqué pour fonctionner hors ligne
 ├── tests/               # Tests de bout en bout (Playwright), voir tests/README.md
 ├── tools/avatars/       # Script de génération des avatars (développement uniquement)
+├── tools/logo/          # Génère les icônes de l'appli à partir de assets/icons/logo.svg
 └── assets/
     ├── avatars/         # Avatars générés (SVG), voir CREDITS.md
     ├── fonts/           # Police Plus Jakarta Sans (licence OFL), servie hors ligne
-    ├── icons/           # Icônes de l'appli (écran d'accueil, favicon)
+    ├── icons/           # Logo (logo.svg, symbole « L'Élan ») et icônes de l'appli qui en sont tirées
     └── images/          # Images des exercices (sources : voir CREDITS.md)
 ```
 

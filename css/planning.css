@@ -21,7 +21,6 @@ body { background: var(--bg); color: white; min-height: 100vh; }
   position: sticky; top: 0; z-index: 100;
 }
 .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-.logo span { color: var(--accent-text); }
 .nav a {
   margin-left: 28px; text-decoration: none; color: var(--muted);
   font-size: 14px; font-weight: 500; transition: color 0.2s;

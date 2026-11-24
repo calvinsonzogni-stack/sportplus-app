@@ -16,6 +16,7 @@
   --accent-hover: #c2261e;
   --accent-deep: #8f1a14;
   --accent-text: #ff6b61;
+  --logo: #ea3a2f;          /* rouge du logo (assets/icons/logo.svg) */
 
   --succes: #3fcf8e;
   --succes-rgb: 63, 207, 142;
@@ -100,13 +101,24 @@ body {
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
   font-size: 22px;
   font-weight: 800;
-  letter-spacing: -0.6px;
+  font-style: italic;
+  letter-spacing: -0.04em;
   color: var(--text);
   text-decoration: none;
+  white-space: nowrap;
 }
-.logo span { color: var(--accent); }
+/* Le symbole « L'Élan » (assets/icons/logo.svg) remplace le + du nom */
+.logo-plus {
+  width: 0.98em;
+  height: 0.98em;
+  margin: -0.1em -0.1em 0 -0.03em;
+  fill: var(--logo);
+  flex-shrink: 0;
+}
 
 .nav {
   display: flex;
