@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#0e0e10">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
@@ -16,7 +17,7 @@
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/theme.css">
 </head>
-<body>
+<body class="page-accueil">
 
   <!-- Header -->
   <header class="header">
@@ -37,45 +38,70 @@
 
   <main class="tableau">
 
-    <!-- Profil : avatar, pseudo, pièces -->
-    <section class="profil">
-      <a class="profil-avatar" href="boutique.html" aria-label="Changer d'avatar dans la boutique">
-        <img data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="" width="120" height="120">
-      </a>
-      <div class="profil-infos">
-        <p class="profil-salut" id="profil-salut">Salut,</p>
-        <h1 class="profil-nom">
-          <span id="profil-nom">Athlète</span>
-          <button type="button" class="pseudo-edit-btn" id="pseudo-edit-btn" aria-label="Modifier mon pseudo">✏️</button>
+    <!-- Salutation, avatar et pièces -->
+    <section class="salut">
+      <div class="salut-texte">
+        <p class="salut-date" id="salut-date"></p>
+        <h1 class="salut-nom">
+          <span id="profil-salut">Bonjour,</span>
+          <span class="salut-pseudo" id="profil-nom">Athlète</span>
+          <button type="button" class="pseudo-edit-btn" id="pseudo-edit-btn" aria-label="Modifier mon pseudo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>
+          </button>
         </h1>
-        <a class="profil-solde" href="boutique.html">
-          <span id="profil-solde">0</span> pièces <span class="profil-solde-lien">Boutique →</span>
+        <a class="profil-salle" id="profil-salle" href="profil.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <span id="profil-salle-nom">Choisir ma salle</span>
         </a>
-        <a class="profil-salle" id="profil-salle" href="profil.html">📍 Choisir ma salle</a>
       </div>
+      <a class="salut-avatar" href="boutique.html" aria-label="Avatar et pièces : ouvrir la boutique">
+        <img data-avatar-equipe src="assets/avatars/recrue-base.svg" alt="" width="56" height="56">
+        <span class="salut-pieces">
+          <svg class="ico-piece" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#b37f00"/><circle cx="12" cy="11" r="10" fill="#ffb800"/><circle cx="12" cy="11" r="7" fill="none" stroke="#b37f00" stroke-width="1.5"/><path d="M12 7.5v7M8.5 11h7" stroke="#b37f00" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <span id="profil-solde">0</span>
+        </span>
+      </a>
     </section>
 
-    <!-- Séance prévue aujourd'hui (planning) -->
-    <section class="prevue hidden" id="prevue" aria-label="Séance prévue aujourd'hui">
-      <div>
-        <p class="prevue-sur">Prévue aujourd'hui</p>
-        <p class="prevue-nom" id="prevue-nom"></p>
-        <p class="prevue-exos" id="prevue-exos"></p>
+    <!-- La semaine en cours, jour par jour -->
+    <section class="carte semaine" aria-labelledby="semaine-titre">
+      <div class="carte-tete">
+        <h2 class="carte-titre" id="semaine-titre">Cette semaine</h2>
+        <p class="semaine-serie"><span id="stat-serie">0</span> <span id="stat-serie-label">jour d'affilée</span></p>
       </div>
-      <button type="button" class="prevue-btn" id="prevue-btn">▶ Lancer</button>
+      <ol class="jours" id="jours"></ol>
     </section>
 
-    <!-- Action principale -->
-    <a class="btn-demarrer" href="seance.html" id="btn-demarrer">
-      <span id="btn-demarrer-texte">Démarrer une séance</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
+    <!-- Séance du jour : en cours, prévue au planning, ou libre -->
+    <section class="carte jour" aria-labelledby="jour-titre">
+      <p class="jour-etiquette" id="jour-etiquette">Aujourd'hui</p>
+      <h2 class="jour-titre" id="jour-titre">Séance libre</h2>
+      <p class="jour-meta" id="jour-meta"></p>
+      <div class="jour-vignettes" id="jour-vignettes" aria-hidden="true"></div>
+      <a class="btn-demarrer" href="seance.html" id="btn-demarrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l11-7z"/></svg>
+        <span id="btn-demarrer-texte">Commencer une séance</span>
+      </a>
+    </section>
 
-    <!-- Chiffres clés -->
-    <section class="chiffres" aria-label="Mes chiffres">
-      <div class="chiffre"><span class="chiffre-valeur" id="stat-semaine">0</span><span class="chiffre-label">séance(s) cette semaine</span></div>
-      <div class="chiffre"><span class="chiffre-valeur" id="stat-serie">0</span><span class="chiffre-label">jour(s) d'affilée</span></div>
-      <div class="chiffre"><span class="chiffre-valeur" id="stat-total">0</span><span class="chiffre-label">séance(s) au total</span></div>
+    <!-- Objectif de la semaine et volume soulevé -->
+    <section class="duo" aria-label="Mes chiffres">
+      <a class="carte objectif" href="profil.html#objectif" aria-label="Objectif de la semaine (modifier dans mon profil)">
+        <p class="carte-titre">Objectif semaine</p>
+        <div class="objectif-ligne">
+          <svg class="anneau" viewBox="0 0 44 44" aria-hidden="true">
+            <circle class="anneau-fond" cx="22" cy="22" r="18"/>
+            <circle class="anneau-plein" id="anneau-plein" cx="22" cy="22" r="18" pathLength="100"/>
+          </svg>
+          <p class="objectif-valeur"><span id="stat-semaine">0</span>/<span id="stat-objectif">3</span></p>
+        </div>
+      </a>
+      <div class="carte volume">
+        <p class="carte-titre">Volume</p>
+        <p class="volume-valeur"><span id="volume-semaine">0 kg</span> <span class="volume-evol" id="volume-evol"></span></p>
+        <svg class="volume-courbe" id="volume-courbe" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <p class="volume-aide" id="volume-aide">Charges × répétitions de la semaine</p>
+      </div>
     </section>
 
     <!-- Installer l'appli sur l'écran d'accueil (affichée seulement si utile) -->
@@ -92,11 +118,11 @@
     </section>
 
     <!-- Raccourcis secondaires -->
-    <nav class="raccourcis" aria-label="Raccourcis">
-      <a href="profil.html">👤 Mon profil</a>
-      <a href="exercices.html">🏋️ Tous les exercices</a>
-      <a href="perfs.html">📈 Mes perfs</a>
-      <a href="planning.html">🗓️ Programmer une séance</a>
+    <nav class="carte raccourcis" aria-label="Raccourcis">
+      <a href="profil.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Mon profil</span></a>
+      <a href="exercices.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg><span>Tous les exercices</span></a>
+      <a href="perfs.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>Mes perfs</span></a>
+      <a href="planning.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Programmer une séance</span></a>
     </nav>
   </main>
 

@@ -46,6 +46,18 @@ const PAGES = ['index', 'seance', 'planning', 'historique', 'boutique', 'profil'
   ok(await solde() === 190, 'welcome bonus: 100 + 3 past sessions × 30');
   ok(await p.evaluate(() => JSON.parse(localStorage.getItem('perfs'))['Pompes']) === '20', 'migration: bodyweight perf = max reps from history');
   ok((await p.textContent('#stat-serie')) === '3', 'home: 3 consecutive days');
+  ok(await p.locator('#jours .jour-rond').count() === 7 && await p.locator('#jours .jour-rond.auj.fait').count() === 1, 'home: week strip with today ticked');
+  ok((await p.textContent('#stat-objectif')) === '3' && await p.evaluate(() => getComputedStyle(document.getElementById('anneau-plein')).strokeDasharray) !== '0px, 100px', 'home: weekly goal ring (default 3)');
+  ok((await p.textContent('#volume-semaine')).trim() !== '0 kg', 'home: lifted volume this week');
+  ok((await p.textContent('#jour-titre')) === 'Séance libre' && (await p.textContent('#jour-meta')).includes("Dernière séance aujourd'hui"), "home: today's card recalls the last session");
+  ok(await p.evaluate(() => document.fonts.check("16px 'Plus Jakarta Sans'")) && (await p.evaluate(() => getComputedStyle(document.body).fontFamily)).includes('Plus Jakarta Sans'), 'Plus Jakarta Sans font loaded from the app');
+  ok(await p.evaluate(() => document.getAnimations().filter(an => an.effect && an.effect.getComputedTiming().iterations === Infinity).length) === 0, 'home: no looping decorative animation');
+  // Objectif réglé dans le profil → repris par l'accueil
+  await p.goto(B + 'profil.html');
+  await p.click('#objectif-choix button[data-objectif="5"]');
+  ok(await p.getAttribute('#objectif-choix button[data-objectif="5"]', 'aria-pressed') === 'true', 'profile: weekly goal set to 5');
+  await p.goto(B + 'index.html');
+  ok((await p.textContent('#stat-objectif')) === '5', 'home: ring uses the goal from the profile');
 
   // ── 3. Séance complète
   await p.goto(B + 'seance.html');
@@ -122,6 +134,7 @@ const PAGES = ['index', 'seance', 'planning', 'historique', 'boutique', 'profil'
   await p.setInputFiles('#sauvegarde-fichier', f);
   await p.waitForLoadState('load'); await p.waitForTimeout(600);
   ok(await solde() === 124 && await p.evaluate(() => JSON.parse(localStorage.getItem('historique')).length) === 4, 'backup: export then import restores everything');
+  ok(await p.evaluate(() => localStorage.getItem('objectif_semaine')) === '5', 'backup: weekly goal restored');
 
   // ── 7 bis. Bibliothèque : un lien TikTok par exercice
   await p.goto(B + 'exercices.html');

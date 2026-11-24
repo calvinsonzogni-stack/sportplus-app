@@ -23,6 +23,24 @@
     $("pseudo-statut").textContent = "✓ Pseudo enregistré";
   });
 
+  // ── Objectif de séances par semaine ─────────
+  const OBJECTIF_DEFAUT = 3;
+  function majObjectif() {
+    const objectif = parseInt(lireStockage("objectif_semaine", OBJECTIF_DEFAUT), 10) || OBJECTIF_DEFAUT;
+    document.querySelectorAll("#objectif-choix button").forEach(b => {
+      const actif = +b.dataset.objectif === objectif;
+      b.classList.toggle("active", actif);
+      b.setAttribute("aria-pressed", String(actif));
+    });
+  }
+  $("objectif-choix").addEventListener("click", e => {
+    const b = e.target.closest("button[data-objectif]");
+    if (!b) return;
+    ecrireStockage("objectif_semaine", +b.dataset.objectif);
+    majObjectif();
+  });
+  majObjectif();
+
   // ── Salle ───────────────────────────────────
   function lireSalle() {
     const s = lireStockage(CLE_SALLE, null);

@@ -6,7 +6,7 @@
 }
 
 body {
-  background: #0f0f0f;
+  background: var(--bg);
   color: white;
   min-height: 100vh;
 }
@@ -17,7 +17,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background: #111;
+  background: var(--bg);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -35,7 +35,7 @@ body {
 .nav a {
   margin-left: 30px;
   text-decoration: none;
-  color: #ccc;
+  color: var(--text-2);
   transition: color 0.3s;
 }
 
@@ -46,8 +46,8 @@ body {
 
 /* TITRE */
 .title-section {
-  text-align: center;
-  padding: 50px 20px 30px;
+  max-width: 1200px;
+  padding: 36px 20px 24px;
 }
 
 .title-section h1 {
@@ -57,7 +57,7 @@ body {
 }
 
 .title-section p {
-  color: #ccc;
+  color: var(--text-2);
   font-size: clamp(14px, 2.5vw, 18px);
 }
 
@@ -76,17 +76,16 @@ body {
 
 /* CARTE D'EXERCICE */
 .perf-card {
-  background: #1a1a1a;
+  background: var(--surface);
   border-radius: 12px;
   padding: 25px;
-  border: 2px solid #222;
+  border: 2px solid var(--surface-2);
   transition: transform 0.3s, border-color 0.3s;
 }
 
 @media (hover: hover) {
   .perf-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
+    border-color: var(--border-strong);
   }
 }
 
@@ -105,13 +104,9 @@ body {
 }
 
 .muscle-tag {
-  background: var(--accent);
-  color: #fff;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: bold;
-  text-transform: uppercase;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -124,15 +119,15 @@ body {
 .perf-input-group label {
   display: block;
   margin-bottom: 10px;
-  color: #ccc;
+  color: var(--text-2);
   font-size: 14px;
 }
 
 .perf-input-group input {
   width: 100%;
   padding: 14px 15px;
-  background: #0f0f0f;
-  border: 2px solid #333;
+  background: var(--bg);
+  border: 2px solid var(--border-strong);
   border-radius: 8px;
   color: white;
   font-size: 16px;
@@ -147,18 +142,18 @@ body {
 }
 
 .perf-input-group input::placeholder {
-  color: #666;
+  color: var(--faint);
 }
 
 /* BOUTON SAUVEGARDER */
 .save-btn {
   width: 100%;
   padding: 14px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  font-weight: 700;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s;
@@ -166,14 +161,13 @@ body {
 }
 
 .save-btn:active {
-  background: var(--accent-hover);
+  background: var(--surface-3);
   transform: scale(0.98);
 }
 
 @media (hover: hover) {
   .save-btn:hover {
-    background: var(--accent-hover);
-    transform: scale(1.02);
+    background: var(--surface-3);
   }
 }
 

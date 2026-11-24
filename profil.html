@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#0e0e10">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Sport+">
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
@@ -46,6 +47,21 @@
         <button type="submit" class="btn-principal">Enregistrer</button>
       </form>
       <p class="aide" id="pseudo-statut" role="status"></p>
+    </section>
+
+    <!-- Objectif de séances par semaine (anneau de l'accueil) -->
+    <section class="bloc" id="objectif" aria-labelledby="titre-objectif">
+      <h2 id="titre-objectif">Mon objectif</h2>
+      <p class="aide-objectif">Combien de séances par semaine ?</p>
+      <div class="objectif-choix" role="group" aria-label="Séances par semaine" id="objectif-choix">
+        <button type="button" data-objectif="1">1</button>
+        <button type="button" data-objectif="2">2</button>
+        <button type="button" data-objectif="3">3</button>
+        <button type="button" data-objectif="4">4</button>
+        <button type="button" data-objectif="5">5</button>
+        <button type="button" data-objectif="6">6</button>
+        <button type="button" data-objectif="7">7</button>
+      </div>
     </section>
 
     <!-- Ma salle : choix parmi les plus grandes enseignes -->
