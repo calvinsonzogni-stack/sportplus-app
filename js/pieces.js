@@ -43,7 +43,7 @@ const Pieces = (function () {
     ecrireStockage(CLE_JOURNAL, liste.slice(0, TAILLE_JOURNAL));
   }
 
-  // Animation centrale « +25 🪙 » avec petites pièces qui jaillissent
+  // Carte centrale « +25 🪙 » : apparaît en fondu, puis s'efface
   function celebrer(montant, texte) {
     const pop = document.createElement("div");
     pop.className = "gain-pop";
@@ -51,15 +51,6 @@ const Pieces = (function () {
     pop.innerHTML = `${PIECE_SVG}
       <div class="gain-montant">+${montant}</div>
       <div class="gain-texte">${echapperHtml(texte)}</div>`;
-    for (let i = 0; i < 10; i++) {
-      const eclat = document.createElement("span");
-      eclat.className = "gain-eclat";
-      const angle = (Math.PI * 2 * i) / 10;
-      eclat.style.setProperty("--dx", `${Math.round(Math.cos(angle) * 110)}px`);
-      eclat.style.setProperty("--dy", `${Math.round(Math.sin(angle) * 90 - 20)}px`);
-      eclat.style.animationDelay = `${i * 25}ms`;
-      pop.appendChild(eclat);
-    }
     document.querySelectorAll(".gain-pop").forEach(el => el.remove());
     document.body.appendChild(pop);
     setTimeout(() => pop.remove(), 2300);
@@ -71,7 +62,11 @@ const Pieces = (function () {
     const el = document.getElementById("solde-pieces");
     const chip = el && el.closest(".solde-chip");
     if (!el) return;
-    if (chip) { chip.classList.remove("gain"); void chip.offsetWidth; chip.classList.add("gain"); }
+    if (chip) {
+      chip.classList.add("gain");
+      clearTimeout(animerEntete.minuteur);
+      animerEntete.minuteur = setTimeout(() => chip.classList.remove("gain"), 1200);
+    }
     const debut = performance.now(), duree = 900;
     const etape = t => {
       const p = Math.min(1, (t - debut) / duree);

@@ -20,7 +20,7 @@ button, input, select { font: inherit; color: inherit; }
   flex-direction: column;
   gap: 16px;
 }
-.profil-titre { font-size: clamp(28px, 6vw, 36px); font-weight: 900; letter-spacing: -0.5px; }
+.profil-titre { font-size: clamp(28px, 6vw, 36px); font-weight: 800; letter-spacing: -0.5px; }
 
 .bloc {
   padding: 20px;
@@ -35,6 +35,18 @@ button, input, select { font: inherit; color: inherit; }
   text-transform: uppercase; color: var(--muted);
 }
 
+/* ── Objectif ────────────────────────────────── */
+.aide-objectif { color: var(--muted); font-size: 14px; margin: -6px 0 12px; }
+.objectif-choix { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.objectif-choix button {
+  min-height: 44px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+  color: var(--text-2); font-size: 16px; font-weight: 700; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.objectif-choix button:hover { border-color: var(--border-strong); }
+.objectif-choix button.active { background: var(--text); border-color: var(--text); color: var(--bg); }
+
 /* ── Champs et boutons ───────────────────────── */
 .ligne-champ { display: flex; gap: 8px; }
 .ligne-champ input {
@@ -43,7 +55,7 @@ button, input, select { font: inherit; color: inherit; }
   outline: none; transition: border-color 0.2s;
 }
 .ligne-champ input:focus { border-color: var(--accent); }
-.ligne-champ input::placeholder { color: #666; }
+.ligne-champ input::placeholder { color: var(--faint); }
 
 .btn-principal, .btn-secondaire {
   flex-shrink: 0; min-height: 46px; padding: 0 18px;
@@ -53,9 +65,9 @@ button, input, select { font: inherit; color: inherit; }
 .btn-principal { background: var(--accent); border: none; color: #fff; }
 .btn-principal:hover { background: var(--accent-hover); }
 .btn-secondaire { background: var(--surface-2); border: 2px solid var(--border); color: #fff; }
-.btn-secondaire:hover { border-color: var(--accent); }
+.btn-secondaire:hover { border-color: var(--border-strong); }
 .btn-lien { background: none; border: none; color: var(--muted); font-weight: 700; cursor: pointer; padding: 8px; }
-.btn-lien:hover { color: var(--accent-text); }
+.btn-lien:hover { color: var(--text); }
 
 .aide { margin-top: 8px; min-height: 18px; color: var(--muted); font-size: 14px; }
 
@@ -65,15 +77,15 @@ button, input, select { font: inherit; color: inherit; }
   padding: 14px 16px;
   background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
 }
-.carte-salle.choisie { border-color: var(--accent); background: rgba(var(--accent-rgb), 0.08); }
+.carte-salle.choisie { border-color: var(--border-strong); background: var(--surface-2); }
 .carte-salle-infos { min-width: 0; }
 .carte-salle-nom { font-size: 16px; font-weight: 800; overflow-wrap: anywhere; }
 .badge-enseigne {
   display: inline-block; margin-top: 6px; padding: 2px 10px;
-  background: rgba(255, 184, 0, 0.1); border: 1px solid rgba(255, 184, 0, 0.4);
-  border-radius: 999px; color: var(--or); font-size: 12px; font-weight: 800;
+  background: var(--surface-3); border: 1px solid transparent;
+  border-radius: 999px; color: var(--text-2); font-size: 12px; font-weight: 800;
 }
-.ma-salle { flex-shrink: 0; display: inline-block; white-space: nowrap; color: var(--accent-text); font-size: 13px; font-weight: 800; }
+.ma-salle { flex-shrink: 0; display: inline-block; white-space: nowrap; color: var(--succes); font-size: 13px; font-weight: 700; }
 .vide { color: var(--muted); font-size: 15px; }
 
 .manuel { margin-top: 16px; }
@@ -91,7 +103,7 @@ button, input, select { font: inherit; color: inherit; }
   background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
   color: var(--muted); font-weight: 800; cursor: pointer;
 }
-.onglet.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.onglet.active { background: var(--surface-3); border-color: var(--border-strong); color: var(--text); }
 .classement-critere { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
 .classement { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .classement-ligne {
@@ -102,18 +114,18 @@ button, input, select { font: inherit; color: inherit; }
 }
 .classement-ligne:hover { border-color: var(--border); }
 .classement-ligne:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.classement-ligne.mienne { border-color: var(--accent); background: rgba(var(--accent-rgb), 0.08); }
+.classement-ligne.mienne { border-color: var(--text-2); background: var(--surface-2); }
 .classement-rang {
   flex-shrink: 0; width: 30px; height: 30px; display: grid; place-items: center;
-  border-radius: 50%; background: var(--surface-2); font-weight: 900; font-size: 14px;
+  border-radius: 50%; background: var(--surface-2); font-weight: 800; font-size: 14px;
 }
-.classement li:nth-child(-n+3) .classement-rang { background: var(--accent); color: #fff; }
+.classement li:nth-child(-n+3) .classement-rang { background: var(--surface-3); color: var(--text); box-shadow: inset 0 0 0 1px var(--border-strong); }
 .classement-infos { flex: 1; min-width: 0; }
 .classement-infos > span { display: block; }
 .classement-nom { font-weight: 800; }
 .classement-detail { color: var(--muted); font-size: 12px; margin-top: 2px; }
-.classement-chiffre { flex-shrink: 0; font-weight: 800; color: var(--or); font-size: 14px; text-align: right; }
-.sources { margin-top: 12px; color: #777; font-size: 12px; line-height: 1.5; }
+.classement-chiffre { flex-shrink: 0; font-weight: 700; color: var(--text-2); font-size: 14px; text-align: right; }
+.sources { margin-top: 12px; color: var(--faint); font-size: 12px; line-height: 1.5; }
 
 @media (max-width: 560px) {
   .profil-page { padding: 18px 12px 32px; }

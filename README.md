@@ -1,7 +1,8 @@
 # Sport+ 🏋️
 
 Application web pour créer et suivre ses séances de musculation.
-Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets en bas).
+Design « Studio sombre » : fond presque noir, cartes anthracite, police Plus Jakarta Sans,
+rouge réservé à l'action principale et vert aux réussites. Pensée pour le téléphone (barre d'onglets en bas).
 
 ## Fonctionnalités
 
@@ -16,6 +17,8 @@ Direction artistique rouge & noir, pensée pour le téléphone (barre d'onglets 
 - **Planning** : Programme tes séances (ponctuelles ou hebdomadaires) avec rappel le jour J
 - **Suivi des performances** : La charge max de chaque exercice est retenue et pré-remplie
 - **Historique** : Visualise ta progression avec des graphiques
+- **Accueil** : la semaine jour par jour, la séance du jour (en cours, prévue ou libre),
+  l'objectif de séances par semaine (réglable dans le profil) et le volume soulevé
 - **Statistiques** : Jours consécutifs, exercice favori, records personnels
 - **Pièces** 🪙 : gagnées en terminant une séance et en battant ses records
 - **Boutique** : 8 avatars à débloquer, chacun avec 4 tenues, prix selon la rareté
@@ -59,6 +62,7 @@ sport-plus/
 ├── tools/avatars/       # Script de génération des avatars (développement uniquement)
 └── assets/
     ├── avatars/         # Avatars générés (SVG), voir CREDITS.md
+    ├── fonts/           # Police Plus Jakarta Sans (licence OFL), servie hors ligne
     ├── icons/           # Icônes de l'appli (écran d'accueil, favicon)
     └── images/          # Images des exercices (sources : voir CREDITS.md)
 ```
