@@ -335,6 +335,7 @@ body { background: var(--bg); color: white; min-height: 100vh; }
 }
 .btn-google:hover { background: var(--surface-3); }
 .calendrier-actions { display: flex; flex-direction: column; gap: 10px; }
+.lien-test-calendrier { color: var(--muted); font-size: 13.5px; text-align: center; text-decoration: underline; padding: 6px; }
 .calendrier-note { margin-top: 14px; color: var(--faint); font-size: 12.5px; line-height: 1.45; }
 
 /* ── RESPONSIVE ──────────────────────────────── */
