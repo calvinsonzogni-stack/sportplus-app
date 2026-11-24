@@ -39,7 +39,7 @@ function afficherExercices() {
         >
       </div>
       <button class="save-btn">
-        💾 Sauvegarder
+        Sauvegarder
       </button>
     `;
     const btn = card.querySelector(".save-btn");

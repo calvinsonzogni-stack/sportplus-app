@@ -29,7 +29,7 @@
   }
 
   function majReglage() {
-    boutonReglage.textContent = duree ? `⏲ Repos ${duree} s` : "⏲ Repos off";
+    boutonReglage.innerHTML = icone("horloge") + (duree ? ` Repos ${duree} s` : " Repos off");
     boutonReglage.setAttribute("aria-label",
       duree ? `Durée de repos : ${duree} secondes. Toucher pour changer.` : "Minuteur de repos désactivé. Toucher pour l'activer.");
   }
@@ -88,7 +88,7 @@
     try { localStorage.removeItem(CLE_FIN); } catch (e) {}
     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
     bip();
-    libelle.textContent = "C'est reparti 💪";
+    libelle.textContent = "C'est reparti !";
     affichage.textContent = "0:00";
     progression.style.width = "0%";
     barre.classList.add("repos-fini");

@@ -57,13 +57,13 @@
   function majSalleActuelle() {
     const s = lireSalle();
     if (!s) {
-      $("salle-actuelle").innerHTML = `<p class="vide">Aucune salle choisie pour l'instant. Touche ton enseigne dans la liste 👇</p>`;
+      $("salle-actuelle").innerHTML = `<p class="vide">Aucune salle choisie pour l'instant. Touche ton enseigne dans la liste ci-dessous.</p>`;
       return;
     }
     $("salle-actuelle").innerHTML = `
       <div class="carte-salle choisie">
         <div class="carte-salle-infos">
-          <p class="carte-salle-nom">📍 ${echapperHtml(s.nom)}</p>
+          <p class="carte-salle-nom">${icone("epingle")} ${echapperHtml(s.nom)}</p>
           ${badgeEnseigne(infosEnseigne(s.enseigne || s.nom))}
         </div>
         <button type="button" class="btn-lien" id="btn-retirer-salle">Retirer</button>

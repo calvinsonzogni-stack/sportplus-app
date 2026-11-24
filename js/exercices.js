@@ -64,9 +64,9 @@ function addExercice(nom) {
     ecrireStockage("seance_preloaded", seance);
 
     // Animation de confirmation
-    showNotification(nom + " ajouté à ta séance 💪");
+    showNotification(nom + " ajouté à ta séance");
   } else {
-    showNotification("Cet exercice est déjà dans ta séance 😉", "warning");
+    showNotification("Cet exercice est déjà dans ta séance", "warning");
   }
 }
 

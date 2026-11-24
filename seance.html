@@ -60,7 +60,7 @@
         <span class="selection-label"> sélectionné(s)</span>
       </div>
       <button class="btn-letsgo" id="btn-letsgo" onclick="lancerSeance()" disabled>
-        Let's go 💪
+        Let's go
       </button>
     </div>
   </div>
@@ -71,16 +71,16 @@
       <div class="seance-title-block">
         <h1>Ma Séance</h1>
         <div class="seance-meta">
-          <span class="timer-badge" id="seance-timer">⏱ 00:00</span>
+          <span class="timer-badge"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg> <span id="seance-timer">00:00</span></span>
           <span class="progress-badge" id="seance-progress-label">
             Exercice <span id="current-exo-index">1</span> / <span id="total-exo-count">0</span>
           </span>
           <!-- Bouton modifier la séance en cours -->
           <button class="btn-modifier-seance" onclick="ouvrirModalModif()" title="Ajouter / retirer des exercices">
-            ✏️ Modifier
+            <svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg> Modifier
           </button>
           <!-- Durée du minuteur de repos (60 / 90 / 120 / 180 s / off) -->
-          <button class="btn-modifier-seance" id="btn-repos-duree" type="button">⏲ Repos 90 s</button>
+          <button class="btn-modifier-seance" id="btn-repos-duree" type="button"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg> Repos 90 s</button>
         </div>
       </div>
       <div class="global-progress-bar">
@@ -92,11 +92,11 @@
 
     <div class="finish-zone hidden" id="finish-zone">
       <div class="finish-message">
-        <span class="finish-icon">🔥</span>
+        <span class="finish-icon"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/></svg></span>
         <p>Tous les exercices sont terminés !</p>
       </div>
       <button class="btn-douche" onclick="terminerSeance()">
-        🚿 Go à la douche !
+        Go à la douche !
       </button>
     </div>
   </div>
@@ -118,7 +118,7 @@
   <!-- MODAL FIN DE SÉANCE -->
   <div class="modal-overlay hidden" id="modal-fin">
     <div class="modal-card">
-      <div class="modal-icon">🎉</div>
+      <div class="modal-icon"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8"/></svg></div>
       <h2>Séance terminée !</h2>
       <p id="modal-summary"></p>
       <div class="modal-gain" id="modal-gain"></div>
@@ -133,7 +133,7 @@
   <div class="modal-overlay hidden" id="modal-modif">
     <div class="modal-card modal-card-modif">
       <div class="modal-header-modif">
-        <h2>✏️ Modifier la séance</h2>
+        <h2>Modifier la séance</h2>
         <button class="modal-close-btn" onclick="fermerModalModif()" aria-label="Fermer">✕</button>
       </div>
       <p class="modal-modif-hint">Les exercices déjà terminés ne peuvent pas être retirés.</p>
@@ -156,7 +156,7 @@
 
       <div class="modal-footer-modif">
         <button class="modal-btn secondary" onclick="fermerModalModif()">Annuler</button>
-        <button class="modal-btn primary" onclick="appliquerModif()">Appliquer ✓</button>
+        <button class="modal-btn primary" onclick="appliquerModif()">Appliquer</button>
       </div>
     </div>
   </div>

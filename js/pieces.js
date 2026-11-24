@@ -43,7 +43,7 @@ const Pieces = (function () {
     ecrireStockage(CLE_JOURNAL, liste.slice(0, TAILLE_JOURNAL));
   }
 
-  // Carte centrale « +25 🪙 » : apparaît en fondu, puis s'efface
+  // Carte centrale « +25 pièces » : apparaît en fondu, puis s'efface
   function celebrer(montant, texte) {
     const pop = document.createElement("div");
     pop.className = "gain-pop";
