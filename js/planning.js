@@ -244,8 +244,6 @@ function ouvrirCalendrier(entries, apresCreation = false) {
   const actions = [];
   if (plateforme === "ios") {
     actions.push(`<button type="button" class="modal-btn primary" data-action="ics">Ajouter au calendrier</button>`);
-    // Temporaire : page pour trouver la méthode qui marche sur l'appli installée
-    actions.push(`<a class="lien-test-calendrier" href="test-calendrier.html">Ça ne marche pas ? Tester d'autres méthodes</a>`);
   } else if (plateforme === "android") {
     if (un) actions.push(`<a class="modal-btn primary" href="${Calendrier.lienGoogle(entries[0])}" target="_blank" rel="noopener" data-action="google">Ajouter à Google Agenda</a>`);
     actions.push(`<button type="button" class="modal-btn secondary" data-action="ics">Autre calendrier (fichier .ics)</button>`);

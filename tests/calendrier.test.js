@@ -93,19 +93,13 @@ async function programmer(p, { nom, heure, duree, hebdo }) {
   await ctx.close();
 
   // ── 3. iPhone : bouton « Ajouter au calendrier » (fichier .ics)
-  const ios = await b.newContext({ viewport: { width: 390, height: 844 }, userAgent: UA_IPHONE });
+  const ios = await b.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block', userAgent: UA_IPHONE });
   const qi = await ios.newPage();
   await qi.goto(B + 'planning.html');
   await qi.evaluate(() => localStorage.clear()); await qi.reload();
   await programmer(qi, { nom: 'Push day', heure: '07:15' });
   ok(await qi.evaluate(() => Calendrier.plateforme()) === 'ios', 'iPhone detected');
-  ok((await qi.textContent('#calendrier-actions [data-action="ics"]')).trim() === 'Ajouter au calendrier' && await qi.locator('#calendrier-actions [data-action]').count() === 1 && await qi.locator('.btn-google').count() === 0, 'iPhone: single "Ajouter au calendrier" button (Apple calendar)');
-  ok(await qi.getAttribute('#calendrier-actions .lien-test-calendrier', 'href') === 'test-calendrier.html', 'iPhone: link to the test page of other methods');
-  // Le fichier servi par l'appli (service worker) : vraie adresse en text/calendar
-  await qi.goto(B + 'test-calendrier.html');
-  await qi.waitForFunction(() => !document.getElementById('etat').textContent.includes('Vérification'), null, { timeout: 15000 });
-  const rep = await qi.evaluate(async () => { const h = document.getElementById('m-a').getAttribute('href'); const r = await fetch(h); return { ct: r.headers.get('Content-Type'), t: await r.text() }; });
-  ok(rep.ct.startsWith('text/calendar') && rep.t.includes('SUMMARY:Sport+ · Test calendrier') && (await qi.textContent('#etat')).startsWith('✓'), 'test page: app serves a real calendar file');
+  ok((await qi.textContent('#calendrier-actions')).trim() === 'Ajouter au calendrier' && await qi.locator('#calendrier-actions [data-action="ics"]').count() === 1 && await qi.locator('.btn-google').count() === 0, 'iPhone: single "Ajouter au calendrier" button (Apple calendar)');
   ok(await qi.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, 'iPhone: no horizontal overflow');
   await qi.screenshot({ path: OUT + '/calendrier-iphone.png' });
   await ios.close();
