@@ -14,9 +14,7 @@ rouge réservé à l'action principale et vert aux réussites. Pensée pour le t
 - **Création de séances** : Compose ta séance, saisis tes séries (reps × charge) avec chrono
 - **Minuteur de repos** : démarre à chaque série validée (60 / 90 / 120 / 180 s ou désactivé), vibration et bip à la fin
 - **Reprise automatique** : une séance en cours survit à un rechargement ou à l'écran verrouillé
-- **Planning** : Programme tes séances (ponctuelles ou hebdomadaires, heure et durée facultatives)
-  avec rappel le jour J, et ajoute-les au calendrier du téléphone (Apple via fichier .ics,
-  Google Agenda sur Android) — ajout ponctuel, sans synchronisation
+- **Planning** : Programme tes séances (ponctuelles ou hebdomadaires) avec rappel le jour J
 - **Suivi des performances** : La charge max de chaque exercice est retenue et pré-remplie
 - **Historique** : Visualise ta progression avec des graphiques
 - **Accueil** : la semaine jour par jour, la séance du jour (en cours, prévue ou libre),
@@ -49,7 +47,6 @@ sport-plus/
 │   ├── donnees-exercices.js # Liste des exercices (source unique, lue aussi par sw.js)
 │   ├── donnees-avatars.js   # Catalogue de la boutique : avatars, tenues, raretés, prix
 │   ├── donnees-salles.js    # Classements des chaînes (avec sources) et reconnaissance des enseignes
-│   ├── calendrier.js    # Export vers le calendrier du téléphone (.ics, Google Agenda)
 │   ├── commun.js        # Utilitaires partagés + enregistrement du service worker
 │   ├── pieces.js        # Monnaie, gains, collection d'avatars, solde dans l'en-tête
 │   ├── accueil.js       # Tableau de bord (page d'accueil)
