@@ -8,7 +8,8 @@ const MOIS  = ["Janvier","Février","Mars","Avril","Mai","Juin",
                "Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
 
 // ── État ────────────────────────────────────────
-let planning = lireStockage("planning", []); // [{ id, nom, date "YYYY-MM-DD", exercices[], recurrence "once"|"weekly" }]
+// [{ id, nom, date "YYYY-MM-DD", heure "HH:MM" | "", duree (min), exercices[], recurrence "once"|"weekly" }]
+let planning = lireStockage("planning", []);
 let currentYear  = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 let selectedDate = null;
@@ -96,6 +97,8 @@ function ouvrirModal(dateStr) {
 
   // Reset champs
   document.getElementById("seance-nom").value = "";
+  document.getElementById("seance-heure").value = "";
+  document.getElementById("seance-duree").value = "60";
   document.querySelectorAll(".recurrence-btn").forEach(b => {
     b.classList.toggle("active", b.dataset.value === "once");
   });
@@ -183,10 +186,13 @@ function sauvegarderSeanceProgrammee() {
     return;
   }
 
+  const heure = document.getElementById("seance-heure").value;
   const entry = {
     id: Date.now(),
     nom,
     date: selectedDate,
+    heure: /^\d{2}:\d{2}$/.test(heure) ? heure : "",
+    duree: parseInt(document.getElementById("seance-duree").value, 10) || 60,
     exercices: [...selectedExos],
     recurrence,
   };
@@ -197,7 +203,93 @@ function sauvegarderSeanceProgrammee() {
   fermerModal();
   renderCalendar();
   renderListeProgrammees();
+  ouvrirCalendrier([entry], true);
 }
+
+// ── AJOUTER AU CALENDRIER DU TÉLÉPHONE ──────────
+// iPhone : fichier .ics (« Ajouter au calendrier »).
+// Android : Google Agenda pré-rempli, ou fichier .ics pour les autres calendriers.
+let calendrierEntries = [];
+
+function libelleHoraire(entry) {
+  const d = new Date(entry.date + "T12:00:00");
+  const jour = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const quand = entry.recurrence === "weekly"
+    ? `chaque ${d.toLocaleDateString("fr-FR", { weekday: "long" })}, à partir du ${d.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}`
+    : jour;
+  return entry.heure ? `${quand} · ${entry.heure.replace(":", " h ")}` : `${quand} · journée entière`;
+}
+
+function ouvrirCalendrier(entries, apresCreation = false) {
+  calendrierEntries = entries;
+  const plateforme = Calendrier.plateforme();
+  const un = entries.length === 1;
+
+  document.getElementById("calendrier-titre").textContent = apresCreation ? "Séance programmée ✓" : "Ajouter à mon calendrier";
+  document.getElementById("calendrier-intro").textContent = apresCreation
+    ? "Tu veux aussi l'ajouter au calendrier de ton téléphone ?"
+    : (un ? "Cette séance sera ajoutée au calendrier de ton téléphone." : `Ces ${entries.length} séances seront ajoutées au calendrier de ton téléphone.`);
+
+  // Sur Android, un bouton Google Agenda par séance (Google n'en accepte qu'une à la fois)
+  const google = plateforme !== "ios";
+  document.getElementById("calendrier-liste").innerHTML = entries.map((e, i) => `
+    <li class="calendrier-item">
+      <div class="calendrier-item-infos">
+        <p class="calendrier-item-nom">${echapperHtml(e.nom)}</p>
+        <p class="calendrier-item-quand">${echapperHtml(libelleHoraire(e))}</p>
+      </div>
+      ${google && !un ? `<a class="btn-google" href="${Calendrier.lienGoogle(e)}" target="_blank" rel="noopener" data-index="${i}">Google Agenda</a>` : ""}
+    </li>`).join("");
+
+  const actions = [];
+  if (plateforme === "ios") {
+    actions.push(`<button type="button" class="modal-btn primary" data-action="ics">Ajouter au calendrier</button>`);
+  } else if (plateforme === "android") {
+    if (un) actions.push(`<a class="modal-btn primary" href="${Calendrier.lienGoogle(entries[0])}" target="_blank" rel="noopener" data-action="google">Ajouter à Google Agenda</a>`);
+    actions.push(`<button type="button" class="modal-btn secondary" data-action="ics">Autre calendrier (fichier .ics)</button>`);
+  } else {
+    actions.push(`<button type="button" class="modal-btn primary" data-action="ics">Télécharger pour mon calendrier (.ics)</button>`);
+    if (un) actions.push(`<a class="modal-btn secondary" href="${Calendrier.lienGoogle(entries[0])}" target="_blank" rel="noopener" data-action="google">Ouvrir dans Google Agenda</a>`);
+  }
+  document.getElementById("calendrier-actions").innerHTML = actions.join("");
+
+  document.getElementById("modal-calendrier").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  document.getElementById("calendrier-actions").firstElementChild.focus();
+}
+
+function fermerCalendrier() {
+  document.getElementById("modal-calendrier").classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("calendrier-actions").addEventListener("click", e => {
+  const cible = e.target.closest("[data-action]");
+  if (!cible) return;
+  if (cible.dataset.action === "ics") Calendrier.ouvrirIcs(calendrierEntries);
+  // Le lien Google s'ouvre dans un nouvel onglet ; la fenêtre peut se fermer
+  setTimeout(fermerCalendrier, 300);
+});
+document.getElementById("calendrier-fermer").addEventListener("click", fermerCalendrier);
+document.getElementById("calendrier-plus-tard").addEventListener("click", fermerCalendrier);
+document.getElementById("modal-calendrier").addEventListener("click", e => {
+  if (e.target === document.getElementById("modal-calendrier")) fermerCalendrier();
+});
+
+function ajouterAuCalendrier(id) {
+  const entry = planning.find(e => e.id === id);
+  if (entry) ouvrirCalendrier([entry]);
+}
+
+// Séances à venir (une entrée par séance, même hebdomadaire)
+function seancesAAjouter() {
+  const today = todayStr();
+  return planning.filter(e => e.recurrence === "weekly" || e.date >= today);
+}
+document.getElementById("btn-calendrier-tout").addEventListener("click", () => {
+  const entries = seancesAAjouter();
+  if (entries.length) ouvrirCalendrier(entries);
+});
 
 // ── LISTE DES SÉANCES PROGRAMMÉES ───────────────
 function renderListeProgrammees() {
@@ -206,6 +298,8 @@ function renderListeProgrammees() {
 
   // Récupérer toutes les occurrences effectives (one-shot + récurrentes à venir)
   const entries = getSeancesAVenir();
+
+  document.getElementById("btn-calendrier-tout").classList.toggle("hidden", seancesAAjouter().length < 2);
 
   if (!entries.length) {
     liste.innerHTML = `
@@ -227,7 +321,7 @@ function renderListeProgrammees() {
         <div class="programmee-left">
           <div class="programmee-date">
             ${isToday ? '<span class="today-badge">Aujourd\'hui</span>' : ""}
-            <span class="programmee-date-label">${dateStr}</span>
+            <span class="programmee-date-label">${dateStr}${entry.heure ? ` · ${entry.heure.replace(":", " h ")}` : ""}</span>
             ${entry.recurrence === "weekly" ? '<span class="recurrence-badge">🔁 Hebdo</span>' : ""}
           </div>
           <div class="programmee-nom">${echapperHtml(entry.nom)}</div>
@@ -246,6 +340,7 @@ function renderListeProgrammees() {
             ? `<button class="btn-lancer" onclick="lancerDepuisPlanning(${entry.id})">▶ Lancer</button>`
             : ""
           }
+          <button class="btn-edit-prog" onclick="ajouterAuCalendrier(${entry.id})" title="Ajouter à mon calendrier" aria-label="Ajouter ${echapperHtml(entry.nom)} à mon calendrier"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
           <button class="btn-edit-prog" onclick="ouvrirModalEditPlanning(${entry.id})" title="Modifier les exercices" aria-label="Modifier les exercices">✏️</button>
           <button class="btn-supprimer-prog" onclick="supprimerProgrammee(${entry.id})" title="Supprimer" aria-label="Supprimer cette séance programmée">🗑️</button>
         </div>
@@ -399,4 +494,5 @@ document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   if (!document.getElementById("modal-create").classList.contains("hidden")) fermerModal();
   if (!document.getElementById("modal-edit-planning").classList.contains("hidden")) fermerModalEditPlanning();
+  if (!document.getElementById("modal-calendrier").classList.contains("hidden")) fermerCalendrier();
 });

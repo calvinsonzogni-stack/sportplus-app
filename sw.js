@@ -11,7 +11,7 @@
 //  l'ancien cache est alors supprimé et tout est re-téléchargé.
 // ════════════════════════════════════════════════
 
-const VERSION = "sportplus-v11";
+const VERSION = "sportplus-v12";
 const DELAI_RESEAU_MS = 3000;
 
 // Fournissent EXERCICES_DB et AVATARS : la liste des images vient de la
@@ -28,7 +28,7 @@ const FICHIERS_APPLI = [
   "js/donnees-exercices.js", "js/donnees-avatars.js", "js/donnees-salles.js", "js/profil.js", "js/commun.js", "js/pieces.js",
   "js/notif-planning.js", "js/accueil.js", "js/installer.js", "js/boutique.js",
   "js/exercices.js", "js/historique.js", "js/perfs.js", "js/planning.js", "js/seance.js",
-  "js/repos.js", "js/sauvegarde.js",
+  "js/repos.js", "js/sauvegarde.js", "js/calendrier.js",
   "js/vendor/chart.umd.min.js",
   "assets/images/placeholder.svg",
   "assets/icons/icon-192.png", "assets/icons/favicon-48.png", "assets/icons/apple-touch-icon.png",
