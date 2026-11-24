@@ -101,7 +101,7 @@ function afficherRecords(muscleFilter = "all") {
   if (!entries.length) {
     grid.innerHTML = `
       <div class="records-empty">
-        <span>🏆</span>
+        ${icone("trophee")}
         <p>Tes records apparaîtront ici après ta première séance !</p>
       </div>`;
     return;
@@ -112,7 +112,7 @@ function afficherRecords(muscleFilter = "all") {
     : entries.filter(([, r]) => r.muscle === muscleFilter);
 
   if (!filtered.length) {
-    grid.innerHTML = `<div class="records-empty"><span>🔍</span><p>Aucun record pour ce groupe musculaire.</p></div>`;
+    grid.innerHTML = `<div class="records-empty">${icone("recherche")}<p>Aucun record pour ce groupe musculaire.</p></div>`;
     return;
   }
 
@@ -133,7 +133,7 @@ function afficherRecords(muscleFilter = "all") {
             <span class="record-nom">${echapperHtml(nom)}</span>
             <span class="record-muscle-tag">${muscleLabel}</span>
           </div>
-          ${isPodium ? `<span class="podium-badge">${["🥇","🥈","🥉"][idx]}</span>` : ""}
+          ${isPodium ? `<span class="podium-badge podium-${idx + 1}" aria-label="${idx + 1}e plus grosse charge">N°${idx + 1}</span>` : ""}
         </div>
         <div class="record-charge">
           ${record.valeur > 0
@@ -143,8 +143,8 @@ function afficherRecords(muscleFilter = "all") {
           ${record.pdc ? `<span class="charge-bodyweight">Poids du corps</span>` : ""}
         </div>
         <div class="record-meta">
-          <span>🔁 ${record.nbFois} fois pratiqué</span>
-          <span>📅 ${dateStr}</span>
+          <span>${icone("repetition")}${record.nbFois} fois pratiqué</span>
+          <span>${icone("calendrier")}${dateStr}</span>
         </div>
       </div>`;
   }).join("");
@@ -312,7 +312,7 @@ function afficherHistorique() {
   if (!historique.length) {
     liste.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">📭</div>
+        <div class="empty-icon">${icone("boite")}</div>
         <h3>Aucune séance enregistrée</h3>
         <p>Commence à t'entraîner et tes séances apparaîtront ici !</p>
         <a href="seance.html" class="btn-primary">Créer ma première séance</a>
@@ -334,17 +334,17 @@ function afficherHistorique() {
       <div class="seance-card">
         <div class="seance-header">
           <div class="seance-date-block">
-            <span class="date-icon">📅</span>
+            <span class="date-icon">${icone("calendrier")}</span>
             <div>
               <span class="date-label">${dateStr}</span>
               <div class="seance-badges">
                 <span class="seance-badge">${seance.exercices.length} exercice(s)</span>
                 <span class="seance-badge">${totalSeries} série(s)</span>
-                ${dureeStr ? `<span class="seance-badge seance-badge-timer">⏱ ${dureeStr}</span>` : ""}
+                ${dureeStr ? `<span class="seance-badge seance-badge-timer">${icone("horloge")}${dureeStr}</span>` : ""}
               </div>
             </div>
           </div>
-          <button class="btn-delete" onclick="supprimerSeance(${realIdx})" title="Supprimer" aria-label="Supprimer cette séance">🗑️</button>
+          <button class="btn-delete" onclick="supprimerSeance(${realIdx})" title="Supprimer" aria-label="Supprimer cette séance">${icone("corbeille")}</button>
         </div>
         <div class="exercices-list">
           ${seance.exercices.map(exo => renderExoHistorique(exo)).join("")}
@@ -382,7 +382,7 @@ function supprimerSeance(index) {
 }
 
 function clearHistory() {
-  if (confirm("⚠️ Supprimer tout l'historique ? Cette action est irréversible.")) {
+  if (confirm("Supprimer tout l'historique ? Cette action est irréversible.")) {
     localStorage.removeItem("historique");
     location.reload();
   }

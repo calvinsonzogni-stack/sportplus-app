@@ -39,28 +39,28 @@
   <!-- Titre -->
   <section class="title-section">
     <h1>Mon Historique</h1>
-    <p>Suis ta progression et reste motivé 💪</p>
+    <p>Suis ta progression et reste motivé</p>
   </section>
 
   <!-- Stats rapides -->
   <section class="quick-stats">
     <div class="stat-card">
-      <div class="stat-icon">🏋️</div>
+      <div class="stat-icon"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg></div>
       <div class="stat-value" id="total-seances">0</div>
       <div class="stat-label">Séances totales</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon">📅</div>
+      <div class="stat-icon"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
       <div class="stat-value" id="streak">0</div>
       <div class="stat-label">Jours consécutifs</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon">🔥</div>
+      <div class="stat-icon"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-3.5 2-5 1 1.5 2 2 2 2s-1-3 1-7z"/></svg></div>
       <div class="stat-value" id="exercice-favori">-</div>
       <div class="stat-label">Exercice favori</div>
     </div>
     <div class="stat-card">
-      <div class="stat-icon">📈</div>
+      <div class="stat-icon"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
       <div class="stat-value" id="progression-mois">0%</div>
       <div class="stat-label">Progression ce mois</div>
     </div>
@@ -69,7 +69,7 @@
   <!-- Records personnels -->
   <section class="records-section">
     <div class="section-header">
-      <h2>🏆 Records personnels</h2>
+      <h2>Records personnels</h2>
       <p class="section-subtitle">Ta meilleure perf par exercice : la charge, ou les répétitions au poids du corps · <a class="lien-perfs" href="perfs.html">Modifier mes perfs →</a></p>
     </div>
     <div class="records-filters">
@@ -91,7 +91,7 @@
   <!-- Graphiques -->
   <section class="charts-container">
     <div class="chart-card">
-      <h2>📊 Évolution des charges</h2>
+      <h2>Évolution des charges</h2>
       <p class="chart-subtitle">Progression de ta charge max par exercice</p>
       <div class="chart-select-wrapper">
         <select id="exercice-select">
@@ -101,7 +101,7 @@
       <canvas id="evolution-chart"></canvas>
     </div>
     <div class="chart-card">
-      <h2>📅 Fréquence d'entraînement</h2>
+      <h2>Fréquence d'entraînement</h2>
       <p class="chart-subtitle">Nombre de séances par semaine</p>
       <canvas id="frequence-chart"></canvas>
     </div>
@@ -110,8 +110,8 @@
   <!-- Historique des séances -->
   <section class="historique-seances">
     <div class="section-header">
-      <h2>📋 Séances passées</h2>
-      <button class="btn-clear" onclick="clearHistory()">🗑️ Tout effacer</button>
+      <h2>Séances passées</h2>
+      <button class="btn-clear" onclick="clearHistory()"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Tout effacer</button>
     </div>
     <div id="liste-historique"></div>
   </section>
@@ -120,7 +120,7 @@
   <section class="sauvegarde-section" aria-labelledby="sauvegarde-titre">
     <div class="sauvegarde-card">
       <div>
-        <h2 id="sauvegarde-titre">💾 Sauvegarde de mes données</h2>
+        <h2 id="sauvegarde-titre">Sauvegarde de mes données</h2>
         <p class="sauvegarde-texte">
           Tes séances sont enregistrées uniquement sur cet appareil.
           Exporte-les régulièrement pour ne rien perdre en changeant de téléphone,
@@ -129,8 +129,8 @@
         <p class="sauvegarde-statut" id="sauvegarde-statut"></p>
       </div>
       <div class="sauvegarde-actions">
-        <button type="button" class="btn-sauvegarde primary" id="btn-exporter">⬇ Exporter</button>
-        <button type="button" class="btn-sauvegarde" id="btn-importer">⬆ Importer</button>
+        <button type="button" class="btn-sauvegarde primary" id="btn-exporter"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporter</button>
+        <button type="button" class="btn-sauvegarde" id="btn-importer"><svg class="icone" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5M5 20h14"/></svg>Importer</button>
         <input type="file" id="sauvegarde-fichier" accept="application/json,.json" hidden>
       </div>
     </div>
