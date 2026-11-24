@@ -18,7 +18,12 @@ function calculerStats() {
     el.style.fontSize = "16px";
   }
 
-  document.getElementById("progression-mois").textContent = calculerProgressionMois();
+  const progression = calculerProgressionMois();
+  document.getElementById("progression-mois").textContent = progression || "—";
+  if (!progression) {
+    document.getElementById("progression-aide").textContent =
+      "il faut 2 séances ce mois-ci avec un même exercice pour comparer";
+  }
 }
 
 
@@ -45,7 +50,7 @@ function perfExo(exo) {
 function calculerProgressionMois() {
   const debut = new Date(); debut.setDate(1); debut.setHours(0, 0, 0, 0);
   const seancesMois = historique.filter(s => new Date(s.date) >= debut);
-  if (seancesMois.length < 2) return "0%";
+  if (seancesMois.length < 2) return "";
   const first = seancesMois[0];
   const last  = seancesMois[seancesMois.length - 1];
   let total = 0, count = 0;
@@ -58,7 +63,7 @@ function calculerProgressionMois() {
       count++;
     }
   });
-  if (!count) return "0%";
+  if (!count) return "";
   const moy = Math.round(total / count);
   return (moy >= 0 ? "+" : "") + moy + "%";
 }
@@ -143,8 +148,7 @@ function afficherRecords(muscleFilter = "all") {
           ${record.pdc ? `<span class="charge-bodyweight">Poids du corps</span>` : ""}
         </div>
         <div class="record-meta">
-          <span>${icone("repetition")}${record.nbFois} fois pratiqué</span>
-          <span>${icone("calendrier")}${dateStr}</span>
+          <span>Fait ${record.nbFois} fois · dernier le ${dateStr}</span>
         </div>
       </div>`;
   }).join("");
@@ -334,13 +338,12 @@ function afficherHistorique() {
       <div class="seance-card">
         <div class="seance-header">
           <div class="seance-date-block">
-            <span class="date-icon">${icone("calendrier")}</span>
             <div>
               <span class="date-label">${dateStr}</span>
               <div class="seance-badges">
                 <span class="seance-badge">${seance.exercices.length} exercice(s)</span>
                 <span class="seance-badge">${totalSeries} série(s)</span>
-                ${dureeStr ? `<span class="seance-badge seance-badge-timer">${icone("horloge")}${dureeStr}</span>` : ""}
+                ${dureeStr ? `<span class="seance-badge seance-badge-timer">Durée ${dureeStr}</span>` : ""}
               </div>
             </div>
           </div>
