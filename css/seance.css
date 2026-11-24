@@ -36,7 +36,6 @@ body {
   z-index: 100;
 }
 .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-.logo span { color: var(--accent-text); }
 .nav a {
   margin-left: 28px;
   text-decoration: none;

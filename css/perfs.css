@@ -28,9 +28,6 @@ body {
   font-weight: bold;
 }
 
-.logo span {
-  color: var(--accent-text);
-}
 
 .nav a {
   margin-left: 30px;
